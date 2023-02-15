@@ -2,6 +2,6 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/user/public_html/
-    - export FRONTPATH=src/frontend
+    - export FRONTPATH=./src/frontend
     - /bin/cp $FRONTPATH/index.html $DEPLOYPATH
     - /bin/cp $FRONTPATH/style.css $DEPLOYPATH
