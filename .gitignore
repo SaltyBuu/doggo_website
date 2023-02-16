@@ -7,6 +7,8 @@
 /dataSources/
 /dataSources.local.xml
 .idea/
+.gitignore
 package-lock.json
 node_modules/
 src/assets/
+src/frontend/fonts/walkwaybold_regular_macroman/
