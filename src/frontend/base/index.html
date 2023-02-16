@@ -7,40 +7,41 @@
   </head>
   <body>
     <header>
-      <div id="menu">
-        <div id="menu-bg">
-          <img
-            class="menu-icon"
-            src="../assets/pictures/menu_contour.png"
-            alt="Menu contextuel"
-          />
-        </div>
-      </div>
-      <input type="button" name="signin" id="signinBtn" value="Se connecter" />
+      <span class="logo"></span>
     </header>
+      <nav>
+        <div id="menu-icon-bg">
+            <img
+            class="menu-icon"
+            src="../../assets/pictures/menu.png"
+            alt="Menu contextuel"
+            />
+        </div>
+        <input type="button" name="signin" id="signinBtn" value="Se connecter" />
+      </nav>
     <h1>
       La musique est l'art de combiner les bruits et les sons avec émotion
     </h1>
     <div id="bg-illustration">
       <div class="speakers">
-        <div class="speaker-bg small">
+        <div class="speaker-bg small left">
           <img
-            class="small"
-            src="../assets/pictures/speaker.png"
+            class="small left"
+            src="../images/speaker.png"
             alt="Petit haut-parleur"
           />
         </div>
         <div class="speaker-bg big">
           <img
             class="big"
-            src="../assets/pictures/speaker.png"
+            src="../images/speaker_cropped.png"
             alt="Grand haut-parleur"
           />
         </div>
-        <div class="speaker-bg small">
+        <div class="speaker-bg small right">
           <img
-            class="small"
-            src="../assets/pictures/speaker.png"
+            class="small right"
+            src="../images/speaker.png"
             alt="Petit haut-parleur"
           />
         </div>
@@ -51,9 +52,11 @@
         <div class="violet circle"></div>
       </div>
     </div>
-    <input type="button" name="vote" id="voteBtn" value="Voir la playlist" />
+    <div class="btncontainer">
+      <input type="button" name="vote" id="voteBtn" value="Voir la playlist" />
+    </div>
     <footer>
-      <a id="contact" href="">Contact</a>
+      <a id="contact" href="">Source code</a>
       <a id="legal" href="">Mentions légales</a>
     </footer>
   </body>

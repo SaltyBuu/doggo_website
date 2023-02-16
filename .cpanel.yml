@@ -2,6 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/qomg3726/public_html/
-    - export FRONTPATH=./src/frontend
-    - /bin/cp $FRONTPATH/index.html $DEPLOYPATH
-    - /bin/cp $FRONTPATH/style.css $DEPLOYPATH
+    - export FRONTPATH=./src/frontend/
+    - /bin/cp -r $FRONTPATH/ $DEPLOYPATH

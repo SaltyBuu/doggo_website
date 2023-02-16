@@ -2,7 +2,7 @@
   "name": "playlist_project",
   "version": "1.0.0",
   "scripts": {
-    "test": "npx htmlhint src/frontend/index.html -r style-disabled"
+    "test": "npx htmlhint src/frontend/base/index.html -r style-disabled"
   },
   "devDependencies": {
     "prettier": "^2.8.4"
