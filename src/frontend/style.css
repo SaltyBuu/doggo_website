@@ -1,3 +1,46 @@
-body {
-    border: 1px solid black;
+:root {
+  --first-color: #ffffff;
+  --second-color: #038c3e;
+  --third-color: #02735e;
+  --fourth-color: #025951;
+  --fifth-color: #034159;
 }
+
+html {
+  /*background: linear-gradient(to right top, #ffffff, #dcd5fc, #b9acf7, #9483f0, #6c5be8, #6f4ae4, #7334df, #790fd8, #a100d5, #c200d1, #df00cc, #f900c7) no-repeat;*/
+  background: linear-gradient(
+      to right top,
+      #bf0aa1,
+      #d2008f,
+      #e1007d,
+      #eb006a,
+      #f02258,
+      #f3334d,
+      #f44342,
+      #f45137,
+      #f55d30,
+      #f56828,
+      #f4721f,
+      #f27d16
+    )
+    no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+h1 {
+  color: var(--first-color);
+  text-align: center;
+}
+
+/*
+ *  background-image: linear-gradient(to right top, #fe672c, #fd5747, #f54c5d, #e94770, #d84780, #c04b8d, #a55095, #895497, #645691, #465583, #33506e, #2f4858);
+ *  final background :
+ *   background-image: linear-gradient(to right top, #bf0aa1, #d2008f, #e1007d, #eb006a, #f02258, #f3334d, #f44342, #f45137, #f55d30, #f56828, #f4721f, #f27d16);
+ *   important colors:
+ *   #F22771
+ *   #D91193
+ *   #BF0AA1
+ *   #F27D16
+ *   #F24141
+ */

@@ -1,7 +1,16 @@
 {
   "name": "playlist_project",
   "version": "1.0.0",
+  "scripts": {
+    "test": "npx htmlhint src/frontend/index.html -r style-disabled"
+  },
   "devDependencies": {
     "prettier": "^2.8.4"
+  },
+  "dependencies": {
+    "csslint": "^1.0.5",
+    "eslint": "^8.34.0",
+    "htmlhint": "^1.1.4",
+    "remove": "^0.1.5"
   }
 }
