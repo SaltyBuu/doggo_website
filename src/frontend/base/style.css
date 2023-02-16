@@ -3,7 +3,7 @@
 @font-face {
   font-family: "Nobile";
   src: url("../fonts/nobile/Nobile-Bold.ttf");
-  src: url("../fonts/nobile/Nobile-Regular.ttf");
+  /*src: url("../fonts/nobile/Nobile-Regular.ttf");*/
 }
 
 :root {
@@ -65,7 +65,7 @@ nav {
   display: flex;
   align-items: center;
   height: 100%;
-  border: 1px solid black;
+  border: 3px solid black;
   border-radius: 20px;
   padding: 8px;
   margin-left: 1%;
@@ -84,7 +84,7 @@ input[type="button"] {
   border-radius: 120px;
   border: 1px solid black;
   /*font-family: "Quicksand", sans-serif;*/
-  font-family: Nobile, sans-serif, Bold;
+  font-family: Nobile;
   font-size: 1em;
   /*height: 70%;*/
   padding: 10px 30px 10px 30px;
@@ -167,8 +167,8 @@ footer a {
   color: var(--first-color);
   text-shadow: 1px 1px 5px var(--fourth-color);
   text-decoration: none;
-  font-style: italic;
-  font-size: 20px;
+  /*font-style: italic;*/
+  font-size: 0.7em;
 }
 /*
  *  background-image: linear-gradient(to right top, #fe672c, #fd5747, #f54c5d, #e94770, #d84780, #c04b8d, #a55095, #895497, #645691, #465583, #33506e, #2f4858);
