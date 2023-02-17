@@ -1,63 +1,67 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>Spotifight</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header>
-      <span class="logo"></span>
-    </header>
-      <nav>
-        <div id="menu-icon-bg">
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+    <span class="logo"></span>
+</header>
+<nav>
+    <div id="menu-icon-bg">
+        <img
+                class="menu-icon"
+                src="../images/menu.png"
+                alt="Menu contextuel"
+        />
+    </div>
+    <input type="button" name="signin" id="signinBtn" value="Se connecter"/>
+</nav>
+<h1>
+    La musique est l'art de combiner les bruits et les sons avec émotion
+</h1>
+<div id="bg-illustration">
+    <div class="speakers">
+        <div class="speaker-bg small left">
             <img
-            class="menu-icon"
-            src="../images/menu.png"
-            alt="Menu contextuel"
+                    class="small left"
+                    src="../images/speaker.png"
+                    alt="Petit haut-parleur"
             />
         </div>
-        <input type="button" name="signin" id="signinBtn" value="Se connecter" />
-      </nav>
-    <h1>
-      La musique est l'art de combiner les bruits et les sons avec émotion
-    </h1>
-    <div id="bg-illustration">
-      <div class="speakers">
-        <div class="speaker-bg small left">
-          <img
-            class="small left"
-            src="../images/speaker.png"
-            alt="Petit haut-parleur"
-          />
-        </div>
         <div class="speaker-bg big">
-          <img
-            class="big"
-            src="../images/speaker_cropped.png"
-            alt="Grand haut-parleur"
-          />
+            <img
+                    class="big"
+                    src="../images/speaker_cropped.png"
+                    alt="Grand haut-parleur"
+            />
         </div>
         <div class="speaker-bg small right">
-          <img
-            class="small right"
-            src="../images/speaker.png"
-            alt="Petit haut-parleur"
-          />
+            <img
+                    class="small right"
+                    src="../images/speaker.png"
+                    alt="Petit haut-parleur"
+            />
         </div>
-      </div>
-      <div class="bubbles">
+    </div>
+    <div class="bubbles">
         <div class="red circle"></div>
         <div class="orange circle"></div>
         <div class="violet circle"></div>
-      </div>
     </div>
-    <div class="btncontainer">
-      <input type="button" name="vote" id="voteBtn" value="Voir la playlist" />
-    </div>
-    <footer>
-      <a id="contact" href="">Source code</a>
-      <a id="legal" href="">Mentions légales</a>
-    </footer>
-  </body>
+</div>
+<div class="btncontainer">
+    <iframe style="border-radius:12px"
+            src="https://open.spotify.com/embed/track/67PWiuodhQW3lAANwQpYjY?utm_source=generator&theme=0" width="100%"
+            height="152" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <input type="button" name="vote" id="voteBtn" value="Voir la playlist"/>
+</div>
+<footer>
+    <a id="contact" href="">Source code</a>
+    <a id="legal" href="">Mentions légales</a>
+</footer>
+</body>
 </html>
