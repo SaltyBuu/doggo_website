@@ -5,6 +5,6 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
     height: "100%",
     uri: "spotify:track:67PWiuodhQW3lAANwQpYjY",
   };
-  let callback = (EmbedController) => {};
+  let callback = () => {};
   IFrameAPI.createController(element, options, callback);
 };

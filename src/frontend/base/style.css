@@ -35,7 +35,7 @@ html {
   background-size: cover;
   height: 100%;
   /*font-family: "Quicksand", sans-serif, Bold;*/
-  font-family: Nobile;
+  font-family: Nobile, sans-serif;
 }
 
 body {
