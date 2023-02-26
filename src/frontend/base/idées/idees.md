@@ -9,3 +9,6 @@
 - limite de vote par utilisateur pour restreindre les votes des gens, ou limiter votes mais pas ajouts
 - boutons d'export
 - fonctionnalité importante de pouvoir écouter en li
+- toggle animation accueil
+- vidéo de fond au lieu d'animation
+- base de données musique pour la recherche
