@@ -8,4 +8,4 @@
 - machin vient de monter dans la playlist4
 - limite de vote par utilisateur pour restreindre les votes des gens, ou limiter votes mais pas ajouts
 - boutons d'export
-- fonctionnalité importante de pouvoir écouter en live
+- fonctionnalité importante de pouvoir écouter en li
