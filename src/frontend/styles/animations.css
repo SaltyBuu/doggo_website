@@ -9,11 +9,11 @@
 }
 
 .small {
-  animation: elastic 0.9s infinite ease;
+  animation: elastic 0.7s infinite ease;
 }
 
 .big {
-  animation: elastic 0.9s infinite ease;
+  animation: elastic 0.7s infinite ease;
   /*animation: tweeder 1.8s infinite ease;*/
 }
 @keyframes elastic {
