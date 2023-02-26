@@ -11,4 +11,4 @@
 - fonctionnalité importante de pouvoir écouter en li
 - toggle animation accueil
 - vidéo de fond au lieu d'animation
-- base de données musique pour la recherche
+- base de données musique pour la <recherche>
