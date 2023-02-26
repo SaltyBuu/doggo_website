@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <title>Spotifight</title>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="../styles/animations.css"/>
 </head>
 <body>
 <header>
@@ -24,26 +25,32 @@
 </h1>
 <div id="bg-illustration">
     <div class="speakers">
-        <div class="speaker-bg small left">
-            <img
-                    class="small left"
-                    src="../images/speaker.png"
-                    alt="Petit haut-parleur"
-            />
+            <div class="speaker-container left">
+                <div class="speaker-bg small left">
+                    <img
+                            class="small left"
+                            src="../images/speaker.png"
+                            alt="Petit haut-parleur"
+                    />
+            </div>
         </div>
-        <div class="speaker-bg big">
-            <img
-                    class="big"
-                    src="../images/speaker_cropped.png"
-                    alt="Grand haut-parleur"
-            />
+        <div class="speaker-container">
+            <div class="speaker-bg big">
+                <img
+                        class="big"
+                        src="../images/speaker_cropped.png"
+                        alt="Grand haut-parleur"
+                />
+            </div>
         </div>
-        <div class="speaker-bg small right">
-            <img
-                    class="small right"
-                    src="../images/speaker.png"
-                    alt="Petit haut-parleur"
-            />
+        <div class="speaker-container right">
+            <div class="speaker-bg small right">
+                <img
+                        class="small right"
+                        src="../images/speaker.png"
+                        alt="Petit haut-parleur"
+                />
+            </div>
         </div>
     </div>
     <div class="bubbles">
@@ -53,10 +60,6 @@
     </div>
 </div>
 <div class="btncontainer">
-    <iframe style="border-radius:12px"
-            src="https://open.spotify.com/embed/track/67PWiuodhQW3lAANwQpYjY?utm_source=generator&theme=0" width="100%"
-            height="152" frameBorder="0" allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     <input type="button" name="vote" id="voteBtn" value="Voir la playlist"/>
 </div>
 <footer>
