@@ -102,6 +102,7 @@ div.speaker-bg, img.speaker, img.menu-icon, div#menu-icon-bg, input[type="button
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 input[type="button"] {
   background-color: var(--second-color);
