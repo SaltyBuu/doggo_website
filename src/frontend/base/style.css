@@ -116,7 +116,7 @@ input[type="button"] {
   font-size: 1.2em;
   height: 6vh;
   padding: 10px 30px 10px 30px;
-  box-shadow: 0px 8px 15px rgba(0.1, 0.1, 0.1, 0.1);
+  box-shadow: 0 8px 15px rgba(0.1, 0.1, 0.1, 0.1);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
@@ -130,7 +130,7 @@ input[type="button"] {
 }
 #signinBtn:hover, #signinBtn:active, #voteBtn:hover, #voteBtn:active {
   background-color: #fff;
-  box-shadow: 0px 8px 15px rgba(240, 240, 240, 240);
+  box-shadow: 0 8px 15px rgba(240, 240, 240, 240);
   color: #000;
   transform: translateY(-4px);
   font-family: Nobile, Bold, sans-serif;
