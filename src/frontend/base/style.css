@@ -94,7 +94,7 @@ img {
   max-width: 100%;
   max-height: 100%;
 }
-div.speaker-bg, img.speaker {
+div.speaker-bg, img.speaker, img.menu-icon {
   /*pointer-events: none;*/
   user-focus: none;
   -webkit-user-drag: none;
@@ -109,7 +109,7 @@ input[type="button"] {
   border-radius: 45px;
   border: 2px solid black;
   /*font-family: "Quicksand", Bold, sans-serif;*/
-  /*font-family: Nobile, Bold, sans-serif;*/
+  font-family: Nobile, Bold, sans-serif;
   /*letter-spacing: 0.1vw;*/
   /*height: 70%;*/
   font-size: 1.2em;
@@ -119,9 +119,6 @@ input[type="button"] {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-}
-#signinBtn {
-  height: 70%;
 }
 
 #voteBtn:hover {
@@ -135,23 +132,20 @@ input[type="button"] {
   box-shadow: 0px 8px 15px rgba(240, 240, 240, 240);
   color: #000;
   transform: translateY(-4px);
-  font-weight: 500;
-  font-size: 1.2em;
+  font-family: Nobile, Bold, sans-serif;
+  /*font-size: 1.2em;*/
 }
 
-@media screen and (max-width: 800px) {
-  nav {
-    height: 10vh;
-  }
-  #signinBtn:hover {
-    background-color: #fff;
-    /*box-shadow: 0px 15px 20px rgba(240, 240, 240, 240);*/
-    color: #000;
-    transform: translateY(-7px);
-    font-weight: 500;
-    font-size: 2em;
-  }
+.btncontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+  padding-top: 1%;
+  /*padding-bottom: 1%;*/
 }
+
 h1 {
   color: var(--first-color);
   text-align: center;
@@ -201,14 +195,6 @@ div.small.right {
 div.big {
   height: 45vh;
 }
-.btncontainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  height: 6vh;
-  padding-top: 5%;
-  /*padding-bottom: 1%;*/
-}
 
 footer {
   display: flex;
@@ -225,6 +211,15 @@ footer a {
   /*font-style: italic;*/
   font-size: 0.7em;
 }
+/*                Media queries              */
+@media screen and (max-width: 800px) {
+  #signinBtn, #voteBtn{
+    font-size: 3em;
+  }
+}
+
+
+
 /*
  *  background-image: linear-gradient(to right top, #fe672c, #fd5747, #f54c5d, #e94770, #d84780, #c04b8d, #a55095, #895497, #645691, #465583, #33506e, #2f4858);
  *  final background :

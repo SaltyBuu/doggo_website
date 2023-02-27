@@ -9,18 +9,22 @@
 }
 
 div.small {
-  animation: elastic 0.7s infinite ease;
+  animation: elastic 1.2s infinite ease;
   animation-play-state: paused;
+  -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
+  animation-timing-function: linear;
 }
 
 div.big {
-  animation: elastic 0.7s infinite ease;
+  animation: elastic 1.2s infinite ease;
   animation-play-state: paused;
+  -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
+  animation-timing-function: linear;
   /*animation: tweeder 1.8s infinite ease;*/
 }
 @keyframes elastic {
   0% {
-    transform: scale(1);
+    transform: scale(0.95);
   }
   10% {
     transform: scale(0.95);
@@ -35,22 +39,22 @@ div.big {
     transform: scale(0.9);
   }
   50% {
-    transform: scale(1.1);
-  }
-  60% {
     transform: scale(1.09);
   }
-  70% {
-    transform: scale(1.07);
+  60% {
+    transform: scale(1.08);
   }
-  80% {
-    transform: scale(1.05);
-  }
-  90% {
-    transform: scale(1.03);
-  }
+  /*70% {*/
+  /*  transform: scale(1.06);*/
+  /*}*/
+  /*80% {*/
+  /*  transform: scale(1.04);*/
+  /*}*/
+  /*90% {*/
+  /*  transform: scale(1);*/
+  /*}*/
   100% {
-    transform: scale(1);
+    transform: scale(0.95);
   }
 }
 
