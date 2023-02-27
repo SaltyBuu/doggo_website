@@ -80,7 +80,7 @@ nav {
 #menu-icon-bg {
   display: flex;
   align-items: center;
-  height: 80%;
+  height: 60%;
   border: 3px solid black;
   border-radius: 50%;
   padding: 8px;
@@ -121,6 +121,10 @@ input[type="button"] {
   cursor: pointer;
   outline: none;
 }
+
+/*#signinBtn {*/
+/*  height: 90%;*/
+/*}*/
 
 #voteBtn:hover, #voteBtn:active  {
   border: #bf0aa1 2px solid;
@@ -219,6 +223,12 @@ footer a {
   }
   h1 {
     font-size: 1.5em;
+  }
+  #menu-icon-bg {
+    padding: 5px;
+  }
+  nav {
+    margin: 4% 6% 4% 6%;
   }
 }
 
