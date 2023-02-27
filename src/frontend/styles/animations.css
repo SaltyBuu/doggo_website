@@ -10,10 +10,12 @@
 
 div.small {
   animation: elastic 0.7s infinite ease;
+  animation-play-state: paused;
 }
 
 div.big {
   animation: elastic 0.7s infinite ease;
+  animation-play-state: paused;
   /*animation: tweeder 1.8s infinite ease;*/
 }
 @keyframes elastic {
