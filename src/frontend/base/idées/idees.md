@@ -12,3 +12,7 @@
 - toggle animation accueil
 - vidéo de fond au lieu d'animation
 - base de données musique pour la <recherche>
+
+## Front
+- animation 60fps
+- animation svg décomposée

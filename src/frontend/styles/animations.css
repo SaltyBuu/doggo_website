@@ -8,11 +8,11 @@
   transform-origin: bottom left;
 }
 
-.small {
+div.small {
   animation: elastic 0.7s infinite ease;
 }
 
-.big {
+div.big {
   animation: elastic 0.7s infinite ease;
   /*animation: tweeder 1.8s infinite ease;*/
 }
