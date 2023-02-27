@@ -35,7 +35,7 @@ html {
   background-size: cover;
   height: 100%;
   /*font-family: "Quicksand", sans-serif, Bold;*/
-  font-family: Nobile, sans-serif;
+  font-family: Nobile;
 }
 
 body {
@@ -130,25 +130,21 @@ div.small {
   height: 30vh;
 }
 div.small.left {
-  transform: rotate(8deg);
-  transform-origin: bottom right;
   margin-right: 10px;
 }
 div.small.right {
-  transform: rotate(-8deg);
-  transform-origin: bottom left;
   margin-left: 10px;
 }
 
 div.big {
-  height: 50vh;
+  height: 45vh;
 }
 .btncontainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 6vh;
-  padding-top: 2%;
+  padding-top: 5%;
   /*padding-bottom: 1%;*/
 }
 #voteBtn {
