@@ -121,13 +121,13 @@ input[type="button"] {
   outline: none;
 }
 
-#voteBtn:hover {
+#voteBtn:hover, #voteBtn:active  {
   border: #bf0aa1 2px solid;
 }
-#signinBtn:hover {
+#signinBtn:hover, #signinBtn:active {
   border: #f56828 2px solid;
 }
-#signinBtn:hover, #voteBtn:hover {
+#signinBtn:hover, #signinBtn:active, #voteBtn:hover, #voteBtn:active {
   background-color: #fff;
   box-shadow: 0px 8px 15px rgba(240, 240, 240, 240);
   color: #000;
@@ -221,7 +221,22 @@ footer a {
   }
 }
 
-
+/*@media screen and (hover: none) {*/
+/*  #voteBtn:active {*/
+/*    border: #bf0aa1 2px solid;*/
+/*  }*/
+/*  #signinBtn:active {*/
+/*    border: #f56828 2px solid;*/
+/*  }*/
+/*  #signinBtn:active, #voteBtn:active {*/
+/*    background-color: #fff;*/
+/*    box-shadow: 0px 8px 15px rgba(240, 240, 240, 240);*/
+/*    color: #000;*/
+/*    transform: translateY(-4px);*/
+/*    font-family: Nobile, Bold, sans-serif;*/
+/*    !*font-size: 1.2em;*!*/
+/*  }*/
+/*}*/
 
 /*
  *  background-image: linear-gradient(to right top, #fe672c, #fd5747, #f54c5d, #e94770, #d84780, #c04b8d, #a55095, #895497, #645691, #465583, #33506e, #2f4858);
