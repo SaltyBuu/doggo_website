@@ -212,7 +212,7 @@ footer a {
   font-size: 0.7em;
 }
 /*                Media queries              */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   #signinBtn, #voteBtn{
     font-size: 1em;
   }

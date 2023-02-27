@@ -16,3 +16,4 @@
 ## Front
 - animation 60fps
 - animation svg décomposée
+- pour un responsive optimal faire pour mobile d'abord
