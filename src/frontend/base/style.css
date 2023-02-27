@@ -107,9 +107,7 @@ input[type="button"] {
   background-color: var(--second-color);
   color: var(--first-color);
   border-radius: 45px;
-  border-color: black;
-  border-width: 2px;
-  /*border: 2px solid black;*/
+  border: 2px solid black;
   /*font-family: "Quicksand", Bold, sans-serif;*/
   /*font-family: Nobile, Bold, sans-serif;*/
   /*letter-spacing: 0.1vw;*/
