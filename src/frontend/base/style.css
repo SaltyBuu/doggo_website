@@ -209,9 +209,6 @@ div.big {
   padding-top: 5%;
   /*padding-bottom: 1%;*/
 }
-#voteBtn {
-  margin: 0 auto;
-}
 
 footer {
   display: flex;
