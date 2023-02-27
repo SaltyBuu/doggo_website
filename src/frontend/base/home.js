@@ -8,9 +8,11 @@ function startUp() {
 
 function toggleSpeakers() {
   const speakers = document.querySelectorAll("div.speaker-bg");
-  [...speakers].forEach(
-    (s) =>
-      (s.style.animationPlayState =
-        s.style.animationPlayState === "" ? "paused" : "")
-  );
+  const speakersArr = [...speakers];
+  const pausedAttr =
+    speakersArr[0].style.animationPlayState === "running"
+      ? "paused"
+      : "running";
+  speakersArr.forEach((s) => (s.style.animationPlayState = pausedAttr));
+  console.log("oua");
 }

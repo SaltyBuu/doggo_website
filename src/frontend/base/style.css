@@ -17,15 +17,15 @@
   src: url("../fonts/nobile/Nobile-Medium.ttf");
   font-style: normal;
 }
-* {
-  border: 1px solid;
-}
+/** {*/
+/*  border: 1px solid;*/
+/*}*/
 :root {
   --first-color: #ffffff;
   --second-color: #000000;
   --third-color: #bb4c8f; /* mauve */
   --fourth-color: #fe672c; /* orange */
-  --fifth-color: #e4473d; /* rouge */
+  --fifth-color: #fd6c62; /* rouge */
 }
 
 html {
@@ -65,8 +65,8 @@ body {
 }
 
 nav {
-  height: 45px;
-  height: 6vh;
+  /*height: 45px;*/
+  height: 10vh;
   /*background-color: #31a7e0;*/
   display: flex;
   flex-direction: row;
@@ -96,7 +96,7 @@ img {
 }
 div.speaker-bg, img.speaker {
   /*pointer-events: none;*/
-  user-drag: none;
+  user-focus: none;
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
@@ -108,27 +108,50 @@ input[type="button"] {
   color: var(--first-color);
   border-radius: 45px;
   border-color: black;
+  border-width: 2px;
   /*border: 2px solid black;*/
   /*font-family: "Quicksand", Bold, sans-serif;*/
   /*font-family: Nobile, Bold, sans-serif;*/
   /*letter-spacing: 0.1vw;*/
   /*height: 70%;*/
-  font-size: 2em;
-  height: 4vh;
+  font-size: 1.2em;
+  height: 6vh;
   padding: 10px 30px 10px 30px;
   box-shadow: 0px 8px 15px rgba(0.1, 0.1, 0.1, 0.1);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
 }
-@media screen and (min-width: 800px) {
+#signinBtn {
+  height: 70%;
+}
+
+#voteBtn:hover {
+  border: #bf0aa1 2px solid;
+}
+#signinBtn:hover {
+  border: #f56828 2px solid;
+}
+#signinBtn:hover, #voteBtn:hover {
+  background-color: #fff;
+  box-shadow: 0px 8px 15px rgba(240, 240, 240, 240);
+  color: #000;
+  transform: translateY(-4px);
+  font-weight: 500;
+  font-size: 1.2em;
+}
+
+@media screen and (max-width: 800px) {
+  nav {
+    height: 10vh;
+  }
   #signinBtn:hover {
     background-color: #fff;
-    box-shadow: 0px 15px 20px rgba(240, 240, 240, 240);
+    /*box-shadow: 0px 15px 20px rgba(240, 240, 240, 240);*/
     color: #000;
     transform: translateY(-7px);
     font-weight: 500;
-    font-size: 1em;
+    font-size: 2em;
   }
 }
 h1 {
@@ -137,9 +160,9 @@ h1 {
   text-shadow: 2px 2px 5px var(--third-color);
   padding-right: 20%;
   padding-left: 20%;
-  font-size: 40px;
+  /*font-size: 40px;*/
   font-size: 3vw;
-  margin-bottom: 25px;
+  /*margin-bottom: 25px;*/
   margin-bottom: 5vh;
 }
 
