@@ -187,10 +187,10 @@ div.small {
   height: 30vh;
 }
 div.small.left {
-  margin-right: 10px;
+  margin-right: 20px;
 }
 div.small.right {
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 div.big {
