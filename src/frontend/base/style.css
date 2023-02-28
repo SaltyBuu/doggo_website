@@ -89,7 +89,7 @@ nav {
   /*margin-top: 1%;*/
   /*position: absolute;*/
 }
-
+#beegees {display: none}
 img {
   max-width: 100%;
   max-height: 100%;
@@ -168,6 +168,7 @@ h1 {
   align-items: center;
   justify-content: center;
   height: 30%;
+  margin-bottom: 10px;
 }
 .speakers {
   height: 100%;
@@ -229,6 +230,9 @@ footer a {
   }
   nav {
     margin: 4% 6% 4% 6%;
+  }
+  #bg-illustration {
+    height: 20%;
   }
 }
 

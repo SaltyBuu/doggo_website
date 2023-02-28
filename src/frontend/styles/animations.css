@@ -9,22 +9,24 @@
 }
 
 div.small {
-  animation: elastic 1.2s infinite ease;
+  animation: elastic 1.1538s infinite ease; /* 104 bpm */
   animation-play-state: paused;
   -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
   animation-timing-function: linear;
+  animation-delay: 1.5s;
 }
 
 div.big {
-  animation: elastic 1.2s infinite ease;
+  animation: elastic 1.1538s infinite ease;
   animation-play-state: paused;
   -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
   animation-timing-function: linear;
+  animation-delay: 1.5s;
   /*animation: tweeder 1.8s infinite ease;*/
 }
 @keyframes elastic {
   0% {
-    transform: scale(0.95);
+    transform: scale(1);
   }
   10% {
     transform: scale(0.95);
@@ -54,7 +56,7 @@ div.big {
   /*  transform: scale(1);*/
   /*}*/
   100% {
-    transform: scale(0.95);
+    transform: scale(1);
   }
 }
 
