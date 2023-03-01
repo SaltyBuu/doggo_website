@@ -114,7 +114,7 @@ input[type="button"] {
   /*letter-spacing: 0.1vw;*/
   /*height: 70%;*/
   font-size: 1.2em;
-  height: 6vh;
+  height: 60px;
   padding: 10px 30px 10px 30px;
   box-shadow: 0 8px 15px rgba(0.1, 0.1, 0.1, 0.1);
   transition: all 0.3s ease 0s;
