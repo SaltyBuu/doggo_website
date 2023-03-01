@@ -57,6 +57,7 @@ body {
   /*flex-direction: column;*/
   /*align-items: center;*/
   min-height: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
   display: flex;
@@ -80,7 +81,7 @@ nav {
 #menu-icon-bg {
   display: flex;
   align-items: center;
-  height: 60%;
+  height: 80%;
   border: 3px solid black;
   border-radius: 50%;
   padding: 8px;
@@ -146,7 +147,7 @@ input[type="button"] {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 5vh;
+  height: 100%;
   padding-top: 1%;
   /*padding-bottom: 1%;*/
 }
@@ -167,8 +168,8 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30%;
-  margin-bottom: 10px;
+  height: 40%;
+  /*margin-bottom: 20px;*/
 }
 .speakers {
   height: 100%;
@@ -187,19 +188,22 @@ img.small img.big {
   height: auto;
   width: auto;
 }
-
-div.small {
-  height: 30vh;
+div.speaker-container {
+  height: 100%;
 }
-div.small.left {
+
+div.speaker-container.small {
+  height: 50%;
+}
+div.speaker-container.small.left {
   margin-right: 20px;
 }
-div.small.right {
+div.speaker-container.small.right {
   margin-left: 20px;
 }
 
-div.big {
-  height: 45vh;
+div.speaker-container.big {
+  height: 100%;
 }
 
 footer {

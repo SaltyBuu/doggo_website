@@ -4,7 +4,8 @@ function startUp() {
   const speakers = document.querySelectorAll("div.speaker-bg");
   [...speakers].forEach((s) => s.addEventListener("click", toggleSpeakers));
   // let audio = new Audio("../music/bee-gees-stayin-alive.mp3"); //try catch
-  const audio = document.getElementById("beegees");
+  const audio = new Audio("../music/bee-gees-stayin-alive.mp3");
+  audio.preload = "auto";
   audio.volume = 0.1;
   audio.loop = true;
   function toggleSpeakers() {
@@ -15,7 +16,7 @@ function startUp() {
         ? "paused"
         : "running";
     if (pausedAttr === "running") {
-      audio.currentTime = 0;
+      // audio.currentTime = 0;
       audio.play();
     } else {
       audio.pause();
