@@ -29,6 +29,10 @@ div#toggle-menu {
   transition: transform 300ms;
 }
 
+/*div#menu-icon-bg {*/
+/*  transition: transform 300ms;*/
+/*}*/
+
 @keyframes elastic {
   0% {
     transform: scale(1);
