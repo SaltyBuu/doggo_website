@@ -4,7 +4,7 @@ function startUp() {
   const speakers = document.querySelectorAll("div.speaker-bg");
   [...speakers].forEach((s) => s.addEventListener("click", toggleSpeakers));
   // let audio = new Audio("../music/bee-gees-stayin-alive.mp3"); //try catch
-  const audio = new Audio("../music/bee-gees-stayin-alive.mp3");
+  const audio = new Audio("../music/bee-gees-stayin-alive.wav");
   audio.preload = "auto";
   audio.volume = 0.1;
   audio.loop = true;
