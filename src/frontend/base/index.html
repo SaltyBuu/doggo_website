@@ -15,25 +15,45 @@
 <body>
 <header>
     <span class="logo"></span>
-<!--    <audio-->
-<!--      controls-->
-<!--      id="beegees"-->
-<!--      preload="auto"-->
-<!--      src="../music/bee-gees-stayin-alive.mp3">-->
-<!--    </audio>-->
 </header>
 <nav>
+    <div class="btnContainer sign">
+        <input type="button" name="signin" id="signinBtn" value="Se connecter"/>
+    </div>
+</nav>
+<div id="sidebar">
     <div id="menu-icon-bg">
         <img
                 class="menu-icon"
                 src="../images/menu_contour.png"
                 alt="Menu contextuel"
+
         />
     </div>
-    <div class="btnContainer sign">
-        <input type="button" name="signin" id="signinBtn" value="Se connecter"/>
+    <div id="toggle-menu" class="pulled">
+        <span id="home">
+            <a href=".">
+                <img
+                  class="home-icon"
+                  src="../images/home.svg"
+                  alt="Home"
+                />
+            </a>
+        </span>
+        <span id="mute">
+            <img
+              class="soundon-icon"
+              src="../images/sound-max.svg"
+              alt="Sound on"
+            />
+            <img
+              class="mute-icon hidden"
+              src="../images/sound-mute.svg"
+              alt="Sound off"
+            />
+            </span>
     </div>
-</nav>
+</div>
 <h1>
     La musique est l'art de combiner les bruits et les sons avec émotion
 </h1>
