@@ -236,16 +236,16 @@ h1 {
   /*background-color: #00b3ff;*/
   height: 100%;
 }
-img.small img.big {
-  height: auto;
-  width: auto;
-}
+/*img.small img.big {*/
+/*  height: auto;*/
+/*  width: auto;*/
+/*}*/
 div.speaker-container {
   height: 100%;
 }
 
 div.speaker-container.small {
-  height: 50%;
+  height: 65%;
 }
 div.speaker-container.small.left {
   margin-right: 20px;
