@@ -5,10 +5,11 @@
     "test": "npx htmlhint src/frontend/base/index.html -r style-disabled"
   },
   "devDependencies": {
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "stylelint": "^15.2.0",
+    "stylelint-config-standard": "^30.0.1"
   },
   "dependencies": {
-    "csslint": "^1.0.5",
     "eslint": "^8.34.0",
     "htmlhint": "^1.1.4",
     "remove": "^0.1.5",
