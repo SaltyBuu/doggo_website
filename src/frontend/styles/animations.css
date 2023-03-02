@@ -13,7 +13,7 @@ div.small {
   animation-play-state: paused;
   -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
   animation-timing-function: linear;
-  animation-delay: 1.5s;
+  /*animation-delay: 1.5s;*/
 }
 
 div.big {
@@ -21,7 +21,7 @@ div.big {
   animation-play-state: paused;
   -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
   animation-timing-function: linear;
-  animation-delay: 1.5s;
+  /*animation-delay: 1.5s;*/
   /*animation: tweeder 1.8s infinite ease;*/
 }
 @keyframes elastic {

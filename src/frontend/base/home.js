@@ -17,6 +17,7 @@ function startUp() {
         : "running";
     if (pausedAttr === "running") {
       // audio.currentTime = 0;
+      console.log("Playing");
       audio.play();
     } else {
       audio.pause();
