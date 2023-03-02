@@ -24,6 +24,11 @@ div.speaker-bg.big {
   /*animation-delay: 1.5s;*/
   /*animation: tweeder 1.8s infinite ease;*/
 }
+
+div#toggle-menu {
+  transition: transform 300ms;
+}
+
 @keyframes elastic {
   0% {
     transform: scale(1);

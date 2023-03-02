@@ -65,6 +65,11 @@ body {
   overflow: hidden
 }
 
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 nav {
   /*height: 45px;*/
   height: 10vh;
@@ -72,19 +77,21 @@ nav {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   margin-top: 1%;
   padding-right: 1%;
   padding-left: 1%;
   margin-bottom: 2%;
 }
+
 #menu-icon-bg {
   display: flex;
   align-items: center;
-  height: 80%;
-  border: 3px solid black;
+  height: 10vh;
+  width: auto;
+  /*border: 3px solid black;*/
   border-radius: 50%;
-  padding: 8px;
+  /*padding: 8px;*/
   cursor: pointer;
   overflow: hidden;
   position: relative;
@@ -93,10 +100,48 @@ nav {
   /*position: absolute;*/
 }
 #beegees {display: none}
-img {
-  max-width: 100%;
-  max-height: 100%;
+div#sidebar {
+  /*height: 20%;*/
+  width: 10%;
+  position: absolute;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+div#toggle-menu {
+  height: 100%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  /*width: 5%;*/
+  position: relative;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 5%;
+  border: 1px solid white;
+  margin-left: 1%;
+  margin-top: 5%;
+}
+
+div#toggle-menu > span {
+  height: 50%;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  opacity: 90%;
+  /*background-color: white;*/
+  /*border: 1px white solid;*/
+}
+
+#menu-icon-bg.pulled{
+  border: 2px solid white;
+}
+#toggle-menu.pulled {
+  display: none;
+}
+
+
 div.speaker-bg, img.speaker, img.menu-icon, div#menu-icon-bg, input[type="button"] {
   /*pointer-events: none;*/
   user-focus: none;
@@ -241,6 +286,10 @@ footer a {
   #bg-illustration {
     height: 50%;
   }
+}
+
+.hidden {
+  display: none;
 }
 
 /*@media screen and (hover: none) {*/

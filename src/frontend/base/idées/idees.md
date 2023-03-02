@@ -20,3 +20,4 @@
 - pour un responsive optimal faire pour mobile d'abord
 - optimiser le chargement de la page
 - div rond au chargement
+- credits icones
