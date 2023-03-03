@@ -1,5 +1,12 @@
-div#form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+div.title {
+  width: 98%; /* à changer */
+  text-align: center;
+  position: absolute;
+  font-size: 2vw;
+  color: white;
+  /*margin-left: 5%;*/
+}
+
+nav {
+  justify-content: flex-end;
 }
