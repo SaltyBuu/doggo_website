@@ -14,17 +14,6 @@ div.sign {
   flex-grow: 1;
 }
 
-div.sign > input[type='text'] {
-  border: 2px solid black;
-  border-radius: 10px;
-  width: 50%;
-  /* font-family: "Quicksand", Bold, sans-serif; */
-  font-family: Nobile, Bold, sans-serif;
-  margin: 2px;
-  font-size: 1.3em;
-  padding: 5px;
-}
-
 #signinBtn {
   margin-top: 1%;
 }

@@ -10,3 +10,11 @@ div.title {
 nav {
   justify-content: flex-end;
 }
+
+div.search {
+  /*position: relative;*/
+  /*display: none;*/
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+}

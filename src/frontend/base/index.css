@@ -229,6 +229,17 @@ input[type='button']:active {
   /* font-size: 1.2em; */
 }
 
+input[type='text'] {
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 50%;
+  /* font-family: "Quicksand", Bold, sans-serif; */
+  font-family: Nobile, Bold, sans-serif;
+  margin: 2px;
+  font-size: 1.3em;
+  padding: 5px;
+}
+
 .btncontainer {
   display: flex;
   flex-direction: row;
