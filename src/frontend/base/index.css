@@ -205,20 +205,18 @@ input[type='button'] {
 
 /* } */
 
-#voteBtn:hover,
-#voteBtn:active {
+input[type='button']:hover,
+input[type='button']:active {
   border: #bf0aa1 2px solid;
 }
 
-#signinBtn:hover,
-#signinBtn:active {
+input[type='button']:hover,
+input[type='button']:active {
   border: #f56828 2px solid;
 }
 
-#signinBtn:hover,
-#signinBtn:active,
-#voteBtn:hover,
-#voteBtn:active {
+input[type='button']:hover,
+input[type='button']:active {
   background-color: #fff;
   box-shadow: 0 8px 15px rgb(240 240 240 / 24000%);
   color: #000;

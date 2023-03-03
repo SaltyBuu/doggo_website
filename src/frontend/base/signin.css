@@ -1,0 +1,60 @@
+div#form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+div.sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+  flex-grow: 1;
+}
+
+div.sign > input[type='text'] {
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 50%;
+  /* font-family: "Quicksand", Bold, sans-serif; */
+  font-family: Nobile, Bold, sans-serif;
+  margin: 2px;
+  font-size: 1.3em;
+  padding: 5px;
+}
+
+#signinBtn {
+  margin-top: 1%;
+}
+
+#registerBtn {
+  background-color: #a73680;
+  box-shadow: 0 8px 15px rgb(167 54 128/ 24000%);
+  border-color: #a73680;
+}
+
+#registerBtn:hover,
+#registerBtn:active {
+  background-color: #fff;
+}
+
+div.register {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+fieldset {
+  height: 70%;
+  width: 60%;
+  border: 2px solid black;
+  border-radius: 5%;
+}
+
+form.signin {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
