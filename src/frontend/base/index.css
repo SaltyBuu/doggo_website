@@ -178,7 +178,8 @@ input[type='button'] {
   -webkit-tap-highlight-color: transparent;
 }
 
-input[type='button'] {
+input[type='button'],
+input[type='submit'] {
   background-color: var(--second-color);
   color: var(--first-color);
   border-radius: 45px;
@@ -205,16 +206,18 @@ input[type='button'] {
 
 /* } */
 
-input[type='button']:hover,
-input[type='button']:active {
-  border: #bf0aa1 2px solid;
-}
-
+/*input[type='button']:hover,*/
+/*input[type='button']:active {*/
+/*  border: #bf0aa1 2px solid;*/
+/*}*/
+input[type='submit']:hover,
+input[type='submit']:active,
 input[type='button']:hover,
 input[type='button']:active {
   border: #f56828 2px solid;
 }
-
+input[type='submit']:hover,
+input[type='submit']:active,
 input[type='button']:hover,
 input[type='button']:active {
   background-color: #fff;

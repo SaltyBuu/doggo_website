@@ -38,6 +38,7 @@ div.sign > input[type='text'] {
 #registerBtn:hover,
 #registerBtn:active {
   background-color: #fff;
+  /*color: black;*/
 }
 
 div.register {

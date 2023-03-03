@@ -1,11 +1,13 @@
-window.addEventListener('load', startUp);
-
+import { toggleMute } from './lib.js';
+import { toggleSidebar } from './lib.js';
 function startUp() {
   const speakers = document.querySelectorAll('div.speaker-bg');
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signinBtn');
+  const voteBtn = document.getElementById('voteBtn');
+
   [...speakers].forEach((s) =>
     s.addEventListener('click', () => toggleSpeakers(audio))
   );
@@ -18,6 +20,10 @@ function startUp() {
   signinBtn.addEventListener(
     'click',
     () => (window.location.href = 'signin.html')
+  );
+  voteBtn.addEventListener(
+    'click',
+    () => (window.location.href = 'playlist.html')
   );
 }
 function toggleSpeakers(audio) {
@@ -41,18 +47,4 @@ function toggleSpeakers(audio) {
   void speakersArr[0].offsetWidth;
 }
 
-function toggleSidebar() {
-  // const menuIconDiv = document.getElementById('menu-icon-bg');
-  const toggleMenuDiv = document.getElementById('toggle-menu');
-  this.classList.toggle('pulled');
-  toggleMenuDiv.classList.toggle('pulled');
-  // toggleMenuDiv.style.display =
-  //   toggleMenuDiv.style.display === 'none' ? '' : 'none';
-  // console.log('ou');
-}
-
-function toggleMute(audio) {
-  audio.muted = audio.muted !== true;
-  document.querySelector('.mute-icon').classList.toggle('hidden');
-  document.querySelector('.soundon-icon').classList.toggle('hidden');
-}
+window.addEventListener('load', startUp);

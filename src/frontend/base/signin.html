@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="index.css"/>
   <link rel="stylesheet" href="signin.css"/>
   <link rel="stylesheet" href="../styles/animations.css"/>
-  <script src="home.js"></script>
+  <script src="signin.js" type="module"></script>
 </head>
 <body>
 <header>
@@ -55,12 +55,12 @@
   <fieldset>
     <form class="signin" action="." method="POST">
       <div class="sign">
-        <input type="text" placeholder="Nom d'utilisateur">
-        <input type="text" placeholder="Email">
-        <input type="button" id="signinBtn" value="Se connecter">
+        <input type="text" name="login" placeholder="Nom d'utilisateur">
+        <input type="text" name="email" placeholder="Email">
+        <input type="submit" name="signin" id="signinBtn" value="Se connecter">
       </div>
       <div class="register">
-        <input type="button" id="registerBtn" value="S'inscrire">
+        <input type="submit" name="register" id="registerBtn" value="S'inscrire" >
       </div>
     </form>
   </fieldset>

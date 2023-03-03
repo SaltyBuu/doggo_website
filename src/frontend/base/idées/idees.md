@@ -21,6 +21,7 @@
 - optimiser le chargement de la page
 - div rond au chargement
 - credits icones
+- chargement puis mise en page
 
 ## Deployment
 - githubaction vers le repo privé
