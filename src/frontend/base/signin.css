@@ -38,9 +38,9 @@ div.register {
 
 fieldset {
   height: 70%;
-  width: 60%;
+  width: 40%;
   border: 2px solid black;
-  border-radius: 5%;
+  border-radius: 20px;
 }
 
 form.signin {

@@ -18,6 +18,9 @@
   <span class="logo"></span>
 </header>
 <nav>
+  <div class="btnContainer" id="nul">
+    <input type="button" name="nul" id="nul" value="Se connecter"/>
+  </div>
   <div class="title">
     <p>
       Tomtom's playlist
@@ -27,53 +30,7 @@
     <input type="button" name="signin" id="signinBtn" value="Se connecter"/>
   </div>
 </nav>
-<div id="sidebar">
-  <div id="menu-icon-bg">
-    <img
-      class="menu-icon"
-      src="../images/menu_contour.png"
-      alt="Menu contextuel"
-
-    />
-  </div>
-  <div id="toggle-menu" class="pulled">
-        <span id="home">
-            <a href="index.html">
-                <img
-                  class="home-icon"
-                  src="../images/home.svg"
-                  alt="Home"
-                />
-            </a>
-        </span>
-    <span id="mute">
-            <img
-              class="soundon-icon"
-              src="../images/sound-max.svg"
-              alt="Sound on"
-            />
-            <img
-              class="mute-icon hidden"
-              src="../images/sound-mute.svg"
-              alt="Sound off"
-            />
-            </span>
-  </div>
-</div>
-<div class="wrapper">
-  <div class="scrollbar"></div>
-  <div class="list"></div>
-  <div class="search">
-    <input type="text" name="search" placeholder="Search song">
-    <div class="results">
-      <div class="song">A</div>
-      <div class="song">B</div>
-      <div class="song">C</div>
-      <div class="song">D</div>
-      <div class="song">E</div>
-      <div class="song">F</div>
-    </div>
-  </div>
+<div class="background">
   <div id="bg-illustration">
     <div class="speakers">
       <div class="speaker-container small left">
@@ -110,12 +67,61 @@
       <div class="violet circle"></div>
     </div>
   </div>
+</div>
+<div id="sidebar">
+  <div id="menu-icon-bg">
+    <img
+      class="menu-icon"
+      src="../images/menu_contour.png"
+      alt="Menu contextuel"
 
+    />
+  </div>
+  <div id="toggle-menu" class="pulled">
+        <span id="home">
+            <a href="index.html">
+                <img
+                  class="home-icon"
+                  src="../images/home.svg"
+                  alt="Home"
+                />
+            </a>
+        </span>
+    <span id="mute">
+            <img
+              class="soundon-icon"
+              src="../images/sound-max.svg"
+              alt="Sound on"
+            />
+            <img
+              class="mute-icon hidden"
+              src="../images/sound-mute.svg"
+              alt="Sound off"
+            />
+            </span>
+  </div>
+</div>
+<div class="wrapper">
+  <div class="scrollbar"></div>
+  <div class="results">
+    <div class="list">
+      <div class="song">Chanson A</div>
+      <div class="song">Chanson B</div>
+      <div class="song">Chanson C</div>
+      <div class="song">Chanson D</div>
+      <div class="song">Chanson E</div>
+      <div class="song">Chanson F</div>
+    </div>
+  </div>
+  <div class="search">
+    <input type="text" name="search" placeholder="Search song">
+  </div>
 </div>
 <footer>
   <a id="contact" href="https://toto.fr">Source code</a>
   <a id="legal" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Mentions légales</a>
   <! https://www.youtube.com/watch?v=dPmZqsQNzGA>
 </footer>
+
 </body>
 </html>

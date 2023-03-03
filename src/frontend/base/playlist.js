@@ -2,15 +2,10 @@ import { toggleMute } from './lib.js';
 import { toggleSidebar } from './lib.js';
 
 function startUp() {
-  const speakers = document.querySelectorAll('div.speaker-bg');
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signinBtn');
-
-  [...speakers].forEach((s) =>
-    s.addEventListener('click', () => toggleSpeakers(audio))
-  );
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
   // let audio = new Audio("../music/bee-gees-stayin-alive.mp3"); //try catch
