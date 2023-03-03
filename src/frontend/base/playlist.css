@@ -22,33 +22,49 @@ nav {
 div.wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 100%;
+  width: 100%;
 }
 div.search {
-  position: relative;
+  /*position: relative;*/
   /*display: none;*/
   display: flex;
   justify-content: flex-end;
-  width: 50%;
-  height: 10%;
+  flex-direction: column;
+  /*width: 50%;*/
+  height: 100%;
+  width: 100%;
 }
 
 div.results {
-  position: relative;
+  overflow-y: auto;
   height: 100%;
+  border: 1px solid white;
+  opacity: 90%;
+}
+
+div.list-container {
+  /*position: relative;*/
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 }
 
 div.list {
   /*display: flex;*/
   /*flex-direction: column;*/
-  height: 300px;
-  overflow-y: auto;
+  height: 80vh;
+  overflow-y: scroll;
   border: 2px solid black;
+  opacity: 90%;
 }
 
 div.list > div {
   display: flex;
-  height: 50px;
+  height: 100px;
   background-color: #f45137;
   border: 2px solid black;
   border-radius: 20px;

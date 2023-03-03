@@ -19,7 +19,7 @@
 </header>
 <nav>
   <div class="btnContainer" id="nul">
-    <input type="button" name="nul" id="nul" value="Se connecter"/>
+    <input type="button" name="nul" id="tjrsnul" value="Se connecter"/>
   </div>
   <div class="title">
     <p>
@@ -102,8 +102,8 @@
   </div>
 </div>
 <div class="wrapper">
-  <div class="scrollbar"></div>
-  <div class="results">
+  <div class="list-container">
+<!--  <div class="scrollbar"></div>-->
     <div class="list">
       <div class="song">Chanson A</div>
       <div class="song">Chanson B</div>
@@ -115,8 +115,49 @@
   </div>
   <div class="search">
     <input type="text" name="search" placeholder="Search song">
+    <div class="results"></div>
   </div>
 </div>
+
+<div id="models">
+  <div class="model song">
+    <span class="cover">
+      <img
+        class="song"
+        src=""
+        alt=""
+      />
+    </span>
+    <p class="title"></p>
+    <p class="artist"></p>
+    <span class="rank">
+      <img
+        class="rank"
+        src=""
+        alt=""
+      />
+    </span>
+    <span class="vote">
+      <img
+        class="vote"
+        src=""
+        alt=""
+      />
+    </span>
+  </div>
+  <div class="model result">
+    <span class="cover">
+      <img
+        class="song"
+        src=""
+        alt=""
+      />
+    </span>
+    <p class="title"></p>
+    <p class="artist"></p>
+  </div>
+</div>
+
 <footer>
   <a id="contact" href="https://toto.fr">Source code</a>
   <a id="legal" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Mentions légales</a>
