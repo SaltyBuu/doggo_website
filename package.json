@@ -2,16 +2,21 @@
   "name": "playlist_project",
   "version": "1.0.0",
   "scripts": {
-    "test": "npx htmlhint src/frontend/base/index.html -r style-disabled"
+    "test": "npx htmlhint src/frontend/base/index.html -r style-disabled",
+    "start": "nodemon src/app.js"
   },
   "devDependencies": {
+    "pg": "^8.10.0",
     "prettier": "^2.8.4",
+    "sequelize": "^6.29.1",
     "stylelint": "^15.2.0",
     "stylelint-config-standard": "^30.0.1"
   },
   "dependencies": {
     "eslint": "^8.34.0",
+    "express": "^4.18.2",
     "htmlhint": "^1.1.4",
+    "nodemon": "^2.0.21",
     "remove": "^0.1.5",
     "svgo": "^3.0.2"
   }

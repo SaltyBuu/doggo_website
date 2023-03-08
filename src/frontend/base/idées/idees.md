@@ -19,9 +19,46 @@
 - animation svg décomposée
 - pour un responsive optimal faire pour mobile d'abord
 - optimiser le chargement de la page
-- div rond au chargement
+- div rond au chargement pas après avori chargé
 - credits icones
 - chargement puis mise en page
 
 ## Deployment
 - githubaction vers le repo privé
+
+## Backend
+### Questions
+- playlist représentée par quoi ? sauvegardé dans un fichier serveur ?
+- possible base de données ordonnée qu'on peut update à la volée ?
+- comment faire la recherche ? api spotify ou base de données locale pour commencer
+
+*Réponses*
+- Playlist table postgresql avec un champ rang
+- Chanson votée monte/descend en échangeant de place avec le rang d'avant
+
+*Postgresql*
+
+[playlists]: {*playlist_id, name} \
+[playlist_songs]: {*playlist_id, *song_id, rank, submitter} \
+[songs]: {*song_id, name, album, artist} \
+[users]: {*user_id, login, password, mail} \
+[votes]: {*user_id, *song_id, timestamp}
+
+### Fonctions de base
+*Chansons*
+- ajouter une chanson à la playlist
+- supprimer une chanson de la playlist
+- mettre à jour un nombre de votes
+- rechercher dans la playlist
+- rechercher dans l'ensemble des chansons existantes
+- Jouer une chanson de la playlist
+
+*Utilisateurs*
+- rajouter un utilisateur
+- supprimer un utilisateur
+- chercher un utilisateur
+
+##Avancé
+- confirmation mail utilisateurs
+- token utilisateur authentifié
+- historiques
