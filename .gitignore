@@ -12,5 +12,7 @@ package-lock.json
 node_modules/
 src/assets/
 src/frontend/fonts/walkwaybold_regular_macroman/
+.env
+
 .cpanel.yml
 .prettierrc
