@@ -8,16 +8,22 @@
   "devDependencies": {
     "pg": "^8.10.0",
     "prettier": "^2.8.4",
-    "sequelize": "^6.29.1",
+    "prisma": "^4.11.0",
     "stylelint": "^15.2.0",
     "stylelint-config-standard": "^30.0.1"
   },
   "dependencies": {
+    "@prisma/client": "^4.11.0",
     "eslint": "^8.34.0",
     "express": "^4.18.2",
     "htmlhint": "^1.1.4",
+    "http-status": "^1.6.2",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.21",
     "remove": "^0.1.5",
     "svgo": "^3.0.2"
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
   }
 }

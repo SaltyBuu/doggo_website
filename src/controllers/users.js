@@ -3,8 +3,8 @@ const prisma = new PrismaClient();
 const status = require('http-status');
 
 module.exports = {
-  async searchSong(res, req) {},
-  async addSong(res, req) {},
-  async removeSong(res, req) {},
-  async editSong(res, req) {},
+  async getUser(res, req) {},
+  async addUser(res, req) {},
+  async removeUser(res, req) {},
+  async editUser(res, req) {},
 };
