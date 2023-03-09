@@ -49,16 +49,24 @@
 - ajouter une chanson à la playlist
 - supprimer une chanson de la playlist
 - mettre à jour un nombre de votes
-- rechercher dans la playlist
-- rechercher dans l'ensemble des chansons existantes
-- Jouer une chanson de la playlist
 
 *Utilisateurs*
 - rajouter un utilisateur
 - supprimer un utilisateur
 - chercher un utilisateur
 
+*Recherche*
+- rechercher dans la playlist
+- rechercher dans l'ensemble des chansons existantes
+
+*Action*
+- Jouer une chanson de la playlist
+
+
 ##Avancé
 - confirmation mail utilisateurs
 - token utilisateur authentifié
 - historiques
+- cookie parser ?
+- swagger
+- réécriture d'url
