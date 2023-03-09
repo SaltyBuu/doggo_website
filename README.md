@@ -1,2 +1,2 @@
 # doggo_website
-Shared playlist with rankings project
+Shared playlist with rankings
