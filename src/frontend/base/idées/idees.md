@@ -42,7 +42,7 @@
 [playlist_songs]: {*playlist_id, *song_id, rank, submitter} \
 [songs]: {*song_id, name, album, artist} \
 [users]: {*user_id, login, password, mail} \
-[votes]: {*user_id, *song_id, timestamp}
+[votes]: {*user_id, *song_id, voteDate}
 
 ### Fonctions de base
 *Chansons*

@@ -1,19 +1,20 @@
-const Sequelize = require('sequelize');
-const db = require('database');
+const { DataTypes } = require('sequelize');
+const db = require('src/sequelize/database');
+
 const users = db.define('users', {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
   },
   login: {
-    type: Sequelize.STRING(50),
+    type: DataTypes.STRING(50),
     validate: {
       notNull: true,
       is: /^[a-zA-Z\-'\s]{1,30}$/i,
     },
   },
   password: {
-    type: Sequelize.STRING(100),
+    type: DataTypes.STRING(100),
     validate: {
       notNull: true,
       is: /^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{10,}$/i,
@@ -21,7 +22,7 @@ const users = db.define('users', {
     },
   },
   mail: {
-    type: Sequelize.STRING(30),
+    type: DataTypes.STRING(30),
     validate: {
       notNull: true,
       isEmail: true,

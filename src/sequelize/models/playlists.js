@@ -1,13 +1,14 @@
-const Sequelize = require('sequelize');
-const db = require('database');
+const { DataTypes } = require('sequelize');
+const db = require('src/sequelize/database');
+
 const playlists = db.define('playlists', {
   id: {
     primaryKey: true,
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
   },
   name: {
-    type: Sequelize.STRING(100),
+    type: DataTypes.STRING(100),
     validate: {
       isNull: false,
       is: /^[a-z\-'\s]{1,100}$/i,

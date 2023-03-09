@@ -1,26 +1,27 @@
-const Sequelize = require('sequelize');
-const db = require('database');
+const { DataTypes } = require('sequelize');
+const db = require('src/sequelize/database');
+
 const songs = db.define('songs', {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
   },
   name: {
-    type: Sequelize.STRING(50),
+    type: DataTypes.STRING(50),
     validate: {
       notNull: true,
       is: /^[a-zA-Z\-'\s]{1,30}$/i,
     },
   },
   album: {
-    type: Sequelize.STRING(30),
+    type: DataTypes.STRING(30),
     validate: {
       notNull: true,
       is: /^[a-zA-Z\-'\s]{1,30}$/i,
     },
   },
   artist: {
-    type: Sequelize.STRING(30),
+    type: DataTypes.STRING(30),
     validate: {
       notNull: true,
       is: /^[a-zA-Z\-'\s]{1,30}$/i,
