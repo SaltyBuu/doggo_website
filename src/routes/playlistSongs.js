@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const playlist = require('../controllers/playlist');
+const playlist = require('../controllers/playlistSongs');
 
 router
   .route('/playlist')
