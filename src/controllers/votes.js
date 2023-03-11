@@ -3,6 +3,6 @@ const prisma = new PrismaClient();
 const status = require('http-status');
 
 module.exports = {
-  async addVote(res, req) {},
-  async removeVote(res, req) {},
+  async addVote(req, res) {},
+  async removeVote(req, res) {},
 };

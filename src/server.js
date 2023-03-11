@@ -1,5 +1,7 @@
 // require('mandatoryenv').load(['PORT']);
-// const { PORT } = process.env;
+const dotenv = require('dotenv');
+dotenv.config();
+const { PORT } = process.env;
 
 // Instantiate an Express Application
 const app = require('./app');

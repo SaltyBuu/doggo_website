@@ -2,18 +2,23 @@
   "name": "playlist_project",
   "version": "1.0.0",
   "scripts": {
-    "test": "npx htmlhint src/frontend/base/index.html -r style-disabled",
-    "start": "nodemon src/app.js"
+    "test": "npx htmlhint src/frontend/base/*.html -r style-disabled",
+    "start": "nodemon src/server.js",
+    "update": "npx prisma migrate dev --name init"
   },
   "devDependencies": {
+    "has-keys": "^0.1.0",
+    "morgan": "^1.10.0",
     "pg": "^8.10.0",
     "prettier": "^2.8.4",
     "prisma": "^4.11.0",
+    "rotating-file-stream": "^3.1.0",
     "stylelint": "^15.2.0",
     "stylelint-config-standard": "^30.0.1"
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
+    "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
     "express": "^4.18.2",
     "htmlhint": "^1.1.4",

@@ -25,7 +25,7 @@ model Song {
 
 model User {
   id           Int            @id @default(autoincrement())
-  login        String         @db.VarChar(30)
+  login        String         @db.VarChar(30) @unique
   password     String         @db.VarChar(40)
   mail         String         @unique
   name         String?
