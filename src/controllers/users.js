@@ -17,6 +17,7 @@ module.exports = {
     });
   },
   async addUser(req, res) {
+    //TODO Password validation
     if (!has(req.body, ['login', 'password', 'mail']))
       throw new CodeError('User was not created', 400);
     //TODO Email validation

@@ -40,8 +40,8 @@ model PlaylistSong {
   song        Song     @relation(fields: [songId], references: [id])
   songId      Int
   rank        Int?
-  submitter   User     @relation(fields: [submitterId], references: [id])
-  submitterId Int
+  submitter   User?     @relation(fields: [submitterId], references: [id])
+  submitterId Int?
 
   @@id([playlistId, songId])
 }
