@@ -70,3 +70,5 @@
 - cookie parser ?
 - swagger
 - réécriture d'url
+- bd ssl
+- chargement des pages intelligent
