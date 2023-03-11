@@ -19,7 +19,7 @@ module.exports = {
   async addUser(req, res) {
     if (!has(req.body, ['login', 'password', 'mail']))
       throw new CodeError('User was not created', 400);
-
+    //TODO Email validation
     const user = await prisma.user.upsert({
       where: {
         login: req.body.login,
@@ -49,6 +49,7 @@ module.exports = {
     });
   },
   async editUser(req, res) {
+    //TODO edit mechanism
     const user = await prisma.user.update({
       where: {
         id: req.body.id,
