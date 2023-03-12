@@ -1,8 +1,8 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const status = require('http-status');
-const has = require('has-keys');
-const CodeError = require('../CodeError');
+const status = require("http-status");
+const has = require("has-keys");
+const CodeError = require("../CodeError");
 
 module.exports = {
   async searchSong(req, res) {
@@ -17,18 +17,19 @@ module.exports = {
     });
   },
   async addSong(req, res) {
-    if (!has(req.body, ['name', 'album', 'artist']))
-      throw new CodeError('Song was not created', 400);
+    if (!has(req.body, ["name", "album", "artist"]))
+      throw new CodeError("Song was not created", 400);
 
+    const name = req.body.name;
+    const artist = req.body.artist;
     const song = await prisma.song.upsert({
       where: {
-        name: req.body.name,
-        artist: req.body.artist,
+        name_artist: { name, artist },
       },
       update: {},
       create: {
-        name: req.body.name,
-        artist: req.body.artist,
+        name: name,
+        artist: artist,
         album: req.body.album,
       },
     });
@@ -46,7 +47,7 @@ module.exports = {
     });
     res.json({
       status: true,
-      message: 'Song deleted: ' + song.id,
+      message: "Song deleted: " + song.id,
     });
   },
   async editSong(req, res) {
@@ -54,7 +55,11 @@ module.exports = {
       where: {
         id: req.body.id,
       },
-      data: {},
+      data: {
+        name: req.body.name || undefined,
+        album: req.body.album || undefined,
+        artist: req.body.artist || undefined,
+      },
     });
     res.json({
       status: true,

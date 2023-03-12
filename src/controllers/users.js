@@ -1,8 +1,8 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const status = require('http-status');
-const has = require('has-keys');
-const CodeError = require('../CodeError');
+const status = require("http-status");
+const has = require("has-keys");
+const CodeError = require("../CodeError");
 
 module.exports = {
   async getUser(req, res) {
@@ -18,8 +18,8 @@ module.exports = {
   },
   async addUser(req, res) {
     //TODO Password validation
-    if (!has(req.body, ['login', 'password', 'mail']))
-      throw new CodeError('User was not created', 400);
+    if (!has(req.body, ["login", "password", "mail"]))
+      throw new CodeError("User was not created", 400);
     //TODO Email validation
     const user = await prisma.user.upsert({
       where: {
@@ -35,7 +35,7 @@ module.exports = {
     // const message = user === null ? 'User created' + user.login : '';
     res.json({
       status: true,
-      message: 'User created: ' + user.login,
+      message: "User created: " + user.login,
     });
   },
   async removeUser(req, res) {
@@ -46,16 +46,19 @@ module.exports = {
     });
     res.json({
       status: true,
-      message: 'User deleted: ' + user.id,
+      message: "User deleted: " + user.id,
     });
   },
   async editUser(req, res) {
-    //TODO edit mechanism
     const user = await prisma.user.update({
       where: {
         id: req.body.id,
       },
-      data: {},
+      data: {
+        login: req.body.login || undefined,
+        password: req.body.password || undefined,
+        mail: req.body.mail || undefined,
+      },
     });
     res.json({
       status: true,

@@ -1,25 +1,30 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const status = require('http-status');
-const has = require('has-keys');
-const CodeError = require('../CodeError');
+const status = require("http-status");
+const has = require("has-keys");
+const CodeError = require("../CodeError");
 
 module.exports = {
   async addVote(req, res) {
-    if (!has(req.body, ['user_id', 'playlist_id', 'song_id']))
-      throw new CodeError('Vote was not created', 400);
+    if (!has(req.body, ["user_id", "playlist_id", "song_id"]))
+      throw new CodeError("Vote was not created", 400);
     //TODO Email validation
-    const vote = await prisma.user.upsert({
+    const user_id = req.body.user_id;
+    const playlist_id = req.body.playlist_id;
+    const song_id = req.body.song_id;
+    const vote = await prisma.vote.upsert({
       where: {
-        user_id: req.body.user_id,
-        playlist_id: req.body.playlist_id,
-        song_id: req.body.song_id,
+        songId_playlistId_userId: {
+          songId: song_id,
+          playlistId: playlist_id,
+          userId: user_id,
+        },
       },
       update: {},
       create: {
-        user_id: req.body.user_id,
-        playlist_id: req.body.playlist_id,
-        song_id: req.body.song_id,
+        userId: user_id,
+        playlistId: playlist_id,
+        songId: song_id,
       },
     });
     // const message = vote === null ? 'Vote created' + vote : '';
@@ -29,26 +34,25 @@ module.exports = {
     });
   },
   async removeVote(req, res) {
-    if (!has(req.body, ['user_id', 'playlist_id', 'song_id']))
-      throw new CodeError('Vote was not created', 400);
+    if (!has(req.body, ["user_id", "playlist_id", "song_id"]))
+      throw new CodeError("Vote was not created", 400);
     //TODO Email validation
-    const vote = await prisma.user.delete({
+    const user_id = req.body.user_id;
+    const playlist_id = req.body.playlist_id;
+    const song_id = req.body.song_id;
+    const vote = await prisma.vote.delete({
       where: {
-        user_id: req.body.user_id,
-        playlist_id: req.body.playlist_id,
-        song_id: req.body.song_id,
+        songId_playlistId_userId: {
+          songId: song_id,
+          playlistId: playlist_id,
+          userId: user_id,
+        },
       },
     });
     // const message = vote === null ? 'Vote created' + vote : '';
     res.json({
       status: true,
-      message:
-        'Vote deleted, User: ' +
-        vote.user_id +
-        ', Song: ' +
-        vote.song_id +
-        ', Playlist: ' +
-        vote.playlist_id,
+      vote,
     });
   },
 };

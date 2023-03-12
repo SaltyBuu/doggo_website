@@ -1,19 +1,15 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const status = require('http-status');
-const has = require('has-keys');
-const CodeError = require('../CodeError');
+const status = require("http-status");
+const has = require("has-keys");
+const CodeError = require("../CodeError");
 
 module.exports = {
   async addPlaylist(req, res) {
-    if (!has(req.body, ['name']))
-      throw new CodeError('Playlist was not created', 400);
-    const playlist = await prisma.playlist.upsert({
-      where: {
-        name: req.body.name,
-      },
-      update: {},
-      create: {
+    if (!has(req.body, ["name"]))
+      throw new CodeError("Playlist was not created", 400);
+    const playlist = await prisma.playlist.create({
+      data: {
         name: req.body.name,
       },
     });
@@ -31,16 +27,19 @@ module.exports = {
     });
     res.json({
       status: true,
-      message: 'playlist deleted: ' + playlist.id,
+      message: "playlist deleted: " + playlist.id,
     });
   },
   async editPlaylist(req, res) {
-    //TODO edit mechanism
+    if (!has(req.body, ["name"]))
+      throw new CodeError("Playlist was left intact", 400);
     const playlist = await prisma.playlist.update({
       where: {
         id: req.body.id,
       },
-      data: {},
+      data: {
+        name: req.body.name,
+      },
     });
     res.json({
       status: true,

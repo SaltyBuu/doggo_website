@@ -13,6 +13,6 @@ node_modules/
 src/assets/
 src/frontend/fonts/walkwaybold_regular_macroman/
 .env
-
+src/prisma/migrations/
 .cpanel.yml
 .prettierrc
