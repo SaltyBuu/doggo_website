@@ -1,0 +1,43 @@
+### Post
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "login": "titi",
+  "password": "parisien",
+  "mail": "titi@lamiff.org"
+}
+### Delete
+DELETE http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "id": 2
+}
+
+### Get
+http://localhost:3000/users/4
+
+### Update login
+PATCH http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "id": 1,
+  "login": "Alix"
+}
+
+### Update mail
+PATCH http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "id": 1,
+  "mail": "dodo@kokoala.org"
+}
+
+###Get
+GET http://localhost:3000/users/4
+Accept: application/json
+
+

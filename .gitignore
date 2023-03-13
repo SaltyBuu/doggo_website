@@ -11,7 +11,7 @@
 package-lock.json
 node_modules/
 src/assets/
-src/frontend/fonts/walkwaybold_regular_macroman/
+src/public/fonts/walkwaybold_regular_macroman/
 .env
 src/prisma/migrations/
 src/prisma/migrations/migration_lock.toml

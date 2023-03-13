@@ -1,13 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const playlist = require('../controllers/playlistSongs');
+const playlist = require("../controllers/playlistSongs");
 
 router
-  .route('/playlist')
+  .route("/playlist")
   .all()
-  .get(playlist.searchSong)
   .post(playlist.addSong)
   .delete(playlist.removeSong)
   .patch(playlist.editSong); //rank & submitter
+
+router.get("/:playlist_id/:song_id", playlist.searchSong);
 
 module.exports = router;

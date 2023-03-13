@@ -11,8 +11,8 @@ module.exports = {
       throw new CodeError("Song was not added", 400);
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
-        playlistId: req.body.playlist_id,
-        songId: req.body.song_id,
+        playlistId: req.params.playlist_id,
+        songId: req.params.song_id,
       },
     });
     res.json({

@@ -1,0 +1,24 @@
+### Post
+POST http://localhost:3000/songs
+Content-Type: application/json
+
+{
+  "name": "titi",
+  "album": "banger",
+  "artist": "stikmou"
+}
+### Delete
+DELETE http://localhost:3000/songs
+Content-Type: application/json
+
+{
+  "id": 2
+}
+
+### Get
+GET http://localhost:3000/songs
+Content-Type: application/json
+
+{
+  "id": "1"
+}

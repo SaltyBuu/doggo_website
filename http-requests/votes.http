@@ -1,0 +1,29 @@
+### Post
+POST http://localhost:3000/votes
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "playlist_id": 2,
+  "song_id": 3
+}
+
+### Delete
+DELETE http://localhost:3000/votes
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "playlist_id": 2,
+  "song_id": 3
+}
+
+
+### Update
+PATCH http://localhost:3000/votes
+Content-Type: application/json
+
+{
+  "id": "2",
+  "name": "jj"
+}

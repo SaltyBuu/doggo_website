@@ -8,7 +8,7 @@ module.exports = {
   async getUser(req, res) {
     const user = await prisma.user.findFirst({
       where: {
-        id: req.body.id,
+        id: req.params.id,
       },
     });
     res.json({

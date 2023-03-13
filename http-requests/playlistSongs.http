@@ -1,0 +1,47 @@
+### Post
+POST http://localhost:3000/playlist
+Content-Type: application/json
+
+{
+  "song_id": 1,
+  "playlist_id": 3,
+  "rank": 8
+}
+### Delete
+DELETE http://localhost:3000/playlist
+Content-Type: application/json
+
+{
+  "song_id": 1,
+  "playlist_id": 3
+}
+
+### Get
+GET http://localhost:3000/playlist
+Content-Type: application/json
+
+{
+  "song_id": 1,
+  "playlist_id": 2
+}
+
+### Update submitter
+PATCH http://localhost:3000/playlist
+Content-Type: application/json
+
+{
+  "song_id": 1,
+  "playlist_id": 2,
+  "submitter_id": 4
+}
+
+### Update rank
+PATCH http://localhost:3000/playlist
+Content-Type: application/json
+
+{
+  "song_id": 1,
+  "playlist_id": 3,
+  "rank": 15
+}
+
