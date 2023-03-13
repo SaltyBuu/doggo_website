@@ -5,7 +5,7 @@ const playlist = require("../controllers/playlistSongs");
 router
   .route("/playlist")
   .all()
-  .post(playlist.addSong)
+  .put(playlist.addSong)
   .delete(playlist.removeSong)
   .patch(playlist.editSong); //rank & submitter
 

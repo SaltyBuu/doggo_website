@@ -11,10 +11,15 @@ module.exports = {
         id: req.body.id,
       },
     });
-    res.json({
-      status: true,
-      song,
-    });
+    if (song != null) {
+      res.json({
+        song,
+      });
+    } else {
+      res.json({
+        message: "Song not found",
+      });
+    }
   },
   async addSong(req, res) {
     if (!has(req.body, ["name", "album", "artist"]))
@@ -22,22 +27,27 @@ module.exports = {
 
     const name = req.body.name;
     const artist = req.body.artist;
-    const song = await prisma.song.upsert({
+    const song = await prisma.song.findFirst({
       where: {
         name_artist: { name, artist },
       },
-      update: {},
-      create: {
-        name: name,
-        artist: artist,
-        album: req.body.album,
-      },
     });
-    // const message = song === null ? 'Song created' + song.login : '';
-    res.json({
-      status: true,
-      song,
-    });
+    if (song != null) {
+      const newSong = await prisma.song.create({
+        data: {
+          name: name,
+          artist: artist,
+          album: req.body.album,
+        },
+      });
+      res.status(201).json({
+        newSong,
+      });
+    } else {
+      res.status(204).json({
+        message: "The song already exists",
+      });
+    }
   },
   async removeSong(req, res) {
     const song = await prisma.song.delete({
@@ -45,9 +55,9 @@ module.exports = {
         id: req.body.id,
       },
     });
-    res.json({
-      status: true,
-      message: "Song deleted: " + song.id,
+    res.status(200).json({
+      message: "Song deleted",
+      song,
     });
   },
   async editSong(req, res) {
@@ -61,8 +71,8 @@ module.exports = {
         artist: req.body.artist || undefined,
       },
     });
-    res.json({
-      status: true,
+    res.status(200).json({
+      message: "Song updated",
       song,
     });
   },

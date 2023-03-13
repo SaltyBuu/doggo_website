@@ -5,7 +5,7 @@ const { validateId } = require("../middlewares/validation");
 router
   .route("/playlists")
   .all()
-  .post(playlist.addPlaylist)
+  .put(playlist.addPlaylist)
   .delete(validateId, playlist.removePlaylist)
   .patch(validateId, playlist.editPlaylist);
 

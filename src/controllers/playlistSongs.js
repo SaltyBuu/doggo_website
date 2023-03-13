@@ -27,26 +27,31 @@ module.exports = {
     //TODO Email validation
     const playlist_id = req.body.playlist_id;
     const song_id = req.body.song_id;
-    const playlistSong = await prisma.playlistSong.upsert({
+    const playlistSong = await prisma.playlistSong.findFirst({
       where: {
         playlistId_songId: {
           playlistId: playlist_id,
           songId: song_id,
         },
       },
-      update: {},
-      create: {
-        playlistId: playlist_id,
-        songId: song_id,
-        rank: req.body.rank || undefined,
-        submitterId: res.body.submitter_id || undefined,
-      },
     });
-    // const message = vote === null ? 'Vote created' + vote : '';
-    res.json({
-      status: true,
-      playlistSong,
-    });
+    if (playlistSong != null) {
+      const newSong = await prisma.playlistSong.create({
+        data: {
+          playlistId: playlist_id,
+          songId: song_id,
+          rank: req.body.rank || undefined,
+          submitterId: res.body.submitter_id || undefined,
+        },
+      });
+      res.status(201).json({
+        newSong,
+      });
+    } else {
+      res.status(204).json({
+        message: "The song already exists",
+      });
+    }
   },
   async removeSong(req, res) {
     //TODO id validation
@@ -64,8 +69,8 @@ module.exports = {
       },
     });
     // const message = vote === null ? 'Vote created' + vote : '';
-    res.json({
-      status: true,
+    res.status(200).json({
+      message: "Song deleted",
       playlistSong,
     });
   },
@@ -86,8 +91,8 @@ module.exports = {
         submitterId: req.body.submitter_id || undefined,
       },
     });
-    res.json({
-      status: true,
+    res.status(200).json({
+      message: "Song updated",
       playlistSong,
     });
   },

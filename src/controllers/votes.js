@@ -12,7 +12,7 @@ module.exports = {
     const user_id = req.body.user_id;
     const playlist_id = req.body.playlist_id;
     const song_id = req.body.song_id;
-    const vote = await prisma.vote.upsert({
+    const vote = await prisma.vote.findFirst({
       where: {
         songId_playlistId_userId: {
           songId: song_id,
@@ -20,18 +20,23 @@ module.exports = {
           userId: user_id,
         },
       },
-      update: {},
-      create: {
-        userId: user_id,
-        playlistId: playlist_id,
-        songId: song_id,
-      },
     });
-    // const message = vote === null ? 'Vote created' + vote : '';
-    res.json({
-      status: true,
-      vote,
-    });
+    if (vote != null) {
+      const newVote = await prisma.vote.create({
+        data: {
+          userId: user_id,
+          playlistId: playlist_id,
+          songId: song_id,
+        },
+      });
+      res.status(201).json({
+        newVote,
+      });
+    } else {
+      res.status(204).json({
+        message: "The vote already exists",
+      });
+    }
   },
   async removeVote(req, res) {
     if (!has(req.body, ["user_id", "playlist_id", "song_id"]))
@@ -49,9 +54,8 @@ module.exports = {
         },
       },
     });
-    // const message = vote === null ? 'Vote created' + vote : '';
-    res.json({
-      status: true,
+    res.status(200).json({
+      message: "Vote deleted",
       vote,
     });
   },

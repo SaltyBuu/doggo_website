@@ -3,40 +3,52 @@ const prisma = new PrismaClient();
 const status = require("http-status");
 const has = require("has-keys");
 const CodeError = require("../CodeError");
+const { isInt } = require("../middlewares/validation");
 
 module.exports = {
   async getUser(req, res) {
+    if (!has(req.params, "id")) throw new CodeError("Id is missing", 400);
+    if (!isInt(req.params.id)) throw new CodeError("Id is not an int", 400);
+    req.params.id = parseInt(req.params.id);
     const user = await prisma.user.findFirst({
       where: {
         id: req.params.id,
       },
     });
-    res.json({
-      status: true,
-      user,
-    });
+    if (user != null) {
+      res.json({
+        user,
+      });
+    } else {
+      res.json({ message: "User not found" });
+    }
   },
   async addUser(req, res) {
     //TODO Password validation
     if (!has(req.body, ["login", "password", "mail"]))
       throw new CodeError("User was not created", 400);
     //TODO Email validation
-    const user = await prisma.user.upsert({
+    const user = await prisma.user.findFirst({
       where: {
         login: req.body.login,
       },
-      update: {},
-      create: {
-        login: req.body.login,
-        mail: req.body.mail,
-        password: req.body.password,
-      },
     });
-    // const message = user === null ? 'User created' + user.login : '';
-    res.json({
-      status: true,
-      message: "User created: " + user.login,
-    });
+    if (user != null) {
+      const newUser = await prisma.user.create({
+        data: {
+          login: req.body.login,
+          mail: req.body.mail,
+          password: req.body.password,
+        },
+      });
+      res.status(201).json({
+        newUser,
+      });
+    } else {
+      res.status(204).json({
+        message: "The user already exists",
+      });
+    }
   },
   async removeUser(req, res) {
     const user = await prisma.user.delete({
@@ -44,9 +56,9 @@ module.exports = {
         id: req.body.id,
       },
     });
-    res.json({
-      status: true,
-      message: "User deleted: " + user.id,
+    res.status(200).json({
+      message: "User deleted",
+      user,
     });
   },
   async editUser(req, res) {
@@ -60,8 +72,8 @@ module.exports = {
         mail: req.body.mail || undefined,
       },
     });
-    res.json({
-      status: true,
+    res.status(200).json({
+      message: "Song updated",
       user,
     });
   },

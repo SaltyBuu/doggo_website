@@ -8,7 +8,7 @@ const { validateId } = require("../middlewares/validation");
 router.get("/users/:id", users.getUser);
 router
   .route("/users")
-  .post(users.addUser)
+  .put(users.addUser)
   .delete(validateId, users.removeUser)
   .patch(validateId, users.editUser);
 

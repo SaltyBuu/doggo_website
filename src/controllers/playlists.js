@@ -7,17 +7,25 @@ const CodeError = require("../CodeError");
 module.exports = {
   async addPlaylist(req, res) {
     if (!has(req.body, ["name"]))
-      throw new CodeError("Playlist was not created", 400);
-    const playlist = await prisma.playlist.create({
-      data: {
-        name: req.body.name,
-      },
+      throw new CodeError("The playlist name is missing", 400);
+    const existing = await prisma.playlist.findFirst({
+      where: { id: req.body.id },
     });
-    // const message = user === null ? 'User created' + user.name : '';
-    res.json({
-      status: true,
-      playlist,
-    });
+    if (existing != null) {
+      const playlist = await prisma.playlist.create({
+        data: {
+          name: req.body.name,
+        },
+      });
+      // const message = user === null ? 'User created' + user.name : '';
+      res.status(201).json({
+        playlist,
+      });
+    } else {
+      res.status(204).json({
+        message: "The playlist already exists",
+      });
+    }
   },
   async removePlaylist(req, res) {
     const playlist = await prisma.playlist.delete({
@@ -25,9 +33,9 @@ module.exports = {
         id: req.body.id,
       },
     });
-    res.json({
-      status: true,
-      message: "playlist deleted: " + playlist.id,
+    res.status(200).json({
+      message: "Playlist deleted",
+      playlist,
     });
   },
   async editPlaylist(req, res) {
@@ -41,8 +49,8 @@ module.exports = {
         name: req.body.name,
       },
     });
-    res.json({
-      status: true,
+    res.status(200).json({
+      message: "Playlist updated",
       playlist,
     });
   },
