@@ -29,19 +29,17 @@ module.exports = {
     const song_id = req.body.song_id;
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
-        playlistId_songId: {
-          playlistId: playlist_id,
-          songId: song_id,
-        },
+        playlistId: playlist_id,
+        songId: song_id,
       },
     });
-    if (playlistSong != null) {
+    if (playlistSong === null) {
       const newSong = await prisma.playlistSong.create({
         data: {
           playlistId: playlist_id,
           songId: song_id,
           rank: req.body.rank || undefined,
-          submitterId: res.body.submitter_id || undefined,
+          submitterId: req.body.submitter_id || undefined,
         },
       });
       res.status(201).json({

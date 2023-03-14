@@ -14,14 +14,12 @@ module.exports = {
     const song_id = req.body.song_id;
     const vote = await prisma.vote.findFirst({
       where: {
-        songId_playlistId_userId: {
-          songId: song_id,
-          playlistId: playlist_id,
-          userId: user_id,
-        },
+        songId: song_id,
+        playlistId: playlist_id,
+        userId: user_id,
       },
     });
-    if (vote != null) {
+    if (vote === null) {
       const newVote = await prisma.vote.create({
         data: {
           userId: user_id,

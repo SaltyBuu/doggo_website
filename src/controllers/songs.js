@@ -29,10 +29,11 @@ module.exports = {
     const artist = req.body.artist;
     const song = await prisma.song.findFirst({
       where: {
-        name_artist: { name, artist },
+        name: name,
+        artist: artist,
       },
     });
-    if (song != null) {
+    if (song === null) {
       const newSong = await prisma.song.create({
         data: {
           name: name,
