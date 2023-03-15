@@ -8,7 +8,8 @@ module.exports = {
   async searchSong(req, res) {
     const song = await prisma.song.findFirst({
       where: {
-        id: req.body.id,
+        name: req.body.name,
+        artist: req.body.artist,
       },
     });
     if (song != null) {

@@ -6,7 +6,7 @@ const { validateId } = require("../middlewares/validation");
 router
   .route("/songs")
   .all()
-  .post(validateId, songs.searchSong)
+  .post(songs.searchSong)
   .put(songs.addSong)
   .delete(validateId, songs.removeSong)
   .patch(validateId, songs.editSong);

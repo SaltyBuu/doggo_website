@@ -1,9 +1,10 @@
 import { toggleMute } from "./lib.js";
 import { toggleSidebar } from "./lib.js";
 const backend = "localhost:3000";
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
+const TOKEN = "toreplace";
 
-funciton init() {
+function init() {
   const menuIcon = document.querySelector("#menu-icon-bg");
   const muteSpan = document.getElementById("mute");
   const signinBtn = document.getElementById("signinBtn");
@@ -19,8 +20,8 @@ funciton init() {
 }
 
 function startUp() {
-  init()
-  refreshPlaylist()
+  init();
+  refreshPlaylist();
   const audio = new Audio("../music/bee-gees-stayin-alive.wav");
   audio.preload = "auto";
   audio.volume = 0.1;
@@ -34,25 +35,64 @@ function startUp() {
   //TODO Chercher via spotify (5 à chaque lettre)
 }
 async function refreshPlaylist(playlistId) {
-  const playlistDiv = document.getElementById("div.list")
+  const playlistDiv = document.getElementById("div.list");
+  const newChildren = new Array();
   const results = await prisma.playlistSong.findMany({
     where: {
-      playlistId: playlistId
-    }
-  })
+      playlistId: playlistId,
+    },
+    include: {
+      song: true,
+    },
+    orderBy: {
+      rank: "asc",
+    },
+  });
+  //TODO edit api to allow queries of all songs in a playlist
   if (results != null) {
-    results.forEach((s) =>
-    {
-      console.log('add div');
-    })
+    results.forEach((s) => {
+      const songObj = results["song"];
+      const resultDiv = document
+        .querySelector("div.model.song")
+        .cloneNode(true);
+      resultDiv.classList.toggle("model");
+      const img = resultDiv.querySelector("img");
+      img.alt = songObj["album"];
+      resultDiv.querySelector("p.title").value = songObj["name"];
+      resultDiv.querySelector("p.artist").value = songObj["artist"];
+      resultDiv.querySelector("p.rank").value = songObj["rank"];
+      newChildren.appendChild(resultDiv);
+    });
+    playlistDiv.replaceChildren(...newChildren);
   }
+}
+
+async function addSong(playlistId, name, artist) {
+  const endPoint = "/songs";
+  const url = new URL(backend + endPoint);
+  const body = new URLSearchParams();
+  body.append("name", name);
+  body.append("artist", artist);
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      "x-access-token": TOKEN,
+    },
+    body,
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      //TODO add song to playlist song
+    });
+  //TODO .catch add song to songs and playlist songs
 }
 function runSearch(e) {
   if (e.key === "Enter") {
     const endPoint = "/songs";
     const url = new URL(backend + endPoint);
     // fetch(url, { method: "GET" });
-    console.log("Requête spotify :", url)
+    console.log("Requête spotify :", url);
   }
 }
 
