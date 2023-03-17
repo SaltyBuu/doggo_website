@@ -20,13 +20,13 @@ module.exports = {
         user,
       });
     } else {
-      res.json({ message: "User not found" });
+      res.status(404).json({ message: "User not found" });
     }
   },
   async addUser(req, res) {
     //TODO Password validation
     if (!has(req.body, ["login", "password", "mail"]))
-      throw new CodeError("User was not created", 400);
+      throw new CodeError("Missing parameters", 400);
     //TODO Email validation
     const user = await prisma.user.findFirst({
       where: {
@@ -45,7 +45,7 @@ module.exports = {
         newUser,
       });
     } else {
-      res.status(204).json({
+      res.status(400).json({
         message: "The user already exists",
       });
     }

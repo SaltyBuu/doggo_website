@@ -1,5 +1,7 @@
-import { toggleMute } from "./lib.js";
-import { toggleSidebar } from "./lib.js";
+const { toggleMute } = require("./lib.js");
+const { toggleSidebar } = require("./lib.js");
+const has = require("has-keys")
+const {getapiResults} = require("spotify-request-example.js")
 const backend = "localhost:3000";
 const prisma = new PrismaClient();
 const TOKEN = "toreplace";
@@ -48,7 +50,6 @@ async function refreshPlaylist(playlistId) {
       rank: "asc",
     },
   });
-  //TODO edit api to allow queries of all songs in a playlist
   if (results != null) {
     results.forEach((s) => {
       const songObj = results["song"];
@@ -67,32 +68,111 @@ async function refreshPlaylist(playlistId) {
   }
 }
 
-async function addSong(playlistId, name, artist) {
-  const endPoint = "/songs";
-  const url = new URL(backend + endPoint);
+async function addSong(playlistId, name, artist, album) {
+  const playlistEndPoint = "/" + playlistId
+  let songEndpoint = "/songs"
+  let url = new URL(backend + songEndpoint);
   const body = new URLSearchParams();
   body.append("name", name);
+  body.append("album", album)
   body.append("artist", artist);
-  fetch(url, {
+  await fetch(url, {
     method: "POST",
     headers: {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
       "x-access-token": TOKEN,
     },
-    body,
+    body
   })
-    .then((res) => res.json())
-    .then((json) => {
-      //TODO add song to playlist song
+    .then(function(res) {
+      //If the song isn't in any playlist, add to songs
+      if(res.status === 404) {
+        res.json().then(
+          async function() {
+            await fetch(url, {
+              method: "PUT",
+              headers: {
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "x-access-token": TOKEN,
+              },
+              body
+            })
+          }
+        )
+        .catch((e) => (console.log(e.error())))
+      }
+      // If a song was found, check if in playlist
+      else if (res.ok) {
+        let songId = 0;
+        res.json().then(
+          async function(song) {
+            let songId = parseInt(song.songId)
+            let playlistSongEndpoint = playlistEndPoint + "/" + songId + "/"
+            url = new URL(backend + playlistSongEndpoint)
+            await fetch(url, {
+              method: "GET",
+              headers: {
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "x-access-token": TOKEN,
+              },
+              body
+            })
+          }
+          .then(async function(song) {
+            //If song is not in playlist, add it
+            const body = new URLSearchParams()
+            body.append("songId", songId.toString())
+            if (res.status === 404) {
+              url = new URL(backend + playlistEndPoint + songEndpoint)
+              await fetch(url, {
+                method: "PUT",
+                headers: {
+                  "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                  "x-access-token": TOKEN,
+                },
+                body
+              })
+              .catch((e) => (console.log(e.error())))
+            }
+          })
+          .catch((e) => (console.log(e.error())))
+
+        )
+        .catch((e) => (console.log(e.error())))
+      }
+      else {
+        console.log(res)
+      }
+    })
+    .catch((e) => {
+      console.log(e.error())
     });
-  //TODO .catch add song to songs and playlist songs
 }
+
+function displayResults(results) {
+  const datalist = document.getElementById("searchResults")
+  const optNodes = new Array()
+  const option = document.querySelector("option.model.result")
+  results.forEach((r) => {
+    const newOption = option.cloneNode()
+    newOption.style.value = r.title + " " + r.artist
+    newOption.className = "searchResult"
+    optNodes.push(newOption)
+  })
+  datalist.replaceChildren(...optNodes)
+}
+
 function runSearch(e) {
   if (e.key === "Enter") {
     const endPoint = "/songs";
     const url = new URL(backend + endPoint);
     // fetch(url, { method: "GET" });
-    console.log("Requête spotify :", url);
+    console.log("Requête spotify :", url); // => apiResults.json()
+    apiResults = $.get('localhost:3000/spotify-request-example.json')
+    const extractedResults = getapiResults()
+    // Affichage résultats
+    const results = extractedResults.tracks.items.map(s => ({artist: s.album.artists[0].name, album: s.album.name, title: s.name}))
+    displayResults(results)
   }
 }
 

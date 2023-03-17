@@ -38,11 +38,11 @@
 
 *Postgresql*
 
-[playlists]: {*playlist_id, name} \
-[playlist_songs]: {*playlist_id, *song_id, rank, submitter} \
-[songs]: {*song_id, name, album, artist} \
-[users]: {*user_id, login, password, mail} \
-[votes]: {*user_id, *playlist_id, *song_id, voteDate}
+[playlists]: {*playlistId, name} \
+[playlist_songs]: {*playlistId, *songId, rank, submitter} \
+[songs]: {*songId, name, album, artist} \
+[users]: {*userId, login, password, mail} \
+[votes]: {*userId, *playlistId, *songId, voteDate}
 
 ### Fonctions de base
 *Chansons*
@@ -72,3 +72,4 @@
 - réécriture d'url
 - bd ssl
 - chargement des pages intelligent
+- historique des chansons cherchées

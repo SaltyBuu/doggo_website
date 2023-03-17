@@ -13,18 +13,18 @@ module.exports = {
       },
     });
     if (song != null) {
-      res.json({
+      res.status(200).json({
         song,
       });
     } else {
-      res.json({
+      res.status(404).json({
         message: "Song not found",
       });
     }
   },
   async addSong(req, res) {
     if (!has(req.body, ["name", "album", "artist"]))
-      throw new CodeError("Song was not created", 400);
+      throw new CodeError("Missing parameters", 400);
 
     const name = req.body.name;
     const artist = req.body.artist;
@@ -46,7 +46,7 @@ module.exports = {
         newSong,
       });
     } else {
-      res.status(204).json({
+      res.status(400).json({
         message: "The song already exists",
       });
     }

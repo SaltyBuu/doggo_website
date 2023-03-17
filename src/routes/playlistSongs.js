@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const playlist = require("../controllers/playlistSongs");
+const playlistSongs = require("../controllers/playlistSongs");
+
+router.put("/:playlistId/songs", playlistSongs.addSong);
 
 router
-  .route("/playlist")
-  .all()
-  .put(playlist.addSong)
-  .delete(playlist.removeSong)
-  .patch(playlist.editSong); //rank & submitter
-
-router.get("/:playlist_id/:song_id", playlist.searchSong);
+    .route("/:playlistId/:songId")
+    .get(playlistSongs.searchSong)
+    .delete(playlistSongs.removeSong)
+    .patch(playlistSongs.editSong); //rank & submitter
 
 module.exports = router;

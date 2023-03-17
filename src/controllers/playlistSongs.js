@@ -7,37 +7,43 @@ const CodeError = require("../CodeError");
 module.exports = {
   async searchSong(req, res) {
     //TODO id validation
-    if (!has(req.body, ["playlist_id", "song_id"]))
-      throw new CodeError("Song was not added", 400);
+    if (!has(req.params, ["playlistId", "songId"]))
+      throw new CodeError("Missing parameters", 400);
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
-        playlistId: req.params.playlist_id,
-        songId: req.params.song_id,
+        playlistId: req.params.playlistId,
+        songId: req.params.songId,
       },
     });
-    res.json({
-      status: true,
-      playlistSong,
-    });
+    if (playlistSong !== null) {
+      res.status(200).json({
+        playlistSong,
+      });
+    }
+    else {
+      res.status(404).json({
+        message: "Song not found"
+      })
+    }
   },
   async addSong(req, res) {
     //TODO id validation
-    if (!has(req.body, ["playlist_id", "song_id"]))
-      throw new CodeError("Song was not added", 400);
+    if (!has(req.body, ["songId"]))
+      throw new CodeError("Missing parameter", 400);
     //TODO Email validation
-    const playlist_id = req.body.playlist_id;
-    const song_id = req.body.song_id;
+    const playlistId = req.params.playlistId;
+    const songId = req.body.songId;
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
-        playlistId: playlist_id,
-        songId: song_id,
+        playlistId: playlistId,
+        songId: songId,
       },
     });
     if (playlistSong === null) {
       const newSong = await prisma.playlistSong.create({
         data: {
-          playlistId: playlist_id,
-          songId: song_id,
+          playlistId: playlistId,
+          songId: songId,
           rank: req.body.rank || undefined,
           submitterId: req.body.submitter_id || undefined,
         },
@@ -46,23 +52,21 @@ module.exports = {
         newSong,
       });
     } else {
-      res.status(204).json({
+      res.status(400).json({
         message: "The song already exists",
       });
     }
   },
   async removeSong(req, res) {
     //TODO id validation
-    if (!has(req.body, ["playlist_id", "song_id"]))
-      throw new CodeError("Song was not added", 400);
     //TODO Email validation
-    const playlist_id = req.body.playlist_id;
-    const song_id = req.body.song_id;
+    const playlistId = req.params.playlistId;
+    const songId = req.params.songId;
     const playlistSong = await prisma.playlistSong.delete({
       where: {
         playlistId_songId: {
-          playlistId: playlist_id,
-          songId: song_id,
+          playlistId: playlistId,
+          songId: songId,
         },
       },
     });
@@ -73,15 +77,13 @@ module.exports = {
     });
   },
   async editSong(req, res) {
-    if (!has(req.body, ["playlist_id", "song_id"]))
-      throw new CodeError("Song was not edited", 400);
-    const playlist_id = req.body.playlist_id;
-    const song_id = req.body.song_id;
+    const playlistId = req.params.playlistId;
+    const songId = req.params.songId;
     const playlistSong = await prisma.playlistSong.update({
       where: {
         playlistId_songId: {
-          playlistId: playlist_id,
-          songId: song_id,
+          playlistId: playlistId,
+          songId: songId,
         },
       },
       data: {

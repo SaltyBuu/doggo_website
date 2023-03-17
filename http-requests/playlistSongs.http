@@ -3,8 +3,8 @@ POST http://localhost:3000/playlist
 Content-Type: application/json
 
 {
-  "song_id": 1,
-  "playlist_id": 3,
+  "songId": 1,
+  "playlistId": 3,
   "rank": 8
 }
 ### Delete
@@ -12,8 +12,8 @@ DELETE http://localhost:3000/playlist
 Content-Type: application/json
 
 {
-  "song_id": 1,
-  "playlist_id": 3
+  "songId": 1,
+  "playlistId": 3
 }
 
 ### Get
@@ -21,8 +21,8 @@ GET http://localhost:3000/playlist
 Content-Type: application/json
 
 {
-  "song_id": 1,
-  "playlist_id": 2
+  "songId": 1,
+  "playlistId": 2
 }
 
 ### Update submitter
@@ -30,8 +30,8 @@ PATCH http://localhost:3000/playlist
 Content-Type: application/json
 
 {
-  "song_id": 1,
-  "playlist_id": 2,
+  "songId": 1,
+  "playlistId": 2,
   "submitter_id": 4
 }
 
@@ -40,8 +40,8 @@ PATCH http://localhost:3000/playlist
 Content-Type: application/json
 
 {
-  "song_id": 1,
-  "playlist_id": 3,
+  "songId": 1,
+  "playlistId": 3,
   "rank": 15
 }
 

@@ -6,49 +6,49 @@ const CodeError = require("../CodeError");
 
 module.exports = {
   async addVote(req, res) {
-    if (!has(req.body, ["user_id", "playlist_id", "song_id"]))
-      throw new CodeError("Vote was not created", 400);
+    if (!has(req.body, ["userId", "playlistId", "songId"]))
+      throw new CodeError("Missing parameters", 400);
     //TODO Email validation
-    const user_id = req.body.user_id;
-    const playlist_id = req.body.playlist_id;
-    const song_id = req.body.song_id;
+    const userId = req.body.userId;
+    const playlistId = req.body.playlistId;
+    const songId = req.body.songId;
     const vote = await prisma.vote.findFirst({
       where: {
-        songId: song_id,
-        playlistId: playlist_id,
-        userId: user_id,
+        songId: songId,
+        playlistId: playlistId,
+        userId: userId,
       },
     });
     if (vote === null) {
       const newVote = await prisma.vote.create({
         data: {
-          userId: user_id,
-          playlistId: playlist_id,
-          songId: song_id,
+          userId: userId,
+          playlistId: playlistId,
+          songId: songId,
         },
       });
       res.status(201).json({
         newVote,
       });
     } else {
-      res.status(204).json({
+      res.status(400).json({
         message: "The vote already exists",
       });
     }
   },
   async removeVote(req, res) {
-    if (!has(req.body, ["user_id", "playlist_id", "song_id"]))
-      throw new CodeError("Vote was not created", 400);
+    if (!has(req.body, ["userId", "playlistId", "songId"]))
+      throw new CodeError("Missing parameters", 400);
     //TODO Email validation
-    const user_id = req.body.user_id;
-    const playlist_id = req.body.playlist_id;
-    const song_id = req.body.song_id;
+    const userId = req.body.userId;
+    const playlistId = req.body.playlistId;
+    const songId = req.body.songId;
     const vote = await prisma.vote.delete({
       where: {
         songId_playlistId_userId: {
-          songId: song_id,
-          playlistId: playlist_id,
-          userId: user_id,
+          songId: songId,
+          playlistId: playlistId,
+          userId: userId,
         },
       },
     });

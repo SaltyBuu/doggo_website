@@ -22,7 +22,7 @@ module.exports = {
         playlist,
       });
     } else {
-      res.status(204).json({
+      res.status(400).json({
         message: "The playlist already exists",
       });
     }

@@ -1,9 +1,11 @@
 const express = require("express");
 const logger = require("./logger");
+const cors = require('cors')
 const app = express();
 app.use(logger.dev, logger.combined);
 app.use(express.json());
 
+app.use(cors())
 app.use(express.static("src/public"));
 app.use((req, res, next) => {
   console.log("Time:", Date.now());
