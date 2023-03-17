@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <title>Spotifight</title>
   <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon/favicon-16x16.png">
   <link rel="manifest" href="../images/favicon/manifest.webmanifest" crossorigin="use-credentials">
-  <link rel="stylesheet" href="index.css"/>
-  <link rel="stylesheet" href="playlist.css"/>
-  <link rel="stylesheet" href="../styles/animations.css"/>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="playlist.css" />
+  <link rel="stylesheet" href="../styles/animations.css" />
   <script src="playlist.js" type="module"></script>
 </head>
 <body>
@@ -19,7 +19,7 @@
 </header>
 <nav>
   <div class="btnContainer" id="nul">
-    <input type="button" name="nul" id="tjrsnul" value="Se connecter"/>
+    <input type="button" name="nul" id="tjrsnul" value="Se connecter" />
   </div>
   <div class="title">
     <p>
@@ -27,7 +27,7 @@
     </p>
   </div>
   <div class="btnContainer sign">
-    <input type="button" name="signin" id="signinBtn" value="Se connecter"/>
+    <input type="button" name="signin" id="signinBtn" value="Se connecter" />
   </div>
 </nav>
 <div class="background">
@@ -103,7 +103,7 @@
 </div>
 <div class="wrapper">
   <div class="list-container">
-<!--  <div class="scrollbar"></div>-->
+    <!--  <div class="scrollbar"></div>-->
     <div class="list">
       <div class="song">Chanson A</div>
       <div class="song">Chanson B</div>
@@ -115,10 +115,9 @@
   </div>
   <div class="search">
     <input id="search" list="searchResults" type="text" name="search" placeholder="Search song">
-    <datalist id="searchResults">
-
-    </datalist>
-    <div class="results"></div>
+    <input id="add" type="button" name="add" value="Ajouter">
+    <datalist id="searchResults"></datalist>
+    <!--    <div class="results"></div>-->
   </div>
 </div>
 
@@ -149,7 +148,7 @@
       />
     </span>
   </div>
-  <option class="model result" value=""></option>
+  <option class="model result" value="">
 </div>
 
 <footer>

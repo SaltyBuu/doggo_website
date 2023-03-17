@@ -26,6 +26,11 @@
 ## Deployment
 - githubaction vers le repo privé
 
+### Questions
+- On cherche une chanson dans le champ de texte, les suggestions
+s'affichent dans la datalist, quand on clique dessus, le texte s'actualise
+comment lier 
+
 ## Backend
 ### Questions
 - playlist représentée par quoi ? sauvegardé dans un fichier serveur ?
