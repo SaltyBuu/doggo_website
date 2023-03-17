@@ -1,7 +1,7 @@
 const { toggleMute } = require('./lib.js');
 const { toggleSidebar } = require('./lib.js');
 const has = require('has-keys');
-const { getapiResults } = require('spotify-request-example.js');
+const { getapiResults } = require('../../controllers/spotify-request-example');
 const backend = 'localhost:3000';
 const prisma = new PrismaClient();
 const TOKEN = 'toreplace';
@@ -46,7 +46,7 @@ function startUp() {
 
 async function refreshPlaylist(playlistId) {
   const playlistDiv = document.getElementById('div.list');
-  const newChildren = new Array();
+  const newChildren = [];
   const results = await prisma.playlistSong.findMany({
     where: {
       playlistId: playlistId
@@ -60,16 +60,15 @@ async function refreshPlaylist(playlistId) {
   });
   if (results != null) {
     results.forEach((s) => {
-      const songObj = results['song'];
       const resultDiv = document
         .querySelector('div.model.song')
         .cloneNode(true);
       resultDiv.classList.toggle('model');
       const img = resultDiv.querySelector('img');
-      img.alt = songObj['album'];
-      resultDiv.querySelector('p.title').value = songObj['name'];
-      resultDiv.querySelector('p.artist').value = songObj['artist'];
-      resultDiv.querySelector('p.rank').value = songObj['rank'];
+      img.alt = s['album'];
+      resultDiv.querySelector('p.title').value = s['name'];
+      resultDiv.querySelector('p.artist').value = s['artist'];
+      resultDiv.querySelector('p.rank').value = s['rank'];
       newChildren.appendChild(resultDiv);
     });
     playlistDiv.replaceChildren(...newChildren);
@@ -183,7 +182,7 @@ function displayResults(results) {
 
 function runSearch(e) {
   if (e.key === 'Enter') {
-    this.disabled = true;
+    this.style.disabled = true;
     const endPoint = '/songs';
     const url = new URL(backend + endPoint);
     // fetch(url, { method: "GET" });
