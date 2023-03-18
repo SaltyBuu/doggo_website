@@ -1,9 +1,17 @@
-### Post
-POST http://localhost:3000/playlists
+### Add playlist
+PUT http://localhost:3000/playlists
 Content-Type: application/json
 
 {
   "name": "testPlaylist"
+}
+
+### Add playlist
+PUT http://localhost:3000/playlists
+Content-Type: application/json
+
+{
+  "name": "toRemove"
 }
 
 ### Delete
@@ -11,7 +19,15 @@ DELETE http://localhost:3000/playlists
 Content-Type: application/json
 
 {
-  "id": "1"
+  "id": "2"
+}
+
+### Add playlist
+PUT http://localhost:3000/playlists
+Content-Type: application/json
+
+{
+  "name": "toUpdate"
 }
 
 
@@ -21,5 +37,5 @@ Content-Type: application/json
 
 {
   "id": "2",
-  "name": "jj"
+  "name": "Updated"
 }

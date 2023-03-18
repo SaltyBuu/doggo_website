@@ -1,14 +1,17 @@
 div.title {
-  /*width: 100%;*/
+  /* width: 100%; */
   text-align: center;
-  /*position: relative;*/
+
+  /* position: relative; */
   font-size: 2vw;
   color: white;
   display: flex;
   justify-content: center;
   flex-grow: 1;
-  /*z-index: 0;*/
-  /*margin-left: 5%;*/
+
+  /* z-index: 0; */
+
+  /* margin-left: 5%; */
 }
 
 div#nul {
@@ -26,26 +29,34 @@ div.wrapper {
   height: 100%;
   width: 100%;
 }
+
 div.search {
-  /*position: relative;*/
-  /*display: none;*/
+  /* position: relative; */
+
+  /* display: none; */
   display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  /*width: 50%;*/
+
+  /* width: 50%; */
   height: 100%;
   width: 100%;
+}
+
+div.searchInput {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  flex-direction: row;
 }
 
 div.results {
   overflow-y: auto;
   height: 100%;
   border: 1px solid white;
-  opacity: 90%;
+  opacity: 0.9;
 }
 
 div.list-container {
-  /*position: relative;*/
+  /* position: relative; */
   height: 100%;
   width: 100%;
   display: flex;
@@ -54,12 +65,13 @@ div.list-container {
 }
 
 div.list {
-  /*display: flex;*/
-  /*flex-direction: column;*/
+  /* display: flex; */
+
+  /* flex-direction: column; */
   height: 80vh;
   overflow-y: scroll;
   border: 2px solid black;
-  opacity: 90%;
+  opacity: 0.9;
 }
 
 div.list > div {
@@ -68,7 +80,8 @@ div.list > div {
   background-color: #f45137;
   border: 2px solid black;
   border-radius: 20px;
-  /*text-align: center;*/
+
+  /* text-align: center; */
   align-items: center;
   justify-content: center;
   width: 300px;
@@ -79,12 +92,17 @@ div.background {
   position: absolute;
   bottom: 5%;
   width: 100%;
+  z-index: -1;
 }
 
-div#bg-illustration {
+div#bgIllustration {
   height: 100%;
 }
 
 #signinBtn {
   z-index: 2;
 }
+
+/*input#add {*/
+/*  width: 50px;*/
+/*}*/

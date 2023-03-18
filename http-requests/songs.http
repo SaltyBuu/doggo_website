@@ -1,5 +1,5 @@
-### Post
-POST http://localhost:3000/songs
+### Add song
+PUT http://localhost:3000/songs
 Content-Type: application/json
 
 {

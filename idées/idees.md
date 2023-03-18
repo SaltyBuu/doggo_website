@@ -78,3 +78,5 @@ comment lier
 - bd ssl
 - chargement des pages intelligent
 - historique des chansons cherchées
+- try/catch sur les await prisma
+- express validator

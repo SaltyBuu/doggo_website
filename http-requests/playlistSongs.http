@@ -1,10 +1,9 @@
-### Post
-POST http://localhost:3000/playlist
+### Add song
+PUT http://localhost:3000/10/songs
 Content-Type: application/json
 
 {
   "songId": 1,
-  "playlistId": 3,
   "rank": 8
 }
 ### Delete

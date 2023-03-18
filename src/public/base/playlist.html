@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="playlist.css" />
   <link rel="stylesheet" href="../styles/animations.css" />
-  <script src="playlist.js" type="module"></script>
+  <script src="playlist.js" type="text/javascript"></script>
+  <script src="spotify-request-example.js" type="text/javascript"></script>
+  <script src="lib.js" type="text/javascript"></script>
 </head>
 <body>
 <header>
@@ -31,7 +33,7 @@
   </div>
 </nav>
 <div class="background">
-  <div id="bg-illustration">
+  <div id="bgDrawing">
     <div class="speakers">
       <div class="speaker-container small left">
         <div class="speaker-bg small left">
@@ -114,10 +116,12 @@
     </div>
   </div>
   <div class="search">
-    <input id="search" list="searchResults" type="text" name="search" placeholder="Search song">
-    <input id="add" type="button" name="add" value="Ajouter">
-    <datalist id="searchResults"></datalist>
-    <!--    <div class="results"></div>-->
+    <div class="searchInput">
+      <input id="search" list="searchResults" type="text" name="search" placeholder="Search song">
+      <input id="add" type="button" name="add" value="Ajouter">
+      <datalist id="searchResults"></datalist>
+      <!--    <div class="results"></div>-->
+    </div>
   </div>
 </div>
 
