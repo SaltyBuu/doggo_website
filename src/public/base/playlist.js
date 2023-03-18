@@ -4,6 +4,7 @@ const PLAYLISTID = 10;
 
 let currentResults = [];
 let selectedIndex = 0;
+const audio = new Audio('../music/bee-gees-stayin-alive.wav');
 
 function init() {
   const menuIcon = document.querySelector('#menu-icon-bg');
@@ -26,7 +27,6 @@ function init() {
 function startUp() {
   init();
   refreshPlaylist(PLAYLISTID);
-  const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   audio.preload = 'auto';
   audio.volume = 0.1;
   audio.loop = true;
@@ -151,7 +151,7 @@ async function addSong(playlistId, name, artist, album) {
                 body,
               });
             }
-              .then(async function (song) {
+              .then(async function () {
                 //If song is not in playlist, add it
                 const body = new URLSearchParams();
                 body.append('songId', songId.toString());
