@@ -207,7 +207,9 @@ function runSearch(e) {
       artist: s.album.artists[0].name,
       album: s.album.name,
       title: s.name,
+      image: s.album.images[s.album.images.length - 1].url, //Get smallest image url
     }));
+
     currentResults = results;
     displayResults(results);
   }

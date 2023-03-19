@@ -1,8 +1,8 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const status = require("http-status");
-const has = require("has-keys");
-const CodeError = require("../CodeError");
+const status = require('http-status');
+const has = require('has-keys');
+const CodeError = require('../CodeError');
 
 module.exports = {
   async searchSong(req, res) {
@@ -18,13 +18,13 @@ module.exports = {
       });
     } else {
       res.status(404).json({
-        message: "Song not found",
+        message: 'Song not found',
       });
     }
   },
   async addSong(req, res) {
-    if (!has(req.body, ["name", "album", "artist"]))
-      throw new CodeError("Missing parameters", 400);
+    if (!has(req.body, ['name', 'album', 'artist', 'thumbnail']))
+      throw new CodeError('Missing parameters', 400);
 
     const name = req.body.name;
     const artist = req.body.artist;
@@ -40,6 +40,7 @@ module.exports = {
           name: name,
           artist: artist,
           album: req.body.album,
+          thumbnail: req.body.thumbnail,
         },
       });
       res.status(201).json({
@@ -47,7 +48,7 @@ module.exports = {
       });
     } else {
       res.status(400).json({
-        message: "The song already exists",
+        message: 'The song already exists',
       });
     }
   },
@@ -58,7 +59,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: "Song deleted",
+      message: 'Song deleted',
       song,
     });
   },
@@ -74,7 +75,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: "Song updated",
+      message: 'Song updated',
       song,
     });
   },

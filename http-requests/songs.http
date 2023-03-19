@@ -5,9 +5,22 @@ Content-Type: application/json
 {
   "name": "titi",
   "album": "banger",
-  "artist": "stikmou"
+  "artist": "stikmou",
+  "thumbnail": "url_album"
 }
-### Delete
+
+### Add song
+PUT http://localhost:3000/songs
+Content-Type: application/json
+
+{
+  "name": "castor",
+  "album": "anger",
+  "artist": "chevalito",
+  "thumbnail": "url_album"
+}
+
+### Delete song
 DELETE http://localhost:3000/songs
 Content-Type: application/json
 
@@ -15,7 +28,7 @@ Content-Type: application/json
   "id": 2
 }
 
-### Get
+### Get song
 GET http://localhost:3000/songs
 Content-Type: application/json
 

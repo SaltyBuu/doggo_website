@@ -20,6 +20,7 @@ model Song {
   name         String         @db.VarChar(50)
   album        String         @db.VarChar(50)
   artist       String         @db.VarChar(50)
+  thumbnail String @db.VarChar(100)
   createdAt    DateTime       @default(now())
   PlaylistSong PlaylistSong[]
   Vote         Vote[]
