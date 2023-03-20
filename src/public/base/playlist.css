@@ -46,6 +46,7 @@ div.searchInput {
   height: 10%;
   width: 100%;
   flex-direction: row;
+  align-items: center;
 }
 
 div.results {

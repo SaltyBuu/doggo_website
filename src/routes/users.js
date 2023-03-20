@@ -1,13 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const users = require("../controllers/users");
-const has = require("has-keys");
-const CodeError = require("../CodeError");
-const { validateId } = require("../middlewares/validation");
+const users = require('../controllers/users');
+const has = require('has-keys');
+const CodeError = require('../CodeError');
+const { validateId } = require('../middlewares/validation');
 
-router.get("/users/:id", users.getUser);
+router.get('/users/:id', users.getUser);
 router
-  .route("/users")
+  .route('/users')
   .put(users.addUser)
   .delete(validateId, users.removeUser)
   .patch(validateId, users.editUser);

@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const playlist = require("../controllers/playlists");
-const { validateId } = require("../middlewares/validation");
+const playlist = require('../controllers/playlists');
+const { validateId } = require('../middlewares/validation');
 router
-  .route("/playlists")
+  .route('/playlists')
   .all()
   .put(playlist.addPlaylist)
   .delete(validateId, playlist.removePlaylist)

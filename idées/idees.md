@@ -80,3 +80,4 @@ comment lier
 - historique des chansons cherchées
 - try/catch sur les await prisma
 - express validator
+- Cache des requêtes

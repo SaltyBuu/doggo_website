@@ -9,10 +9,12 @@ module.exports = {
     //TODO id validation
     if (!has(req.params, ['playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
+    const playlistId = parseInt(req.params.playlistId);
+    const songId = parseInt(req.params.playlistId);
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
-        playlistId: req.params.playlistId,
-        songId: req.params.songId,
+        playlistId: playlistId,
+        songId: songId,
       },
     });
     if (playlistSong !== null) {
@@ -31,7 +33,7 @@ module.exports = {
       throw new CodeError('Missing parameter', 400);
     //TODO Email validation
     const playlistId = parseInt(req.params.playlistId);
-    const songId = req.body.songId;
+    const songId = parseInt(req.body.songId);
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
         playlistId: playlistId,
@@ -44,7 +46,7 @@ module.exports = {
           playlistId: playlistId,
           songId: songId,
           rank: req.body.rank || undefined,
-          submitterId: req.body.submitter_id || undefined,
+          submitterId: req.body.submitterId || undefined,
         },
       });
       res.status(201).json({
@@ -59,8 +61,8 @@ module.exports = {
   async removeSong(req, res) {
     //TODO id validation
     //TODO Email validation
-    const playlistId = req.params.playlistId;
-    const songId = req.params.songId;
+    const playlistId = parseInt(req.params.playlistId);
+    const songId = parseInt(req.params.playlistId);
     const playlistSong = await prisma.playlistSong.delete({
       where: {
         playlistId_songId: {

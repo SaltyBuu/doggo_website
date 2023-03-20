@@ -23,6 +23,7 @@ module.exports = {
     }
   },
   async addSong(req, res) {
+    console.log(req.body);
     if (!has(req.body, ['name', 'album', 'artist', 'thumbnail']))
       throw new CodeError('Missing parameters', 400);
 
