@@ -29,11 +29,11 @@
     </p>
   </div>
   <div class="btnContainer sign">
-    <input type="button" name="signin" id="signinBtn" value="Se connecter" />
+    <input type="button" name="signin" id="signin-btn" value="Se connecter" />
   </div>
 </nav>
 <div class="background">
-  <div id="bgDrawing">
+  <div id="bg-drawing">
     <div class="speakers">
       <div class="speaker-container small left">
         <div class="speaker-bg small left">
@@ -116,7 +116,7 @@
     </div>
   </div>
   <div class="search">
-    <div class="searchInput">
+    <div class="search-input">
       <input id="search" list="searchResults" type="text" name="search"
              autocomplete="off" placeholder="Search song">
       <input id="add" type="button" name="add" value="Ajouter">
@@ -129,21 +129,29 @@
 <div id="models">
   <div class="model song">
     <span class="cover">
-      <img
-        class="thumbnail"
-        src=""
-        alt=""
-      />
+      <span class="cover-container">
+        <img
+          class="thumbnail"
+          src=""
+          alt=""
+        />
+      </span>
     </span>
-    <p class="title"></p>
-    <p class="artist"></p>
-    <span class="rank">
-      <img
-        class="rank"
-        src="../images/trend.png"
-        alt="Current rank"
-      />
-      <p class="rank"></p>
+    <span class="info-container">
+      <span class="info">
+        <span class="title"></span>
+        <span class="artist"></span>
+      </span>
+    </span>
+    <span class="rank-container">
+      <span class="rank"></span>
+      <span class="rank-img">
+        <img
+          class="rank"
+          src="../images/trend.png"
+          alt="Current rank"
+        />
+      </span>
     </span>
     <span class="vote">
       <img

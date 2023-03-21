@@ -12,7 +12,7 @@ const isInt = function (id) {
 function init() {
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
-  const signinBtn = document.getElementById('signinBtn');
+  const signinBtn = document.getElementById('signin-btn');
   const searchInput = document.getElementById('search');
   const addBtn = document.getElementById('add');
 
@@ -54,31 +54,34 @@ async function refreshPlaylist(playlistId) {
   })
     .then((res) => res.json())
     .then((json) => {
+      console.log(json);
       const newChildren = [];
       const results = json.results;
       if (results != null || results.length !== 0) {
         const playlistDiv = document.querySelector('div.list');
-        results.forEach((s) => {
-          console.log(s);
+        results.forEach((r) => {
+          console.log(r.song);
+          const song = r.song;
           const resultDiv = document
             .querySelector('div.model.song')
             .cloneNode(true);
           resultDiv.classList.toggle('model');
           const img = resultDiv.querySelector('img');
-          // img.alt = s['album'];
-          img.alt = 'alt';
-          // resultDiv.querySelector('p.title').value = s['name'];
+          img.src = song.thumbnail;
+          img.alt = song.album;
           resultDiv
-            .querySelector('p.title')
-            .appendChild(document.createTextNode('name'));
-          // resultDiv.querySelector('p.artist').value = s['artist'];
+            .querySelector('span.title')
+            .appendChild(document.createTextNode(song.name));
+          // resultDiv.querySelector('span.artist').value = s['artist'];
           resultDiv
-            .querySelector('p.artist')
-            .appendChild(document.createTextNode('artist'));
-          // resultDiv.querySelector('p.rank').value = s['rank'];
+            .querySelector('span.artist')
+            .appendChild(document.createTextNode(song.artist));
+          // resultDiv.querySelector('span.rank').value = s['rank'];
           resultDiv
-            .querySelector('p.rank')
-            .appendChild(document.createTextNode('3'));
+            .querySelector('span.rank')
+            .appendChild(
+              document.createTextNode(song.rank == null ? 0 : song.rank)
+            );
           newChildren.push(resultDiv);
         });
         playlistDiv.replaceChildren(...newChildren);

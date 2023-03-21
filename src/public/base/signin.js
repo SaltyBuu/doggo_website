@@ -4,8 +4,8 @@ function startUp() {
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
-  const signinBtn = document.getElementById('signinBtn');
-  const registerBtn = document.getElementById('registerBtn');
+  const signinBtn = document.getElementById('signin-btn');
+  const registerBtn = document.getElementById('register-btn');
 
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));

@@ -22,6 +22,7 @@
 - div rond au chargement pas après avori chargé
 - credits icones
 - chargement puis mise en page
+- changement taille albums responsive
 
 ## Deployment
 - githubaction vers le repo privé

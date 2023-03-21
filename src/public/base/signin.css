@@ -14,20 +14,21 @@ div.sign {
   flex-grow: 1;
 }
 
-#signinBtn {
+#signin-btn {
   margin-top: 1%;
 }
 
-#registerBtn {
+#register-btn {
   background-color: #a73680;
   box-shadow: 0 8px 15px rgb(167 54 128/ 24000%);
   border-color: #a73680;
 }
 
-#registerBtn:hover,
-#registerBtn:active {
+#register-btn:hover,
+#register-btn:active {
   background-color: #fff;
-  /*color: black;*/
+
+  /* color: black; */
 }
 
 div.register {

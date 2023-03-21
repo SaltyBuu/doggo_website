@@ -112,6 +112,7 @@ nav {
 
   /* position: absolute; */
 }
+
 #beegees {
   display: none;
 }
@@ -206,20 +207,19 @@ input[type='submit'] {
 
 /* } */
 
-/*input[type='button']:hover,*/
-/*input[type='button']:active {*/
-/*  border: #bf0aa1 2px solid;*/
-/*}*/
+/* input[type='button']:hover, */
+
+/* input[type='button']:active { */
+
+/*  border: #bf0aa1 2px solid; */
+
+/* } */
+
 input[type='submit']:hover,
 input[type='submit']:active,
 input[type='button']:hover,
 input[type='button']:active {
   border: #f56828 2px solid;
-}
-input[type='submit']:hover,
-input[type='submit']:active,
-input[type='button']:hover,
-input[type='button']:active {
   background-color: #fff;
   box-shadow: 0 8px 15px rgb(240 240 240 / 24000%);
   color: #000;
@@ -233,7 +233,9 @@ input[type='text'] {
   border: 2px solid black;
   border-radius: 10px;
   width: 50%;
+
   /* font-family: "Quicksand", Bold, sans-serif; */
+
   font-family: Nobile, Bold, sans-serif;
   margin: 2px;
   font-size: 1.3em;
@@ -265,7 +267,7 @@ h1 {
   margin-bottom: 5vh;
 }
 
-#bgDrawing {
+#bg-drawing {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,8 +341,8 @@ footer a {
 
 /*                Media queries              */
 @media screen and (max-width: 768px) {
-  #signinBtn,
-  #voteBtn {
+  #signin-btn,
+  #vote-btn {
     font-size: 1em;
   }
 

@@ -5,8 +5,8 @@ function startUp() {
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
-  const signinBtn = document.getElementById('signinBtn');
-  const voteBtn = document.getElementById('voteBtn');
+  const signinBtn = document.getElementById('signin-btn');
+  const voteBtn = document.getElementById('vote-btn');
 
   [...speakers].forEach((s) =>
     s.addEventListener('click', () => toggleSpeakers(audio))
