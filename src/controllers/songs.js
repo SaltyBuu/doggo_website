@@ -12,8 +12,10 @@ module.exports = {
         artist: req.body.artist,
       },
     });
+    console.log(song);
     if (song != null) {
       res.status(200).json({
+        message: 'Song found !',
         song,
       });
     } else {
@@ -36,7 +38,7 @@ module.exports = {
       },
     });
     if (song === null) {
-      const newSong = await prisma.song.create({
+      const song = await prisma.song.create({
         data: {
           name: name,
           artist: artist,
@@ -45,7 +47,8 @@ module.exports = {
         },
       });
       res.status(201).json({
-        newSong,
+        message: 'The song was successfully created !',
+        song,
       });
     } else {
       res.status(400).json({

@@ -1,6 +1,7 @@
 const backend = 'http://localhost:3000';
 const TOKEN = 'toreplace';
 const PLAYLISTID = 10;
+const USERID = 1;
 
 let currentResults = [];
 const audio = new Audio('../music/bee-gees-stayin-alive.wav');
@@ -23,7 +24,6 @@ function init() {
     () => (window.location.href = 'signin.html')
   );
   searchInput.addEventListener('keypress', runSearch);
-  // searchInput.addEventListener('change', updateSelection);
   addBtn.addEventListener('click', submitSong);
 }
 
@@ -36,10 +36,11 @@ function startUp() {
 
   //TODO ajouter une chanson si elle n'est pas déjà dans la playlist
   //TODO voter une chanson
-  //TODO dévoter une chanson
+  //TODO dévoter une chanson - supprimer si vote à 0
   //TODO Afficher tout dans la playlist
   //TODO Chercher un nom, le résultat s'affiche et la chanson s'ajoute quand on clique
   //TODO Chercher via spotify (5 à chaque lettre)
+  //refresh without addinglistener
 }
 
 async function refreshPlaylist(playlistId) {
@@ -69,6 +70,8 @@ async function refreshPlaylist(playlistId) {
           const img = resultDiv.querySelector('img');
           img.src = song.thumbnail;
           img.alt = song.album;
+          img.addEventListener('click', addVote(song.id));
+          console.log('listener added');
           resultDiv
             .querySelector('span.title')
             .appendChild(document.createTextNode(song.name));
@@ -88,6 +91,31 @@ async function refreshPlaylist(playlistId) {
       }
     })
     .catch((e) => console.log(e));
+}
+
+function addVote(songId) {
+  return function curried_func() {
+    console.log('listener start');
+    const data = {
+      userId: USERID,
+      playlistId: PLAYLISTID,
+      songId: songId,
+    };
+    const endpoint = '/votes';
+    const url = new URL(backend + endpoint);
+    const voted = fetch(url, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json; charset=UTF-8',
+        'x-access-token': TOKEN,
+      },
+      body: JSON.stringify(data),
+    });
+    if (voted) {
+      console.log('Vote: ', voted);
+    }
+    console.log('no vote: ', voted);
+  };
 }
 
 function submitSong() {
@@ -134,6 +162,7 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
   //If the song isn't in any playlist, add to songs and playlist
   if (globalFound.status === 404) {
     console.log('body 3', body);
+    console.log(url.href);
     const added = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -142,11 +171,15 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
       },
       body,
     });
-    if (added) {
+    if (added.status === 201) {
+      console.log('Added: ', added);
       const res = await added.json();
+      console.log('Json: ', res);
       const songId = res.song.id;
       // if (isInt(song.id)) songId = parseInt(id);
-      const body = '{"songId":' + songId + '}';
+      const body = JSON.stringify({
+        songId: songId,
+      });
       url = new URL(backend + playlistEndPoint + songEndpoint);
       await fetch(url, {
         method: 'PUT',
@@ -156,6 +189,7 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
         },
         body,
       }).catch((e) => console.log(e));
+      await refreshPlaylist(PLAYLISTID);
     }
   } // If a song was found, check if in playlist
   else {
@@ -167,6 +201,7 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
     // if (isInt(song.id)) songId = parseInt(id);
     const playlistSongEndpoint = playlistEndPoint + '/' + songId + '/';
     url = new URL(backend + playlistSongEndpoint);
+    console.log(url.href);
     const localFound = await fetch(url, {
       method: 'GET',
       headers: {
@@ -188,8 +223,17 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
         },
         body,
       }).catch((e) => console.log(e));
+      await refreshPlaylist(PLAYLISTID);
+    } else {
+      console.log('Found', localFound);
     }
+    resetSearch();
   }
+}
+
+function resetSearch() {
+  const searchInput = document.getElementById('search');
+  searchInput.value = '';
 }
 
 function displayResults(results) {

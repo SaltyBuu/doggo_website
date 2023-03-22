@@ -185,6 +185,11 @@ span.vote {
   display: flex;
   align-items: center;
   margin-right: 10px;
+  z-index: 0;
+}
+
+img.vote {
+  cursor: pointer;
 }
 
 /* input#add { */

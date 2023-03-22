@@ -17,10 +17,10 @@ model Playlist {
 
 model Song {
   id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(50)
-  album        String         @db.VarChar(50)
-  artist       String         @db.VarChar(50)
-  thumbnail String @db.VarChar(100)
+  name         String         @db.VarChar(100)
+  album        String         @db.VarChar(100)
+  artist       String         @db.VarChar(100)
+  thumbnail    String         @db.VarChar(150)
   createdAt    DateTime       @default(now())
   PlaylistSong PlaylistSong[]
   Vote         Vote[]
@@ -39,12 +39,12 @@ model User {
 }
 
 model PlaylistSong {
-  playlist    Playlist @relation(fields: [playlistId], references: [id])
+  playlist    Playlist @relation(fields: [playlistId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   playlistId  Int
-  song        Song     @relation(fields: [songId], references: [id])
+  song        Song     @relation(fields: [songId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   songId      Int
   rank        Int?
-  submitter   User?     @relation(fields: [submitterId], references: [id])
+  submitter   User?     @relation(fields: [submitterId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   submitterId Int?
   createdAt    DateTime       @default(now())
 
@@ -52,12 +52,12 @@ model PlaylistSong {
 }
 
 model Vote {
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId     Int
   // playlist Playlist @relation(fields: [playlistId], references: [id])
-  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   playlistId Int
-  song       Song     @relation(fields: [songId], references: [id])
+  song       Song     @relation(fields: [songId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   songId     Int
   voteDate  DateTime? @default(now())
 

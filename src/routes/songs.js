@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const songs = require("../controllers/songs");
-const { validateId } = require("../middlewares/validation");
+const songs = require('../controllers/songs');
+const { validateId } = require('../middlewares/validation');
 
 router
-  .route("/songs")
+  .route('/songs')
   .all()
   .post(songs.searchSong)
   .put(songs.addSong)

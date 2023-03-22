@@ -4,13 +4,14 @@ const status = require('http-status');
 const has = require('has-keys');
 const CodeError = require('../CodeError');
 
+//TODO doc api
 module.exports = {
   async searchSong(req, res) {
     //TODO id validation
     if (!has(req.params, ['playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
     const playlistId = parseInt(req.params.playlistId);
-    const songId = parseInt(req.params.playlistId);
+    const songId = parseInt(req.params.songId);
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
         playlistId: playlistId,
@@ -19,6 +20,7 @@ module.exports = {
     });
     if (playlistSong !== null) {
       res.status(200).json({
+        message: 'The song was found !',
         playlistSong,
       });
     } else {
@@ -41,7 +43,7 @@ module.exports = {
       },
     });
     if (playlistSong === null) {
-      const newSong = await prisma.playlistSong.create({
+      const song = await prisma.playlistSong.create({
         data: {
           playlistId: playlistId,
           songId: songId,
@@ -50,7 +52,8 @@ module.exports = {
         },
       });
       res.status(201).json({
-        newSong,
+        message: 'The song was added !',
+        song,
       });
     } else {
       res.status(400).json({
@@ -111,6 +114,7 @@ module.exports = {
       },
     });
     res.status(200).json({
+      message: 'Song(s) found !',
       results,
     });
   },
