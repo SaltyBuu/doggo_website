@@ -67,7 +67,7 @@ async function refreshPlaylist(playlistId) {
             .querySelector("div.model.song")
             .cloneNode(true);
           resultDiv.classList.toggle("model");
-          const img = resultDiv.querySelector("img");
+          const img = resultDiv.querySelector("span.cover-container > img");
           img.src = song.thumbnail;
           img.alt = song.album;
           console.log("listener added");
@@ -84,7 +84,8 @@ async function refreshPlaylist(playlistId) {
             .appendChild(
               document.createTextNode(song.rank == null ? 0 : song.rank)
             );
-          resultDiv.setAttribute("id", '"' + song.id + '"');
+          resultDiv.querySelector("span.vote > img").dataset.id =
+            song.id.toString();
           newChildren.push(resultDiv);
         });
         playlistDiv.replaceChildren(...newChildren);
@@ -99,8 +100,10 @@ async function refreshPlaylist(playlistId) {
 }
 
 function addVote() {
+  //TODO increment rank
   console.log("listener start");
-  const songId = parseInt(this.id);
+  const songId = parseInt(this.dataset.id);
+  console.log("this", this);
   const data = {
     userId: USERID,
     playlistId: PLAYLISTID,
