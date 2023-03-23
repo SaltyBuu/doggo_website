@@ -23,6 +23,7 @@
 - credits icones
 - chargement puis mise en page
 - changement taille albums responsive
+- bouton gradient hover infini voir playlist
 
 ## Deployment
 - githubaction vers le repo privé

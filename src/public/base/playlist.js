@@ -1,36 +1,36 @@
-const backend = 'http://localhost:3000';
-const TOKEN = 'toreplace';
+const backend = "http://localhost:3000";
+const TOKEN = "toreplace";
 const PLAYLISTID = 10;
 const USERID = 1;
 
 let currentResults = [];
-const audio = new Audio('../music/bee-gees-stayin-alive.wav');
+const audio = new Audio("../music/bee-gees-stayin-alive.wav");
 
 const isInt = function (id) {
   return !isNaN(id) && parseInt(Number(id)) == id && !isNaN(parseInt(id, 10));
 };
 
 function init() {
-  const menuIcon = document.querySelector('#menu-icon-bg');
-  const muteSpan = document.getElementById('mute');
-  const signinBtn = document.getElementById('signin-btn');
-  const searchInput = document.getElementById('search');
-  const addBtn = document.getElementById('add');
+  const menuIcon = document.querySelector("#menu-icon-bg");
+  const muteSpan = document.getElementById("mute");
+  const signinBtn = document.getElementById("signin-btn");
+  const searchInput = document.getElementById("search");
+  const addBtn = document.getElementById("add");
 
-  menuIcon.addEventListener('click', toggleSidebar);
-  muteSpan.addEventListener('click', () => toggleMute(audio));
+  menuIcon.addEventListener("click", toggleSidebar);
+  muteSpan.addEventListener("click", () => toggleMute(audio));
   signinBtn.addEventListener(
-    'click',
-    () => (window.location.href = 'signin.html')
+    "click",
+    () => (window.location.href = "signin.html")
   );
-  searchInput.addEventListener('keypress', runSearch);
-  addBtn.addEventListener('click', submitSong);
+  searchInput.addEventListener("keypress", runSearch);
+  addBtn.addEventListener("click", submitSong);
 }
 
 function startUp() {
   init();
   refreshPlaylist(PLAYLISTID);
-  audio.preload = 'auto';
+  audio.preload = "auto";
   audio.volume = 0.1;
   audio.loop = true;
 
@@ -44,13 +44,13 @@ function startUp() {
 }
 
 async function refreshPlaylist(playlistId) {
-  const endpoint = '/' + playlistId + '/songs';
+  console.log("REFRESHING");
+  const endpoint = "/" + playlistId + "/songs";
   const url = new URL(backend + endpoint);
-  console.log(url);
   await fetch(url, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'x-access-token': TOKEN,
+      "x-access-token": TOKEN,
     },
   })
     .then((res) => res.json())
@@ -59,67 +59,72 @@ async function refreshPlaylist(playlistId) {
       const newChildren = [];
       const results = json.results;
       if (results != null || results.length !== 0) {
-        const playlistDiv = document.querySelector('div.list');
+        const playlistDiv = document.querySelector("div.list");
         results.forEach((r) => {
           console.log(r.song);
           const song = r.song;
           const resultDiv = document
-            .querySelector('div.model.song')
+            .querySelector("div.model.song")
             .cloneNode(true);
-          resultDiv.classList.toggle('model');
-          const img = resultDiv.querySelector('img');
+          resultDiv.classList.toggle("model");
+          const img = resultDiv.querySelector("img");
           img.src = song.thumbnail;
           img.alt = song.album;
-          img.addEventListener('click', addVote(song.id));
-          console.log('listener added');
+          console.log("listener added");
           resultDiv
-            .querySelector('span.title')
+            .querySelector("span.title")
             .appendChild(document.createTextNode(song.name));
           // resultDiv.querySelector('span.artist').value = s['artist'];
           resultDiv
-            .querySelector('span.artist')
+            .querySelector("span.artist")
             .appendChild(document.createTextNode(song.artist));
           // resultDiv.querySelector('span.rank').value = s['rank'];
           resultDiv
-            .querySelector('span.rank')
+            .querySelector("span.rank")
             .appendChild(
               document.createTextNode(song.rank == null ? 0 : song.rank)
             );
+          resultDiv.setAttribute("id", '"' + song.id + '"');
           newChildren.push(resultDiv);
         });
         playlistDiv.replaceChildren(...newChildren);
+        [...playlistDiv.children].forEach((child) =>
+          child
+            .querySelector("span.vote > img")
+            .addEventListener("click", addVote)
+        );
       }
     })
     .catch((e) => console.log(e));
 }
 
-function addVote(songId) {
-  return function curried_func() {
-    console.log('listener start');
-    const data = {
-      userId: USERID,
-      playlistId: PLAYLISTID,
-      songId: songId,
-    };
-    const endpoint = '/votes';
-    const url = new URL(backend + endpoint);
-    const voted = fetch(url, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': TOKEN,
-      },
-      body: JSON.stringify(data),
-    });
-    if (voted) {
-      console.log('Vote: ', voted);
-    }
-    console.log('no vote: ', voted);
+function addVote() {
+  console.log("listener start");
+  const songId = parseInt(this.id);
+  const data = {
+    userId: USERID,
+    playlistId: PLAYLISTID,
+    songId: songId,
   };
+  console.log("Body addVote", JSON.stringify(data));
+  const endpoint = "/votes";
+  const url = new URL(backend + endpoint);
+  const voted = fetch(url, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json; charset=UTF-8",
+      "x-access-token": TOKEN,
+    },
+    body: JSON.stringify(data),
+  });
+  if (voted) {
+    console.log("Vote: ", voted);
+  }
+  console.log("no vote: ", voted);
 }
 
 function submitSong() {
-  const searchInput = document.getElementById('search');
+  const searchInput = document.getElementById("search");
   if (!searchInput.value || currentResults.length === 0) return;
   const option = document.querySelector(
     'option[value="' + searchInput.value + '"]'
@@ -136,8 +141,8 @@ function submitSong() {
 }
 
 async function addSong(playlistId, name, artist, album, thumbnail) {
-  const playlistEndPoint = '/' + playlistId;
-  let songEndpoint = '/songs';
+  const playlistEndPoint = "/" + playlistId;
+  let songEndpoint = "/songs";
   let url = new URL(backend + songEndpoint);
   const data = {
     name: name,
@@ -147,34 +152,35 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
   };
   const body = JSON.stringify(data);
 
-  console.log('url:', url.href);
-  console.log('body 1', body);
+  console.log("url:", url.href);
+  console.log("body 1", body);
   const globalFound = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      "content-type": "application/json; charset=UTF-8",
+      "x-access-token": TOKEN,
     },
+
     body,
   });
-  console.log('body 2', body);
-  console.log('globalFound', globalFound, globalFound.status);
+  console.log("body 2", body);
+  console.log("globalFound", globalFound, globalFound.status);
   //If the song isn't in any playlist, add to songs and playlist
   if (globalFound.status === 404) {
-    console.log('body 3', body);
+    console.log("body 3", body);
     console.log(url.href);
     const added = await fetch(url, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': TOKEN,
+        "content-type": "application/json; charset=UTF-8",
+        "x-access-token": TOKEN,
       },
       body,
     });
     if (added.status === 201) {
-      console.log('Added: ', added);
+      console.log("Added: ", added);
       const res = await added.json();
-      console.log('Json: ', res);
+      console.log("Json: ", res);
       const songId = res.song.id;
       // if (isInt(song.id)) songId = parseInt(id);
       const body = JSON.stringify({
@@ -182,10 +188,10 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
       });
       url = new URL(backend + playlistEndPoint + songEndpoint);
       await fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'content-type': 'application/json; charset=UTF-8',
-          'x-access-token': TOKEN,
+          "content-type": "application/json; charset=UTF-8",
+          "x-access-token": TOKEN,
         },
         body,
       }).catch((e) => console.log(e));
@@ -193,57 +199,58 @@ async function addSong(playlistId, name, artist, album, thumbnail) {
     }
   } // If a song was found, check if in playlist
   else {
-    console.log('Body 4 null');
+    console.log("Body 4 null");
     const res = await globalFound.json();
-    console.log('song', res.song);
+    console.log("song", res.song);
     const songId = res.song.id;
-    console.log(songId);
+    console.log("songId ", songId);
     // if (isInt(song.id)) songId = parseInt(id);
-    const playlistSongEndpoint = playlistEndPoint + '/' + songId + '/';
+    const playlistSongEndpoint = playlistEndPoint + "/" + songId + "/";
     url = new URL(backend + playlistSongEndpoint);
-    console.log(url.href);
+    console.log("url href", url.href);
     const localFound = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'content-type': 'charset=UTF-8',
-        'x-access-token': TOKEN,
+        "content-type": "charset=UTF-8",
+        "x-access-token": TOKEN,
       },
     });
     if (localFound.status === 404) {
       const data = { songId: songId };
       //If song is not in playlist, add it
       const body = JSON.stringify(data);
-      console.log('Body 5:', body);
+      console.log("Body 5:", body);
       url = new URL(backend + playlistEndPoint + songEndpoint);
       await fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'content-type': 'application/json; charset=UTF-8',
-          'x-access-token': TOKEN,
+          "content-type": "application/json; charset=UTF-8",
+          "x-access-token": TOKEN,
         },
         body,
       }).catch((e) => console.log(e));
       await refreshPlaylist(PLAYLISTID);
     } else {
-      console.log('Found', localFound);
+      console.log("Found", localFound);
+      //TODO Scroll to song
     }
-    resetSearch();
   }
+  resetSearch();
 }
 
 function resetSearch() {
-  const searchInput = document.getElementById('search');
-  searchInput.value = '';
+  const searchInput = document.getElementById("search");
+  searchInput.value = "";
 }
 
 function displayResults(results) {
-  const datalist = document.getElementById('searchResults');
+  const datalist = document.getElementById("searchResults");
   const optNodes = [];
-  const option = document.querySelector('option.model.result');
+  const option = document.querySelector("option.model.result");
   results.forEach((r) => {
     const newOption = option.cloneNode();
-    newOption.value = r.name + ', ' + r.artist;
-    newOption.className = 'searchResult';
+    newOption.value = r.name + ", " + r.artist;
+    newOption.className = "searchResult";
     newOption.dataset.album = r.album;
     newOption.dataset.name = r.name;
     newOption.dataset.artist = r.artist;
@@ -254,12 +261,12 @@ function displayResults(results) {
 }
 
 function runSearch(e) {
-  if (e.key === 'Enter' || this.value.length > 2) {
+  if (e.key === "Enter" || this.value.length > 2) {
     this.style.disabled = true;
-    const endPoint = '/songs';
+    const endPoint = "/songs";
     const url = new URL(backend + endPoint);
     // fetch(url, { method: "GET" });
-    console.log('Requête spotify :', url); // => apiResults.json()
+    console.log("Requête spotify :", url); // => apiResults.json()
     const extractedResults = apiResults;
     console.log(extractedResults);
     // Affichage résultats
@@ -275,4 +282,4 @@ function runSearch(e) {
   }
 }
 
-window.addEventListener('load', startUp);
+window.addEventListener("load", startUp);
