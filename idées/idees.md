@@ -38,6 +38,7 @@ comment lier
 - playlist représentée par quoi ? sauvegardé dans un fichier serveur ?
 - possible base de données ordonnée qu'on peut update à la volée ?
 - comment faire la recherche ? api spotify ou base de données locale pour commencer
+- une API renvoie un code d'erreur 200 si pas intercepté par des throw, pas de if else status ?
 
 *Réponses*
 - Playlist table postgresql avec un champ rang
@@ -46,7 +47,7 @@ comment lier
 *Postgresql*
 
 [playlists]: {*playlistId, name} \
-[playlist_songs]: {*playlistId, *songId, rank, submitter} \
+[playlist_songs]: {*playlistId, *songId, votesNb, submitter} \
 [songs]: {*songId, name, album, artist} \
 [users]: {*userId, login, password, mail} \
 [votes]: {*userId, *playlistId, *songId, voteDate}
@@ -70,7 +71,7 @@ comment lier
 - Jouer une chanson de la playlist
 
 
-##Avancé
+## Avancé
 - confirmation mail utilisateurs
 - token utilisateur authentifié
 - historiques
@@ -83,3 +84,6 @@ comment lier
 - try/catch sur les await prisma
 - express validator
 - Cache des requêtes
+
+## Bugs
+- url /base/doc plante le serveur -> gaffe aux url paramétrées

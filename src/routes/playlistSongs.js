@@ -11,6 +11,6 @@ router
   .route('/:playlistId/:songId')
   .get(playlistSongs.searchSong)
   .delete(playlistSongs.removeSong)
-  .patch(playlistSongs.editSong); //rank & submitter
+  .patch(playlistSongs.editSong); //votesNb & submitter
 
 module.exports = router;

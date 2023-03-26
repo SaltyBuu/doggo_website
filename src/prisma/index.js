@@ -7,7 +7,14 @@ async function main() {
     data: {
       login: "Henri",
       password: "testastotestato",
-      mail: "alice@prisma.io",
+      mail: "henri@hihan.io",
+    },
+  });
+  await prisma.user.create({
+    data: {
+      login: "Jess",
+      password: "testastotestato",
+      mail: "jess@hihan.io",
     },
   });
   await prisma.playlist.create({

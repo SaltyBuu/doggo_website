@@ -47,8 +47,8 @@ module.exports = {
       playlistId,
       "songId:",
       songId,
-      "rank: ",
-      req.body.rank,
+      "votesNb: ",
+      req.body.votesNb,
       "submitterID",
       req.body.submitterId
     );
@@ -57,7 +57,7 @@ module.exports = {
         data: {
           playlistId: playlistId,
           songId: songId,
-          rank: req.body.rank || undefined,
+          votesNb: req.body.votesNb || undefined,
           submitterId: req.body.submitterId || undefined,
         },
       });
@@ -76,7 +76,7 @@ module.exports = {
     //TODO Email validation
     const playlistId = parseInt(req.params.playlistId);
     const songId = parseInt(req.params.playlistId);
-    const playlistSong = await prisma.playlistSong.delete({
+    const song = await prisma.playlistSong.delete({
       where: {
         playlistId_songId: {
           playlistId: playlistId,
@@ -87,13 +87,13 @@ module.exports = {
     // const message = vote === null ? 'Vote created' + vote : '';
     res.status(200).json({
       message: "Song deleted",
-      playlistSong,
+      song,
     });
   },
   async editSong(req, res) {
     const playlistId = req.params.playlistId;
     const songId = req.params.songId;
-    const playlistSong = await prisma.playlistSong.update({
+    const song = await prisma.playlistSong.update({
       where: {
         playlistId_songId: {
           playlistId: playlistId,
@@ -101,13 +101,13 @@ module.exports = {
         },
       },
       data: {
-        rank: req.body.rank || undefined,
+        votesNb: req.body.votesNb || undefined,
         submitterId: req.body.submitterId || undefined,
       },
     });
     res.status(200).json({
       message: "Song updated",
-      playlistSong,
+      song,
     });
   },
   async getSongs(req, res) {
@@ -120,7 +120,7 @@ module.exports = {
         song: true,
       },
       orderBy: {
-        rank: "asc",
+        votesNb: "desc",
       },
     });
     res.status(200).json({

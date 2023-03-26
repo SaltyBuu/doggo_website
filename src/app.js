@@ -14,12 +14,23 @@ app.use((req, res, next) => {
   next();
 });
 
+// Swagger Documentation
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('../swagger_output.json')
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+// Set JSON content type for responses
 app.use("*", (req, res, next) => {
   res.setHeader("Content-Type", "application/json");
   next();
 });
 
-app.use("/", require("./routes/router.js"));
+// API route
+app.use("/api/v1", require("./routes/router.js"));
+
+
+
+// Default response
 app.use("*", (req, res) => {
   res.status(404).json({ status: false, message: "Endpoint Not Found" });
 });

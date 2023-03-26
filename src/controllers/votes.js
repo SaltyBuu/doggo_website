@@ -57,4 +57,41 @@ module.exports = {
       vote,
     });
   },
+  async updateVotesNb(req, res) {
+    if (!has(req.body, ["playlistId", "songId"]))
+      throw new CodeError("Missing parameters", 400);
+    const total = await prisma.vote.count({
+      where: {
+        playlistId_songId: {
+          playlistId: req.body.playlistId,
+          songId: req.body.songId
+        }
+      }
+    })
+    if( total != null){
+      const song = await prisma.playlistSong.update({
+        where: {
+          playlistId_songId: {
+            playlistId: req.body.playlistId,
+            songId: req.body.songId
+          }
+        },
+        data: {
+          votesNb: total
+        }
+      })
+      if (song != null) {
+        res.status(200).json({
+          message: 'Votes updated !',
+          song
+        })
+      }
+      else {
+        res.status(400).json({message: 'Could not update votes'})
+      }
+    }
+    else {
+      res.status(400).json({message: 'Could not count votes'})
+    }
+  }
 };
