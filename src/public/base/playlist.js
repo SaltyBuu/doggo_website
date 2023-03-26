@@ -1,4 +1,4 @@
-const backend = "http://localhost:3000";
+const backend = "http://localhost:3000/api/v1";
 const TOKEN = "toreplace";
 const PLAYLISTID = 10;
 const USERID = 1;
@@ -78,11 +78,11 @@ async function refreshPlaylist(playlistId) {
           resultDiv
             .querySelector("span.artist")
             .appendChild(document.createTextNode(song.artist));
-          // resultDiv.querySelector('span.rank').value = s['rank'];
+          // resultDiv.querySelector('span.votesNb').value = s['votesNb'];
           resultDiv
-            .querySelector("span.rank")
+            .querySelector("span.votesNb")
             .appendChild(
-              document.createTextNode(song.rank == null ? 0 : song.rank)
+              document.createTextNode(song.votesNb == null ? 0 : song.votesNb)
             );
           resultDiv.querySelector("span.vote > img").dataset.id =
             song.id.toString();
@@ -100,7 +100,7 @@ async function refreshPlaylist(playlistId) {
 }
 
 function addVote() {
-  //TODO increment rank
+  //TODO increment votesNb
   console.log("listener start");
   const songId = parseInt(this.dataset.id);
   console.log("this", this);
@@ -123,7 +123,12 @@ function addVote() {
   if (voted) {
     console.log("Vote: ", voted);
   }
-  console.log("no vote: ", voted);
+  else {
+    console.log("no vote: ", voted);
+  }
+  const voteSpan = this.parentElement.parentElement.querySelector('span.votesNb')
+  voteSpan.value = voteSpan.value + 1
+
 }
 
 function submitSong() {

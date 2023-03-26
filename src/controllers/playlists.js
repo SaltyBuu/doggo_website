@@ -5,6 +5,15 @@ const CodeError = require('../CodeError');
 
 module.exports = {
   async addPlaylist(req, res) {
+    // #swagger.tags = ['Playlist']
+    // #swagger.summary = 'Add a playlist'
+    /* #swagger.parameters['name'] = {
+          in: 'body',
+          description:'Name of the playlist',
+          schema: { $name: 'Reggae' }
+        }
+    */
+
     if (!has(req.body, ['name']))
       throw new CodeError('The playlist name is missing', 400);
     const existing = await prisma.playlist.findFirst({
@@ -16,6 +25,14 @@ module.exports = {
           name: req.body.name,
         },
       });
+      /* #swagger.responses[201] = {
+        description: 'Playlist successfully created.',
+        schema: {
+          id: 1,
+          name: 'Reggae',
+          createdAt: '2023-03-25 13:20:24.579',
+        }
+      } */
       res.status(201).json({
         playlist,
       });
@@ -24,9 +41,29 @@ module.exports = {
         message: 'The playlist already exists',
         existing,
       });
+
+      /* #swagger.responses[400] = {
+        description: 'Playlist already exists.',
+        schema: {
+          message: 'The playlist already exists',
+          existing: {
+            id: 1,
+            name: 'Reggae',
+            createdAt: '2023-03-25 13:20:24.579',
+          }
+        }
+      } */
     }
   },
   async removePlaylist(req, res) {
+    // #swagger.tags = ['Playlist']
+    // #swagger.summary = 'Remove a playlist'
+    /* #swagger.parameters['id'] = {
+        in: 'body',
+        description:'Id of a playlist',
+        schema: { $id: 4 }
+      }
+    */
     const playlist = await prisma.playlist.delete({
       where: {
         id: req.body.id,
@@ -36,9 +73,34 @@ module.exports = {
       message: 'Playlist deleted',
       playlist,
     });
+    /* #swagger.responses[200] = {
+      description: 'Playlist successfully deleted.',
+      schema: {
+        message: 'Playlist deleted',
+        playlist: {
+          id: 1,
+          name: 'Reggae',
+          createdAt: '2023-03-25 13:20:24.579'
+        }
+      }
+    } */
   },
   async editPlaylist(req, res) {
-    if (!has(req.body, ['name']))
+    // #swagger.tags = ['Playlist']
+    // #swagger.summary = 'Edit a playlist's name'
+    /* #swagger.parameters['id'] = {
+          in: 'body',
+          description:'Id of a playlist',
+          schema: { $id: 4 }
+       }
+    */
+    /* #swagger.parameters['name'] = {
+          in: 'body',
+          description:'New name of the playlist',
+          schema: { $name: 'Chill' }
+       }
+    */
+    if (!has(req.body, ['name', 'id']))
       throw new CodeError('Playlist was left intact', 400);
     const playlist = await prisma.playlist.update({
       where: {
@@ -52,5 +114,16 @@ module.exports = {
       message: 'Playlist updated',
       playlist,
     });
+    /* #swagger.responses[200] = {
+      description: 'Playlist successfully updated.',
+      schema: {
+        message: 'Playlist updated',
+        playlist: {
+          id: 1,
+          name: 'Chill',
+          createdAt: '2023-03-25 13:20:24.579'
+        }
+      }
+    } */
   },
 };

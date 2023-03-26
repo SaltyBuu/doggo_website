@@ -43,7 +43,7 @@ model PlaylistSong {
   playlistId  Int
   song        Song     @relation(fields: [songId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   songId      Int
-  rank        Int?
+  votesNb        Int?
   submitter   User?     @relation(fields: [submitterId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   submitterId Int?
   createdAt    DateTime       @default(now())

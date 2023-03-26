@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "songId": 1,
-  "rank": 8
+  "votesNb": 8
 }
 ### Delete
 DELETE http://localhost:3000/playlist
@@ -34,13 +34,13 @@ Content-Type: application/json
   "submitter_id": 4
 }
 
-### Update rank
+### Update votesNb
 PATCH http://localhost:3000/playlist
 Content-Type: application/json
 
 {
   "songId": 1,
   "playlistId": 3,
-  "rank": 15
+  "votesNb": 15
 }
 

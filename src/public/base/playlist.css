@@ -45,7 +45,7 @@ div.search-input {
   display: flex;
   height: 10%;
   width: 100%;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -105,6 +105,7 @@ span.info-container {
   flex-direction: row;
   align-items: center;
   height: 100%;
+  width: 40%;
 }
 
 span.info {
@@ -144,14 +145,14 @@ div.song {
   column-gap: 3px;
 }
 
-span.rank-img {
+span.votesNb-img {
   height: 100%;
   display: flex;
   align-items: center;
   width: 40%;
 }
 
-span.rank-container {
+span.votesNb-container {
   height: 50%;
   display: flex;
   align-items: center;
@@ -170,8 +171,8 @@ span.cover-container {
   border: 1px solid black;
   display: flex;
   align-items: center;
-  height: 7vh;
-  width: 7vh;
+  height: auto;
+  width: 70%;
   overflow: hidden;
   box-shadow: 1px 1px 5px black;
 }
@@ -182,7 +183,7 @@ div.song > span {
 
 span.vote {
   /*height: 40%;*/
-  width: 5vw;
+  width: 10%;
   display: flex;
   align-items: center;
   margin-right: 10px;
