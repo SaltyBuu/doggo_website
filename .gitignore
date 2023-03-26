@@ -17,3 +17,4 @@ src/prisma/migrations/
 src/prisma/migrations/migration_lock.toml
 .cpanel.yml
 .prettierrc
+swagger_output.json
