@@ -29,6 +29,14 @@ const doc = {
       name: 'darksasuke',
       createdAt: '2023-03-25T13:20:24.579Z',
     },
+    song: {
+      id: 3,
+      name: 'A blessing and a curse',
+      album: 'A blessing and a curse',
+      artist: 'Here come the mummies',
+      thumbnail: 'http://toto.png',
+      createdAt: '2023-03-25T13:20:24.579Z',
+    },
   },
 };
 const outputFile = 'swagger_output.json';

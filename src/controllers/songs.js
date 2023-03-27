@@ -6,6 +6,19 @@ const CodeError = require('../CodeError');
 
 module.exports = {
   async searchSong(req, res) {
+    /*
+   #swagger.tags = ['Song']
+   #swagger.summary = 'Find a song.'
+   #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Name and artist of a song',
+      required: true,
+      schema: {
+          name: 'A blessing and a curse',
+          artist: 'Here come the mummies',
+      }
+   }
+   */
     const song = await prisma.song.findFirst({
       where: {
         name: req.body.name,
@@ -23,8 +36,37 @@ module.exports = {
         message: 'Song not found',
       });
     }
+    /*
+      #swagger.responses[200] = {
+          description: 'Song found.',
+          schema: {
+            $ref: '#/definitions/song'
+          }
+      }
+      #swagger.responses[404] = {
+          description: 'Song not found.',
+          schema: {
+            message: 'Song not found',
+          }
+      }
+      */
   },
   async addSong(req, res) {
+    /*
+    #swagger.tags = ['Song']
+    #swagger.summary = 'Add a song.'
+    #swagger.parameters['obj'] = {
+        in: 'body',
+        description: 'Song information.',
+        required: true,
+        schema: {
+            name: 'A blessing and a curse',
+            album: 'A blessing and a curse',
+            artist: 'Here come the mummies',
+            thumbnail: 'http://toto.png',
+        }
+    }
+    */
     console.log(req.body);
     if (!has(req.body, ['name', 'album', 'artist', 'thumbnail']))
       throw new CodeError('Missing parameters', 400);
@@ -55,8 +97,33 @@ module.exports = {
         message: 'The song already exists',
       });
     }
+    /*
+      #swagger.responses[201] = {
+          description: 'Song created.',
+          schema: {
+            message: 'The song was successfully created !',
+            song: { $ref: '#/definitions/song' }
+          }
+      }
+      #swagger.responses[400] = {
+          description: 'The song already exists.',
+          schema: {
+            message: 'The song already exists',
+          }
+      }
+      */
   },
   async removeSong(req, res) {
+    /*
+    #swagger.tags = ['Song']
+    #swagger.summary = 'Remove a song.'
+    #swagger.parameters['id'] = {
+        in: 'body',
+        description: 'Id of a song',
+        required: true,
+        type: 'integer',
+    }
+    */
     const song = await prisma.song.delete({
       where: {
         id: req.body.id,
@@ -66,8 +133,32 @@ module.exports = {
       message: 'Song deleted',
       song,
     });
+    /*
+    #swagger.responses[200] = {
+      description: 'Song deleted.',
+      schema: {
+        message: 'Song deleted',
+        song: { $ref: '#/definitions/song' }
+      }
+    }
+    */
   },
-  async editSong(req, res) {
+  async updateSong(req, res) {
+    /*
+    #swagger.tags = ['Song']
+    #swagger.summary = 'Update a song.'
+    #swagger.parameters['obj'] = {
+        in: 'body',
+        description: 'Song information',
+        required: true,
+        schema: {
+            id: 3,
+            name: 'A blessing and a curse',
+            album: 'A blessing and a curse',
+            artist: 'Here come the mummies',
+        }
+    }
+    */
     const song = await prisma.song.update({
       where: {
         id: req.body.id,
@@ -82,5 +173,14 @@ module.exports = {
       message: 'Song updated',
       song,
     });
+    /*
+    #swagger.responses[200] = {
+      description: 'Song updated.',
+      schema: {
+        message: 'Song updated',
+        song: { $ref: '#/definitions/song' }
+      }
+    }
+    */
   },
 };

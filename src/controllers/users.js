@@ -11,10 +11,10 @@ module.exports = {
     #swagger.tags = ['User']
     #swagger.summary = 'Get information of a user.'
     #swagger.parameters['id'] = {
-      in: 'path',
-      description: 'Id of a user',
-      required: true,
-      type: 'integer',
+        in: 'path',
+        description: 'Id of a user',
+        required: true,
+        type: 'integer',
     }
     */
     if (!has(req.params, 'id')) throw new CodeError('Id is missing', 400);
@@ -34,10 +34,10 @@ module.exports = {
     }
     /*
     #swagger.responses[404] = {
-      description: 'User not found.',
-      schema: {
-        message: 'User not found'
-      }
+        description: 'User not found.',
+        schema: {
+            message: 'User not found'
+        }
     }
     */
   },
@@ -45,23 +45,15 @@ module.exports = {
     /*
     #swagger.tags = ['User']
     #swagger.summary = 'Add a user.'
-    #swagger.parameters['login'] = {
-      in: 'body',
-      description: 'Username of a user',
-      required: true,
-      type: 'string',
-    }
-    #swagger.parameters['password'] = {
-      in: 'body',
-      description: 'Password of a user',
-      required: true,
-      type: 'string',
-    }
-    #swagger.parameters['mail'] = {
-      in: 'body',
-      description: 'Username of a user',
-      required: true,
-      type: 'string',
+    #swagger.parameters['obj'] = {
+        in: 'body',
+        description: 'User information.',
+        required: true,
+        schema: {
+            login: 'Alfredus',
+            password: 'oueoueoue67',
+            mail: 'lafamille@letsgo.org',
+        }
     }
     */
     //TODO Password validation
@@ -91,16 +83,16 @@ module.exports = {
     }
     /*
     #swagger.responses[201] = {
-      description: 'User created.',
-      schema: {
-        $ref: '#/definitions/user'
-      }
+        description: 'User created.',
+        schema: {
+            $ref: '#/definitions/user'
+        }
     }
     #swagger.responses[400] = {
-      description: 'User could not be created.',
-      schema: {
-        message: 'The user already exists'
-      }
+        description: 'User could not be created.',
+        schema: {
+            message: 'The user already exists'
+        }
     }
     */
   },
@@ -113,7 +105,9 @@ module.exports = {
         description: 'Id of a user',
         required: true,
         type: 'integer',
-      }
+        schema: { $id: 5 }
+
+    }
     */
     const user = await prisma.user.delete({
       where: {
@@ -126,11 +120,11 @@ module.exports = {
     });
     /*
     #swagger.responses[200] = {
-      description: 'User deleted.',
-      schema: {
-        message: 'User deleted',
-        $ref: '#/definitions/user'
-      }
+        description: 'User deleted.',
+        schema: {
+            message: 'User deleted',
+            user: { $ref: '#/definitions/user' }
+        }
     }
     */
   },
@@ -138,29 +132,16 @@ module.exports = {
     /*
     #swagger.tags = ['User']
     #swagger.summary = 'Update a user.'
-    #swagger.parameters['id'] = {
-      in: 'body',
-      description: 'Id of a user',
-      required: true,
-      type: 'integer',
-    }
-    #swagger.parameters['login'] = {
-      in: 'body',
-      description: 'Username of a user',
-      required: false,
-      type: 'string',
-    }
-    #swagger.parameters['password'] = {
-      in: 'body',
-      description: 'Password of a user',
-      required: false,
-      type: 'string',
-    }
-    #swagger.parameters['mail'] = {
-      in: 'body',
-      description: 'Username of a user',
-      required: false,
-      type: 'string',
+    #swagger.parameters['obj'] = {
+        in: 'body',
+        description: 'Id of a user',
+        required: true,
+        schema: {
+            id: 3,
+            login: 'Alfredus',
+            password: 'oueoueoue67',
+            mail: 'lafamille@letsgo.org',
+        }
     }
     */
     const user = await prisma.user.update({
@@ -179,11 +160,11 @@ module.exports = {
     });
     /*
     #swagger.responses[200] = {
-      description: 'User updated.',
-      schema: {
-        message: 'User updated',
-        $ref: '#/definitions/user'
-      }
+        description: 'User updated.',
+        schema: {
+            message: 'User updated',
+            user: { $ref: '#/definitions/user' }
+        }
     }
     */
   },
