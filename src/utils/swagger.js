@@ -13,7 +13,21 @@ const doc = {
       songId: 14,
       votesNb: 53,
       submitterId: 2,
-      createdAt: '2023-03-25 13:20:24.579',
+      createdAt: '2023-03-25T13:20:24.579Z',
+    },
+    vote: {
+      playlistId: 2,
+      songId: 4,
+      userid: 3,
+      voteDate: '2023-03-27T21:23:57.672Z',
+    },
+    user: {
+      id: 3,
+      login: 'Alfredus',
+      password: 'oueoueoue67',
+      mail: 'lafamille@letsgo.org',
+      name: 'darksasuke',
+      createdAt: '2023-03-25T13:20:24.579Z',
     },
   },
 };

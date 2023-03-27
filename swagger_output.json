@@ -237,10 +237,14 @@
     },
     "/votes": {
       "put": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Add a vote.",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "playlistId",
             "in": "body",
             "schema": {
               "type": "object",
@@ -255,23 +259,64 @@
                   "example": "any"
                 }
               }
+            },
+            "description": "Id of a playlist",
+            "required": true
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "Id of a user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "songId",
+            "in": "body",
+            "description": "Id of a song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Vote added.",
+            "schema": {
+              "$ref": "#/definitions/vote"
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "The vote already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The vote already exists"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
       "delete": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Remove a vote.",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "playlistId",
             "in": "body",
             "schema": {
               "type": "object",
@@ -286,20 +331,49 @@
                   "example": "any"
                 }
               }
+            },
+            "description": "Id of a playlist",
+            "required": true
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "Id of a user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "songId",
+            "in": "body",
+            "description": "Id of a song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Vote deleted.",
+            "schema": {
+              "$ref": "#/definitions/vote"
+            }
           }
         }
       },
       "patch": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Count the number of a votes to a song and store it in the related playlistSong.",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "playlistId",
             "in": "body",
             "schema": {
               "type": "object",
@@ -311,6 +385,18 @@
                   "example": "any"
                 }
               }
+            },
+            "description": "Id of a playlist",
+            "required": true
+          },
+          {
+            "name": "songId",
+            "in": "body",
+            "description": "Id of a song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         ],
@@ -319,7 +405,19 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Could not count vote.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Could not count votes"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -829,6 +927,27 @@
         "createdAt": {
           "type": "string",
           "example": "2023-03-25 13:20:24.579"
+        }
+      }
+    },
+    "vote": {
+      "type": "object",
+      "properties": {
+        "playlistId": {
+          "type": "number",
+          "example": 2
+        },
+        "songId": {
+          "type": "number",
+          "example": 4
+        },
+        "userid": {
+          "type": "number",
+          "example": 3
+        },
+        "voteDate": {
+          "type": "string",
+          "example": "2023-03-27T21:23:57.672Z"
         }
       }
     }

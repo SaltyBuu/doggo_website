@@ -1,5 +1,5 @@
-### Post
-POST http://localhost:3000/votes
+### Put
+PUT http://localhost:3000/votes
 Content-Type: application/json
 
 {
