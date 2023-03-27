@@ -1,7 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const votes = require("../controllers/votes");
+const votes = require('../controllers/votes');
 
-router.route("/votes").all().put(votes.addVote).delete(votes.removeVote).patch(votes.updateVotesNb);
+router
+  .route('/votes')
+  .put(votes.addVote)
+  .delete(votes.removeVote)
+  .patch(votes.updateVotesNb);
 
 module.exports = router;
