@@ -6,6 +6,22 @@ const CodeError = require('../CodeError');
 
 module.exports = {
   async searchSong(req, res) {
+    /*
+   #swagger.tags = ['Song']
+   #swagger.summary = 'Find a song.'
+   #swagger.parameters['name'] = {
+       in: 'body',
+       description: 'Name of a song',
+       required: true,
+       type: 'string',
+   }
+   #swagger.parameters['artist'] = {
+       in: 'body',
+       description: 'Artist of a song.',
+       required: true,
+       type: 'string',
+   }
+   */
     const song = await prisma.song.findFirst({
       where: {
         name: req.body.name,
@@ -23,8 +39,50 @@ module.exports = {
         message: 'Song not found',
       });
     }
+    /*
+      #swagger.responses[200] = {
+          description: 'Song found.',
+          schema: {
+            $ref: '#/definitions/song'
+          }
+      }
+      #swagger.responses[404] = {
+          description: 'Song not found.',
+          schema: {
+            message: 'Song not found',
+          }
+      }
+      */
   },
   async addSong(req, res) {
+    /*
+    #swagger.tags = ['Song']
+    #swagger.summary = 'Find a song.'
+    #swagger.parameters['name'] = {
+        in: 'body',
+        description: 'Name of a song',
+        required: true,
+        type: 'string',
+    }
+    #swagger.parameters['album'] = {
+        in: 'body',
+        description: 'Album of a song.',
+        required: true,
+        type: 'string',
+    }
+    #swagger.parameters['artist'] = {
+        in: 'body',
+        description: 'Artist of a song.',
+        required: true,
+        type: 'string',
+    }
+    #swagger.parameters['thumbnail'] = {
+        in: 'body',
+        description: 'Thumbnail of a song album.',
+        required: true,
+        type: 'string',
+    }
+    */
     console.log(req.body);
     if (!has(req.body, ['name', 'album', 'artist', 'thumbnail']))
       throw new CodeError('Missing parameters', 400);
@@ -55,8 +113,33 @@ module.exports = {
         message: 'The song already exists',
       });
     }
+    /*
+      #swagger.responses[201] = {
+          description: 'Song created.',
+          schema: {
+            message: 'The song was successfully created !',
+            $ref: '#/definitions/song'
+          }
+      }
+      #swagger.responses[400] = {
+          description: 'The song already exists.',
+          schema: {
+            message: 'The song already exists',
+          }
+      }
+      */
   },
   async removeSong(req, res) {
+    /*
+    #swagger.tags = ['Song']
+    #swagger.summary = 'Remove a song.'
+    #swagger.parameters['id'] = {
+        in: 'body',
+        description: 'Id of a song',
+        required: true,
+        type: 'integer',
+    }
+    */
     const song = await prisma.song.delete({
       where: {
         id: req.body.id,
@@ -66,8 +149,45 @@ module.exports = {
       message: 'Song deleted',
       song,
     });
+    /*
+    #swagger.responses[200] = {
+      description: 'Song deleted.',
+      schema: {
+        message: 'Song deleted',
+        $ref: '#/definitions/song'
+      }
+    }
+    */
   },
-  async editSong(req, res) {
+  async updateSong(req, res) {
+    /*
+    #swagger.tags = ['Song']
+    #swagger.summary = 'Update a song.'
+    #swagger.parameters['id'] = {
+        in: 'body',
+        description: 'Id of a song',
+        required: true,
+        type: 'integer',
+    }
+    #swagger.parameters['name'] = {
+        in: 'body',
+        description: 'Name of a song',
+        required: true,
+        type: 'string',
+    }
+    #swagger.parameters['album'] = {
+        in: 'body',
+        description: 'Album of a song.',
+        required: true,
+        type: 'string',
+    }
+    #swagger.parameters['artist'] = {
+        in: 'body',
+        description: 'Artist of a song.',
+        required: true,
+        type: 'string',
+    }
+    */
     const song = await prisma.song.update({
       where: {
         id: req.body.id,
@@ -82,5 +202,14 @@ module.exports = {
       message: 'Song updated',
       song,
     });
+    /*
+    #swagger.responses[200] = {
+      description: 'Song updated.',
+      schema: {
+        message: 'Song updated',
+        $ref: '#/definitions/song'
+      }
+    }
+    */
   },
 };

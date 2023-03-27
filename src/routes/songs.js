@@ -9,6 +9,6 @@ router
   .post(songs.searchSong)
   .put(songs.addSong)
   .delete(validateId, songs.removeSong)
-  .patch(validateId, songs.editSong);
+  .patch(validateId, songs.updateSong);
 
 module.exports = router;
