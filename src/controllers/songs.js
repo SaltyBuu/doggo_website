@@ -9,17 +9,14 @@ module.exports = {
     /*
    #swagger.tags = ['Song']
    #swagger.summary = 'Find a song.'
-   #swagger.parameters['name'] = {
-       in: 'body',
-       description: 'Name of a song',
-       required: true,
-       type: 'string',
-   }
-   #swagger.parameters['artist'] = {
-       in: 'body',
-       description: 'Artist of a song.',
-       required: true,
-       type: 'string',
+   #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Name and artist of a song',
+      required: true,
+      schema: {
+          name: 'A blessing and a curse',
+          artist: 'Here come the mummies',
+      }
    }
    */
     const song = await prisma.song.findFirst({
@@ -57,30 +54,17 @@ module.exports = {
   async addSong(req, res) {
     /*
     #swagger.tags = ['Song']
-    #swagger.summary = 'Find a song.'
-    #swagger.parameters['name'] = {
+    #swagger.summary = 'Add a song.'
+    #swagger.parameters['obj'] = {
         in: 'body',
-        description: 'Name of a song',
+        description: 'Song information.',
         required: true,
-        type: 'string',
-    }
-    #swagger.parameters['album'] = {
-        in: 'body',
-        description: 'Album of a song.',
-        required: true,
-        type: 'string',
-    }
-    #swagger.parameters['artist'] = {
-        in: 'body',
-        description: 'Artist of a song.',
-        required: true,
-        type: 'string',
-    }
-    #swagger.parameters['thumbnail'] = {
-        in: 'body',
-        description: 'Thumbnail of a song album.',
-        required: true,
-        type: 'string',
+        schema: {
+            name: 'A blessing and a curse',
+            album: 'A blessing and a curse',
+            artist: 'Here come the mummies',
+            thumbnail: 'http://toto.png',
+        }
     }
     */
     console.log(req.body);
@@ -118,7 +102,7 @@ module.exports = {
           description: 'Song created.',
           schema: {
             message: 'The song was successfully created !',
-            $ref: '#/definitions/song'
+            song: { $ref: '#/definitions/song' }
           }
       }
       #swagger.responses[400] = {
@@ -154,7 +138,7 @@ module.exports = {
       description: 'Song deleted.',
       schema: {
         message: 'Song deleted',
-        $ref: '#/definitions/song'
+        song: { $ref: '#/definitions/song' }
       }
     }
     */
@@ -163,29 +147,16 @@ module.exports = {
     /*
     #swagger.tags = ['Song']
     #swagger.summary = 'Update a song.'
-    #swagger.parameters['id'] = {
+    #swagger.parameters['obj'] = {
         in: 'body',
-        description: 'Id of a song',
+        description: 'Song information',
         required: true,
-        type: 'integer',
-    }
-    #swagger.parameters['name'] = {
-        in: 'body',
-        description: 'Name of a song',
-        required: true,
-        type: 'string',
-    }
-    #swagger.parameters['album'] = {
-        in: 'body',
-        description: 'Album of a song.',
-        required: true,
-        type: 'string',
-    }
-    #swagger.parameters['artist'] = {
-        in: 'body',
-        description: 'Artist of a song.',
-        required: true,
-        type: 'string',
+        schema: {
+            id: 3,
+            name: 'A blessing and a curse',
+            album: 'A blessing and a curse',
+            artist: 'Here come the mummies',
+        }
     }
     */
     const song = await prisma.song.update({
@@ -207,7 +178,7 @@ module.exports = {
       description: 'Song updated.',
       schema: {
         message: 'Song updated',
-        $ref: '#/definitions/song'
+        song: { $ref: '#/definitions/song' }
       }
     }
     */

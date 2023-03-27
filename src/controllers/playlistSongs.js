@@ -10,19 +10,14 @@ module.exports = {
     /*
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Find a song in a playlist.'
-    #swagger.parameters['playlistId'] = {
+    #swagger.parameters['obj'] = {
         in: 'path',
-        description: 'Id of a playlist',
+        description: 'Playlist information.',
         required: true,
-        type: 'integer',
-        schema: { $playlistId: 4 }
-    }
-    #swagger.parameters['songId'] = {
-        in: 'path',
-        description: 'Id of a song.',
-        required: true,
-        type: 'integer',
-        schema: { $songId: 13 }
+        schema: {
+            playlistId: 1,
+            songId: 14,
+        }
     }
     */
     //TODO id validation
@@ -127,7 +122,7 @@ module.exports = {
           description: 'Song added.',
           schema: {
               message: 'The song was added',
-              $ref: '#/definitions/playlistSong'
+              song: { $ref: '#/definitions/playlistSong' }
           }
       }
       #swagger.responses[400] = {
@@ -139,22 +134,17 @@ module.exports = {
       */
   },
   async removeSong(req, res) {
-    // #swagger.tags = ['Playlist song']
-    // #swagger.summary = 'Remove a song in a playlist.'
     /*
-    #swagger.parameters['playlistId'] = {
+    #swagger.tags = ['Playlist song']
+    #swagger.summary = 'Remove a song in a playlist.'
+    #swagger.parameters['obj'] = {
         in: 'path',
-        description: 'Id of a playlist',
+        description: 'Playlist information',
         required: true,
-        type: 'integer',
-    }
-    */
-    /*
-    #swagger.parameters['songId'] = {
-        in: 'path',
-        description: 'Id of a song.',
-        required: true,
-        type: 'integer',
+        schema: {
+            playlistId: 1,
+            songId: 14,
+        }
     }
     */
 
@@ -179,31 +169,24 @@ module.exports = {
         description: 'Song deleted.',
         schema: {
             message: 'Song deleted',
-            '$ref': '#/definitions/playlistSong'
+            song: { $ref: '#/definitions/playlistSong' }
         }
     }
     */
   },
   async editSong(req, res) {
-    // #swagger.tags = ['Playlist song']
-    // #swagger.summary = 'Update a song in a playlist.'
     /*
-    #swagger.parameters['playlistId'] = {
+    #swagger.tags = ['Playlist song']
+    #swagger.summary = 'Update a song in a playlist.'
+    #swagger.parameters['obj'] = {
         in: 'path',
-        description: 'Id of a playlist',
+        description: 'Playlist information.',
         required: true,
-        type: 'integer',
+        schema: {
+            playlistId: 1,
+            songId: 14,
+        }
     }
-    */
-    /*
-    #swagger.parameters['songId'] = {
-        in: 'path',
-        description: 'Id of a song.',
-        required: true,
-        type: 'integer',
-    }
-    */
-    /*
     #swagger.parameters['obj'] = {
         in: 'body',
         description: 'Total of song votes and submitter.',
@@ -236,15 +219,15 @@ module.exports = {
         description: 'Song updated.',
         schema: {
             message: 'Song updated',
-            $ref: '#/definitions/playlistSong'
+            song: { $ref: '#/definitions/playlistSong' }
         }
     }
     */
   },
   async getSongs(req, res) {
-    // #swagger.tags = ['Playlist song']
-    // #swagger.summary = 'Get all songs in a playlist.'
     /*
+    #swagger.tags = ['Playlist song']
+    #swagger.summary = 'Get all songs in a playlist.'
     #swagger.parameters['playlistId'] = {
         in: 'path',
         description: 'Id of a playlist',

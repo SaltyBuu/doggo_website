@@ -9,7 +9,7 @@ router
 
 router
   .route('/:playlistId/:songId')
-  .get(playlistSongs.searchSong)
+  .post(playlistSongs.searchSong)
   .delete(playlistSongs.removeSong)
   .patch(playlistSongs.editSong); //votesNb & submitter
 

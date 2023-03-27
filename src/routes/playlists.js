@@ -7,6 +7,6 @@ router
   .all()
   .put(playlist.addPlaylist)
   .delete(validateId, playlist.removePlaylist)
-  .patch(validateId, playlist.editPlaylist);
+  .patch(validateId, playlist.updatePlaylist);
 
 module.exports = router;
