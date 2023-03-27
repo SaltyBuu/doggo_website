@@ -50,7 +50,7 @@ module.exports = {
       #swagger.responses[200] = {
           description: 'Song found.',
           schema: {
-            $ref: '#/definitions/playlistSong
+            $ref: '#/definitions/playlistSong'
           }
       }
       #swagger.responses[404] = {
@@ -126,8 +126,8 @@ module.exports = {
       #swagger.responses[201] = {
           description: 'Song added.',
           schema: {
-              message: 'The song was added",
-              $ref: '#/definitions/playlistSong
+              message: 'The song was added',
+              $ref: '#/definitions/playlistSong'
           }
       }
       #swagger.responses[400] = {
@@ -139,15 +139,17 @@ module.exports = {
       */
   },
   async removeSong(req, res) {
+    // #swagger.tags = ['Playlist song']
+    // #swagger.summary = 'Remove a song in a playlist.'
     /*
-    #swagger.tags = ['Playlist song']
-    #swagger.summary = 'Remove a song in a playlist.'
     #swagger.parameters['playlistId'] = {
         in: 'path',
         description: 'Id of a playlist',
         required: true,
         type: 'integer',
     }
+    */
+    /*
     #swagger.parameters['songId'] = {
         in: 'path',
         description: 'Id of a song.',
@@ -168,7 +170,6 @@ module.exports = {
         },
       },
     });
-    // const message = vote === null ? 'Vote created' + vote : '';
     res.status(200).json({
       message: 'Song deleted',
       song,
@@ -177,31 +178,35 @@ module.exports = {
     #swagger.responses[200] = {
         description: 'Song deleted.',
         schema: {
-            message: 'Song deleted",
-            $ref: '#/definitions/playlistSong
+            message: 'Song deleted',
+            '$ref': '#/definitions/playlistSong'
         }
     }
     */
   },
   async editSong(req, res) {
+    // #swagger.tags = ['Playlist song']
+    // #swagger.summary = 'Update a song in a playlist.'
     /*
-    #swagger.tags = ['Playlist song']
-    #swagger.summary = 'Update a song in a playlist.'
     #swagger.parameters['playlistId'] = {
         in: 'path',
         description: 'Id of a playlist',
         required: true,
         type: 'integer',
     }
+    */
+    /*
     #swagger.parameters['songId'] = {
         in: 'path',
         description: 'Id of a song.',
         required: true,
         type: 'integer',
     }
+    */
+    /*
     #swagger.parameters['obj'] = {
         in: 'body',
-        description: 'Total of song's votes and submitter.',
+        description: 'Total of song votes and submitter.',
         schema: {
             votesNb: 13,
             submitterId: 13
@@ -226,23 +231,27 @@ module.exports = {
       message: 'Song updated',
       song,
     });
-    // #swagger.responses[200] = {
-    //     description: 'Song updated.',
-    //     schema: {
-    //         message: 'Song updated",
-    //         $ref: '#/definitions/playlistSong
-    //     }
-    // }
+    /*
+    #swagger.responses[200] = {
+        description: 'Song updated.',
+        schema: {
+            message: 'Song updated',
+            $ref: '#/definitions/playlistSong'
+        }
+    }
+    */
   },
   async getSongs(req, res) {
     // #swagger.tags = ['Playlist song']
     // #swagger.summary = 'Get all songs in a playlist.'
-    // #swagger.parameters['playlistId'] = {
-    //     in: 'path',
-    //     description: 'Id of a playlist',
-    //     required: true,
-    //     type: 'integer',
-    // }
+    /*
+    #swagger.parameters['playlistId'] = {
+        in: 'path',
+        description: 'Id of a playlist',
+        required: true,
+        type: 'integer',
+    }
+    */
 
     const playlistId = parseInt(req.params.playlistId);
     const results = await prisma.playlistSong.findMany({
@@ -260,12 +269,14 @@ module.exports = {
       message: 'Song(s) found !',
       results,
     });
-    // #swagger.responses[200] = {
-    //     description: 'Song(s) found.',
-    //     schema: {
-    //         message: 'Song(s) found !",
-    //     }
-    // }
+    /*
+    #swagger.responses[200] = {
+        description: 'Song(s) found.',
+        schema: {
+            message: 'Song(s) found !',
+        }
+    }
+    */
 
     //TODO finish results format
   },

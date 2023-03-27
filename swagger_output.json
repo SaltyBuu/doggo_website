@@ -562,12 +562,25 @@
             "name": "playlistId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "description": "Id of a playlist"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Song(s) found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song(s) found !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
@@ -614,10 +627,26 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Song added.",
+            "schema": {
+              "message": "The song was added",
+              "$ref": "#/definitions/playlistSong"
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Song already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The song already exists"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -639,326 +668,14 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "object"
-                },
-                "properties": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "object"
-                        }
-                      }
-                    },
-                    "properties": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "object"
-                        },
-                        "properties": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "example": "object"
-                                },
-                                "properties": {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "string"
-                                        },
-                                        "example": {
-                                          "type": "string",
-                                          "example": "string"
-                                        }
-                                      }
-                                    },
-                                    "example": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "string"
-                                        },
-                                        "example": {
-                                          "type": "string",
-                                          "example": "object"
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "properties": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "example": "object"
-                                },
-                                "properties": {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "string"
-                                        },
-                                        "example": {
-                                          "type": "string",
-                                          "example": "object"
-                                        }
-                                      }
-                                    },
-                                    "properties": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "object"
-                                        },
-                                        "properties": {
-                                          "type": "object",
-                                          "properties": {
-                                            "playlistId": {
-                                              "type": "object",
-                                              "properties": {
-                                                "type": {
-                                                  "type": "string",
-                                                  "example": "object"
-                                                },
-                                                "properties": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "type": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "type": {
-                                                          "type": "string",
-                                                          "example": "string"
-                                                        },
-                                                        "example": {
-                                                          "type": "string",
-                                                          "example": "object"
-                                                        }
-                                                      }
-                                                    },
-                                                    "properties": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "type": {
-                                                          "type": "string",
-                                                          "example": "object"
-                                                        },
-                                                        "properties": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "type": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "type": {
-                                                                  "type": "string",
-                                                                  "example": "object"
-                                                                },
-                                                                "properties": {
-                                                                  "type": "object",
-                                                                  "properties": {
-                                                                    "type": {
-                                                                      "type": "object",
-                                                                      "properties": {
-                                                                        "type": {
-                                                                          "type": "string",
-                                                                          "example": "string"
-                                                                        },
-                                                                        "example": {
-                                                                          "type": "string",
-                                                                          "example": "string"
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    "example": {
-                                                                      "type": "object",
-                                                                      "properties": {
-                                                                        "type": {
-                                                                          "type": "string",
-                                                                          "example": "string"
-                                                                        },
-                                                                        "example": {
-                                                                          "type": "string",
-                                                                          "example": "number"
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            },
-                                                            "example": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "type": {
-                                                                  "type": "string",
-                                                                  "example": "object"
-                                                                },
-                                                                "properties": {
-                                                                  "type": "object",
-                                                                  "properties": {
-                                                                    "type": {
-                                                                      "type": "object",
-                                                                      "properties": {
-                                                                        "type": {
-                                                                          "type": "string",
-                                                                          "example": "string"
-                                                                        },
-                                                                        "example": {
-                                                                          "type": "string",
-                                                                          "example": "number"
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    "example": {
-                                                                      "type": "object",
-                                                                      "properties": {
-                                                                        "type": {
-                                                                          "type": "string",
-                                                                          "example": "number"
-                                                                        },
-                                                                        "example": {
-                                                                          "type": "number",
-                                                                          "example": 4
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "required": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "example": "object"
-                                },
-                                "properties": {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "string"
-                                        },
-                                        "example": {
-                                          "type": "string",
-                                          "example": "array"
-                                        }
-                                      }
-                                    },
-                                    "example": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "array"
-                                        },
-                                        "example": {
-                                          "type": "array",
-                                          "example": [
-                                            "playlistId"
-                                          ],
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "items": {
-                                          "type": "object",
-                                          "properties": {
-                                            "type": {
-                                              "type": "string",
-                                              "example": "string"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "object"
-                                        },
-                                        "properties": {
-                                          "type": "object",
-                                          "properties": {
-                                            "type": {
-                                              "type": "object",
-                                              "properties": {
-                                                "type": {
-                                                  "type": "string",
-                                                  "example": "string"
-                                                },
-                                                "example": {
-                                                  "type": "string",
-                                                  "example": "string"
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
+                "playlistId": {
+                  "type": "number",
+                  "example": 4
                 }
-              }
+              },
+              "required": [
+                "playlistId"
+              ]
             }
           },
           {
@@ -970,131 +687,9 @@
             "schema": {
               "type": "object",
               "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "object"
-                },
-                "properties": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "string"
-                        },
-                        "example": {
-                          "type": "string",
-                          "example": "object"
-                        }
-                      }
-                    },
-                    "properties": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "object"
-                        },
-                        "properties": {
-                          "type": "object",
-                          "properties": {
-                            "songId": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "example": "object"
-                                },
-                                "properties": {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "string"
-                                        },
-                                        "example": {
-                                          "type": "string",
-                                          "example": "number"
-                                        }
-                                      }
-                                    },
-                                    "example": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "string",
-                                          "example": "number"
-                                        },
-                                        "example": {
-                                          "type": "number",
-                                          "example": 13
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "required": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "array"
-                        },
-                        "example": {
-                          "type": "array",
-                          "example": [
-                            "songId"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "example": "string"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "name": "obj",
-            "in": "body",
-            "description": "Song ID, user ID and votesNB.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
                 "songId": {
                   "type": "number",
                   "example": 13
-                },
-                "votesNb": {
-                  "type": "number",
-                  "example": 3
-                },
-                "submitterId": {
-                  "type": "number",
-                  "example": 7
                 }
               },
               "required": [
@@ -1105,10 +700,25 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Song found.",
+            "schema": {
+              "$ref": "#/definitions/playlistSong"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Song not found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
@@ -1136,7 +746,11 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Song deleted.",
+            "schema": {
+              "message": "Song deleted",
+              "$ref": "#/definitions/playlistSong"
+            }
           }
         }
       },
@@ -1160,11 +774,33 @@
             "required": true,
             "type": "integer",
             "description": "Id of a song."
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Total of song votes and submitter.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "votesNb": {
+                  "type": "number",
+                  "example": 13
+                },
+                "submitterId": {
+                  "type": "number",
+                  "example": 13
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Song updated.",
+            "schema": {
+              "message": "Song updated",
+              "$ref": "#/definitions/playlistSong"
+            }
           }
         }
       }

@@ -5,9 +5,9 @@ const CodeError = require('../CodeError');
 
 module.exports = {
   async addPlaylist(req, res) {
+    // #swagger.tags = ['Playlist']
+    // #swagger.summary = 'Add a playlist.'
     /*
-    #swagger.tags = ['Playlist']
-    #swagger.summary = 'Add a playlist.'
     #swagger.parameters['name'] = {
       in: 'body',
       description: 'Name of the playlist',
@@ -46,6 +46,8 @@ module.exports = {
           createdAt: '2023-03-25 13:20:24.579',
         }
       }
+      */
+      /*
       #swagger.responses[400] = {
         description: 'Playlist already exists.',
         schema: {
@@ -61,9 +63,9 @@ module.exports = {
     }
   },
   async removePlaylist(req, res) {
+    // #swagger.tags = ['Playlist']
+    // #swagger.summary = 'Remove a playlist.'
     /*
-    #swagger.tags = ['Playlist']
-    #swagger.summary = 'Remove a playlist.'
     #swagger.parameters['id'] = {
       in: 'body',
       description: 'Id of a playlist',
@@ -94,9 +96,9 @@ module.exports = {
     } */
   },
   async editPlaylist(req, res) {
+    // #swagger.tags = ['Playlist']
+    // #swagger.summary = 'Edit a playlist's name.'
     /*
-    #swagger.tags = ['Playlist']
-    #swagger.summary = 'Edit a playlist's name.'
     #swagger.parameters['id'] = {
       in: 'body',
       description: 'Id of a playlist',
@@ -104,6 +106,8 @@ module.exports = {
       type: 'integer',
       schema: { $id: 4 }
     }
+    */
+    /*
     #swagger.parameters['name'] = {
       in: 'body',
       description: 'New name of the playlist',
