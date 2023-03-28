@@ -58,6 +58,7 @@ async function refreshPlaylist(playlistId) {
       console.log(json);
       const newChildren = [];
       const results = json.results;
+      console.log('Results:', results);
       if (results != null || results.length !== 0) {
         const playlistDiv = document.querySelector('div.list');
         results.forEach((r) => {
@@ -70,7 +71,6 @@ async function refreshPlaylist(playlistId) {
           const img = resultDiv.querySelector('span.cover-container > img');
           img.src = song.thumbnail;
           img.alt = song.album;
-          console.log('listener added');
           resultDiv
             .querySelector('span.title')
             .appendChild(document.createTextNode(song.name));
@@ -79,10 +79,11 @@ async function refreshPlaylist(playlistId) {
             .querySelector('span.artist')
             .appendChild(document.createTextNode(song.artist));
           // resultDiv.querySelector('span.votesNb').value = s['votesNb'];
+          console.log('votesNb', r.votesNb);
           resultDiv
             .querySelector('span.votesNb')
             .appendChild(
-              document.createTextNode(song.votesNb == null ? 0 : song.votesNb)
+              document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
             );
           resultDiv.querySelector('span.vote > img').dataset.id =
             song.id.toString();
@@ -140,6 +141,7 @@ async function submitSong() {
   console.log(searchInput.value);
   await findOrAddSong(
     PLAYLISTID,
+    USERID,
     option.dataset.name,
     option.dataset.artist,
     option.dataset.album,
@@ -147,7 +149,14 @@ async function submitSong() {
   );
 }
 
-async function findOrAddSong(playlistId, name, artist, album, thumbnail) {
+async function findOrAddSong(
+  playlistId,
+  userId,
+  name,
+  artist,
+  album,
+  thumbnail
+) {
   const songEndpoint = '/songs';
   const url = new URL(backend + songEndpoint);
   const data = {
@@ -157,29 +166,29 @@ async function findOrAddSong(playlistId, name, artist, album, thumbnail) {
     thumbnail: thumbnail,
   };
   const globalFound = await searchInSongs(data, url);
-  console.log('1globalFound', globalFound);
+  // console.log('1globalFound', globalFound);
   //If the song isn't in any playlist, add to songs and playlist
   if (globalFound.status === 404) {
-    console.log('Song doesnt exist in any playlist !');
+    // console.log('Song doesnt exist in any playlist !');
     const added = await addToSongs(data, url);
-    console.log('added promise:', added);
+    // console.log('added promise:', added);
     if (added.status === 201) {
-      console.log('Song added to global songs !');
-      await addToPlaylist(added, playlistId);
+      // console.log('Song added to global songs !');
+      await addToPlaylist(added, playlistId, userId);
       // .catch((e)=>console.log(e))
     }
   } // If a song was found, check if in playlist
   else {
     const res = await globalFound.json();
-    console.log('2globalFound: ', globalFound);
-    console.log('Song already exists !');
+    // console.log('2globalFound: ', globalFound);
+    // console.log('Song already exists !');
     const localFound = await searchInPlaylist(res, playlistId);
-    console.log('3globalFound: ', globalFound);
-    console.log('LocalFound:', localFound);
+    // console.log('3globalFound: ', globalFound);
+    // console.log('LocalFound:', localFound);
     if (localFound.status === 404) {
-      console.log('4globalFound: ', globalFound);
-      console.log('Song isnt in current playlist');
-      await addToPlaylist(res, playlistId);
+      // console.log('4globalFound: ', globalFound);
+      // console.log('Song isnt in current playlist');
+      await addToPlaylist(res, playlistId, userId);
     } else {
       console.log('Found', localFound);
       //TODO Scroll to song
@@ -188,14 +197,15 @@ async function findOrAddSong(playlistId, name, artist, album, thumbnail) {
   resetSearch();
 }
 
-async function addToPlaylist(promiseResult, playlistId) {
+async function addToPlaylist(promiseResult, playlistId, userId) {
   const playlistEndPoint = '/' + playlistId;
   const songEndpoint = '/songs';
-  console.log('Added: ', promiseResult);
   const songId = promiseResult.song.id;
   // if (isInt(song.id)) songId = parseInt(id);
   const body = JSON.stringify({
     songId: songId,
+    votesNb: 1,
+    submitterId: userId,
   });
   const url = new URL(backend + playlistEndPoint + songEndpoint);
   await fetch(url, {
