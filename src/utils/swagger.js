@@ -37,6 +37,24 @@ const doc = {
       thumbnail: 'http://toto.png',
       createdAt: '2023-03-25T13:20:24.579Z',
     },
+    results: [
+      {
+        playlistId: 1,
+        songId: 1,
+        votesNb: null,
+        submitterId: null,
+        createdAt: '2023-03-28T16:33:53.772Z',
+        song: {
+          id: 1,
+          name: 'A Blessing And A Curse',
+          album: 'Future Worlds',
+          artist: 'Atomica Music',
+          thumbnail:
+            'https://i.scdn.co/image/ab67616d00004851ea6d794f7e1c9b2fb8b73890',
+          createdAt: '2023-03-26T11:35:29.102Z',
+        },
+      },
+    ],
   },
 };
 const outputFile = 'swagger_output.json';

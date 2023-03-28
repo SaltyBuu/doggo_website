@@ -248,6 +248,7 @@ module.exports = {
         votesNb: 'desc',
       },
     });
+    console.log('Results:', results);
     res.status(200).json({
       message: 'Song(s) found !',
       results,
@@ -257,10 +258,9 @@ module.exports = {
         description: 'Song(s) found.',
         schema: {
             message: 'Song(s) found !',
+            results: { $ref: '#/definitions/results'
         }
     }
     */
-
-    //TODO finish results format
   },
 };

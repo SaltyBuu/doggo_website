@@ -828,6 +828,9 @@
                 "message": {
                   "type": "string",
                   "example": "Song(s) found !"
+                },
+                "results": {
+                  "$ref": "#/definitions/results"
                 }
               },
               "xml": {
@@ -1203,6 +1206,57 @@
         "createdAt": {
           "type": "string",
           "example": "2023-03-25T13:20:24.579Z"
+        }
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "playlistId": {
+            "type": "number",
+            "example": 1
+          },
+          "songId": {
+            "type": "number",
+            "example": 1
+          },
+          "votesNb": {},
+          "submitterId": {},
+          "createdAt": {
+            "type": "string",
+            "example": "2023-03-28T16:33:53.772Z"
+          },
+          "song": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "A Blessing And A Curse"
+              },
+              "album": {
+                "type": "string",
+                "example": "Future Worlds"
+              },
+              "artist": {
+                "type": "string",
+                "example": "Atomica Music"
+              },
+              "thumbnail": {
+                "type": "string",
+                "example": "https://i.scdn.co/image/ab67616d00004851ea6d794f7e1c9b2fb8b73890"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2023-03-26T11:35:29.102Z"
+              }
+            }
+          }
         }
       }
     }
