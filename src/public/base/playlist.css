@@ -75,13 +75,17 @@ div.list {
   opacity: 0.9;
 }
 
-div.list > div {
+div.song {
   display: flex;
-  height: 100px;
+  height: 5vh;
   background-color: #f45137;
   border: 2px solid black;
   border-radius: 20px;
   width: 300px;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  column-gap: 3px;
 }
 
 div.background {
@@ -135,14 +139,7 @@ span.artist {
 
 span.title {
   align-items: start;
-}
-
-div.song {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  column-gap: 3px;
+  overflow: auto;
 }
 
 span.votesNb-img {
@@ -163,7 +160,7 @@ span.cover {
   height: 100%;
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 10%;
   margin-right: 10px;
 }
 
@@ -171,8 +168,8 @@ span.cover-container {
   border: 1px solid black;
   display: flex;
   align-items: center;
-  height: auto;
-  width: 70%;
+  height: 70%;
+  width: auto;
   overflow: hidden;
   box-shadow: 1px 1px 5px black;
 }
@@ -186,7 +183,7 @@ span.vote {
   width: 10%;
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 10%;
   z-index: 0;
 }
 
@@ -194,6 +191,21 @@ img.vote {
   cursor: pointer;
 }
 
+div.left-container,
+div.right-container {
+  height: 100%;
+  display: flex;
+  width: 50%;
+  align-items: center;
+}
+
+div.left-container {
+  justify-content: flex-start;
+}
+
+div.right-container {
+  justify-content: flex-end;
+}
 /* input#add { */
 
 /*  width: 50px; */
