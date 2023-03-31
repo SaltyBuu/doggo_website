@@ -90,17 +90,18 @@ async function refreshPlaylist(playlistId) {
           newChildren.push(resultDiv);
         });
         playlistDiv.replaceChildren(...newChildren);
-        [...playlistDiv.children].forEach((child) =>
-          child
-            .querySelector('span.vote > img')
-            .addEventListener('click', addVote)
-        );
+        [...playlistDiv.children].forEach((child) => {
+          const voteImg = child.querySelector('span.vote > img');
+          voteImg.addEventListener('click', addVote);
+          // voteImg.addEventListener('click', toggleVote)
+        });
       }
     })
     .catch((e) => console.log(e));
 }
 
 function addVote() {
+  //TODO handle unvote
   //TODO increment votesNb
   console.log('listener start');
   const songId = parseInt(this.dataset.id);
@@ -129,6 +130,7 @@ function addVote() {
   const voteSpan =
     this.parentElement.parentElement.querySelector('span.votesNb');
   voteSpan.value = voteSpan.value + 1;
+  toggleVote(this);
 }
 
 async function submitSong() {
@@ -301,6 +303,10 @@ function runSearch(e) {
     currentResults = results;
     displayResults(results);
   }
+}
+
+function toggleVote(element) {
+  element.classList.toggle('voted');
 }
 
 window.addEventListener('load', startUp);
