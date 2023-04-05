@@ -1,25 +1,27 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 //TODO setup CI
 async function main() {
+  await prisma.user.deleteMany({});
   await prisma.user.create({
     data: {
-      login: "Henri",
-      password: "testastotestato",
-      mail: "henri@hihan.io",
+      login: 'Henri',
+      password: 'testastotestato',
+      mail: 'henri@hihan.io',
     },
   });
   await prisma.user.create({
     data: {
-      login: "Jess",
-      password: "testastotestato",
-      mail: "jess@hihan.io",
+      login: 'Jess',
+      password: 'testastotestato',
+      mail: 'jess@hihan.io',
     },
   });
+
   await prisma.playlist.create({
     data: {
-      name: "Chill playlist",
+      name: 'Chill playlist',
     },
   });
 
