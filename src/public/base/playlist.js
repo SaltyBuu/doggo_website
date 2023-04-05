@@ -1,22 +1,25 @@
 const backend = 'http://localhost:3000';
 const TOKEN = 'toreplace';
 const PLAYLISTID = 1;
-const USERID = 1;
+const USERID = 3;
 
 let currentResults = [];
 const audio = new Audio('../music/bee-gees-stayin-alive.wav');
 
+// Common int validation function
 const isInt = function (id) {
   return !isNaN(id) && parseInt(Number(id)) == id && !isNaN(parseInt(id, 10));
 };
 
 function init() {
+  // DOM queries
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
   const signinBtn = document.getElementById('signin-btn');
   const searchInput = document.getElementById('search');
   const addBtn = document.getElementById('add');
 
+  // Add listeners
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
   signinBtn.addEventListener(
@@ -29,7 +32,10 @@ function init() {
 
 function startUp() {
   init();
+  // Display current playlistsongs on startup
   refreshPlaylist(PLAYLISTID);
+
+  // Music controls
   audio.preload = 'auto';
   audio.volume = 0.1;
   audio.loop = true;
@@ -45,8 +51,11 @@ function startUp() {
 
 async function refreshPlaylist(playlistId) {
   console.log('REFRESHING');
+  // Set up query url
   const endpoint = '/' + playlistId + '/songs';
   const url = new URL(backend + endpoint);
+
+  // Fetch songs of the current playlist
   await fetch(url, {
     method: 'GET',
     headers: {
@@ -56,39 +65,53 @@ async function refreshPlaylist(playlistId) {
     .then((res) => res.json())
     .then((json) => {
       console.log(json);
+      // Children initialization and get list of added songs as json
       const newChildren = [];
       const results = json.results;
       console.log('Results:', results);
+
+      // Check if there is at least one song
       if (results != null || results.length !== 0) {
+        // List of songs div
         const playlistDiv = document.querySelector('div.list');
+
+        // Parse playlist songs json
         results.forEach((r) => {
           console.log(r.song);
           const song = r.song;
+          const submitterid = r.submitter.id;
+
+          // Create new playlist song div
           const resultDiv = document
             .querySelector('div.model.song')
             .cloneNode(true);
           resultDiv.classList.toggle('model');
           const img = resultDiv.querySelector('span.cover-container > img');
+
+          // Set attributes from json
           img.src = song.thumbnail;
           img.alt = song.album;
           resultDiv
             .querySelector('span.title')
             .appendChild(document.createTextNode(song.name));
-          // resultDiv.querySelector('span.artist').value = s['artist'];
           resultDiv
             .querySelector('span.artist')
             .appendChild(document.createTextNode(song.artist));
-          // resultDiv.querySelector('span.votesNb').value = s['votesNb'];
           console.log('votesNb', r.votesNb);
           resultDiv
             .querySelector('span.votesNb')
             .appendChild(
               document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
             );
-          resultDiv.querySelector('span.vote > img').dataset.id =
-            song.id.toString();
+          const voteImg = resultDiv.querySelector('span.vote > img');
+          voteImg.dataset.id = song.id.toString();
+          if (submitterid === USERID) toggleVote(voteImg);
+
+          // Add current song to new children
           newChildren.push(resultDiv);
         });
+
+        // Add to DOM and set up listeners
         playlistDiv.replaceChildren(...newChildren);
         [...playlistDiv.children].forEach((child) => {
           const voteImg = child.querySelector('span.vote > img');
@@ -104,6 +127,7 @@ function addVote() {
   //TODO handle unvote
   //TODO increment votesNb
   console.log('listener start');
+  // Set up body
   const songId = parseInt(this.dataset.id);
   console.log('this', this);
   const data = {
@@ -111,9 +135,13 @@ function addVote() {
     playlistId: PLAYLISTID,
     songId: songId,
   };
+
+  // Set up url
   console.log('Body addVote', JSON.stringify(data));
   const endpoint = '/votes';
   const url = new URL(backend + endpoint);
+
+  // Put vote of the current user on the desired song
   const voted = fetch(url, {
     method: 'PUT',
     headers: {
@@ -127,6 +155,8 @@ function addVote() {
   } else {
     console.log('no vote: ', voted);
   }
+
+  // Update vote value
   const voteSpan =
     this.parentElement.parentElement.querySelector('span.votesNb');
   voteSpan.value = voteSpan.value + 1;
@@ -134,6 +164,7 @@ function addVote() {
 }
 
 async function submitSong() {
+  // Get user search input
   const searchInput = document.getElementById('search');
   if (!searchInput.value || currentResults.length === 0) return;
   const option = document.querySelector(
@@ -141,6 +172,8 @@ async function submitSong() {
   );
   if (!option) return;
   console.log(searchInput.value);
+
+  // Try to add the searched song to the current playlist
   await findOrAddSong(
     PLAYLISTID,
     USERID,
@@ -159,6 +192,7 @@ async function findOrAddSong(
   album,
   thumbnail
 ) {
+  // Set up query url and body
   const songEndpoint = '/songs';
   const url = new URL(backend + songEndpoint);
   const data = {
@@ -200,6 +234,7 @@ async function findOrAddSong(
 }
 
 async function addToPlaylist(promiseResult, playlistId, userId) {
+  // Set up query url and body
   const playlistEndPoint = '/' + playlistId;
   const songEndpoint = '/songs';
   const songId = promiseResult.song.id;
@@ -210,6 +245,8 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
     submitterId: userId,
   });
   const url = new URL(backend + playlistEndPoint + songEndpoint);
+
+  // Add song to playlist
   await fetch(url, {
     method: 'PUT',
     headers: {
@@ -218,15 +255,20 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
     },
     body,
   }).catch((e) => console.log(e));
+
+  // Display the added song
   await refreshPlaylist(PLAYLISTID);
 }
 
 async function searchInPlaylist(promiseResult, playlistId) {
+  // Set up query url and body
   const playlistEndPoint = '/' + playlistId;
   const songId = promiseResult.song.id;
   // if (isInt(song.id)) songId = parseInt(id);
   const playlistSongEndpoint = playlistEndPoint + '/' + songId + '/';
   const url = new URL(backend + playlistSongEndpoint);
+
+  // Look for song in playlist
   return await fetch(url, {
     method: 'GET',
     headers: {
@@ -237,6 +279,7 @@ async function searchInPlaylist(promiseResult, playlistId) {
 }
 
 async function searchInSongs(data, url) {
+  // Look for song in the global song database
   const body = JSON.stringify(data);
   return await fetch(url, {
     method: 'POST',
@@ -250,6 +293,7 @@ async function searchInSongs(data, url) {
 }
 
 async function addToSongs(data, url) {
+  // Add a song to the global song databse
   const body = JSON.stringify(data);
   return await fetch(url, {
     method: 'PUT',
@@ -284,15 +328,19 @@ function displayResults(results) {
 }
 
 function runSearch(e) {
+  // When pressing Enter or given 2+ characters, fetch 5 search results
   if (e.key === 'Enter' || this.value.length > 2) {
     this.style.disabled = true;
+    // Set up query url
     const endPoint = '/songs';
     const url = new URL(backend + endPoint);
-    // fetch(url, { method: "GET" });
+
+    // Fetch(url, { method: "GET" });
     console.log('Requête spotify :', url); // => apiResults.json()
     const extractedResults = apiResults;
     console.log(extractedResults);
-    // Affichage résultats
+
+    // Process search results
     const results = extractedResults.tracks.items.map((s) => ({
       artist: s.album.artists[0].name,
       album: s.album.name,
@@ -300,6 +348,7 @@ function runSearch(e) {
       thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
     }));
 
+    // Display search results as clickable options
     currentResults = results;
     displayResults(results);
   }

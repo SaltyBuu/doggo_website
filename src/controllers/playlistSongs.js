@@ -243,6 +243,7 @@ module.exports = {
       },
       include: {
         song: true,
+        submitter: true,
       },
       orderBy: {
         votesNb: 'desc',
