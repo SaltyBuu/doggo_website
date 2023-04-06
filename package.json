@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "npx htmlhint src/public/base/*.html -r style-disabled",
-    "start": "node src/utils/swagger.js && node src/server.js",
+    "start": "node src/utils/swagger.js && node --inspect src/server.js",
     "debug": "nodemon src/server.js",
     "update": "prisma migrate dev --name init && node src/prisma/index.js",
     "doc": "node src/utils/swagger.js"
