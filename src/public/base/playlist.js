@@ -33,7 +33,7 @@ function init() {
 function startUp() {
   init();
   // Display current playlistsongs on startup
-  refreshPlaylist(PLAYLISTID);
+  refreshPlaylist(PLAYLISTID).catch((e) => console.log(e));
 
   // Music controls
   audio.preload = 'auto';
@@ -105,7 +105,7 @@ async function refreshPlaylist(playlistId) {
             );
           const voteImg = resultDiv.querySelector('span.vote > img');
           voteImg.dataset.id = song.id.toString();
-          if (submitterid === USERID) toggleVote(voteImg);
+          if (submitterid === USERID) toggleVoteClass(voteImg);
 
           // Add current song to new children
           newChildren.push(resultDiv);
@@ -115,7 +115,7 @@ async function refreshPlaylist(playlistId) {
         playlistDiv.replaceChildren(...newChildren);
         [...playlistDiv.children].forEach((child) => {
           const voteImg = child.querySelector('span.vote > img');
-          voteImg.addEventListener('click', addVote);
+          voteImg.addEventListener('click', toggleVote);
           // voteImg.addEventListener('click', toggleVote)
         });
       }
@@ -123,10 +123,10 @@ async function refreshPlaylist(playlistId) {
     .catch((e) => console.log(e));
 }
 
-function addVote() {
+function toggleVote() {
   //TODO handle unvote
   //TODO increment votesNb
-  console.log('listener start');
+
   // Set up body
   const songId = parseInt(this.dataset.id);
   console.log('this', this);
@@ -141,26 +141,87 @@ function addVote() {
   const endpoint = '/votes';
   const url = new URL(backend + endpoint);
 
-  // Put vote of the current user on the desired song
-  const voted = fetch(url, {
-    method: 'PUT',
+  // Retrieve displayed vote element
+  const voteSpan =
+    this.parentElement.parentElement.querySelector('span.votesNb');
+
+  // Vote if user has not voted yet
+  if (!this.classList.contains('voted')) {
+    console.log('User has not yet voted !');
+
+    // Add vote of the current user to the desired song
+    const voted = fetch(url, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json; charset=UTF-8',
+        'x-access-token': TOKEN,
+      },
+      body: JSON.stringify(data),
+    });
+    if (voted) {
+      console.log('Vote: ', voted);
+    } else {
+      console.log('no vote: ', voted);
+    }
+
+    // Update vote value
+    if (voted) {
+      voteSpan.textContent = (parseInt(voteSpan.textContent) + 1).toString();
+      console.log('+1');
+    }
+  }
+  // Unvote if user has already voted
+  else {
+    console.log('User has already voted !');
+    // Add vote of the current user to the desired song
+    const unvoted = fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json; charset=UTF-8',
+        'x-access-token': TOKEN,
+      },
+      body: JSON.stringify(data),
+    }).catch((e) => console.log(e));
+
+    // Update vote value
+    if (unvoted) {
+      voteSpan.textContent = (parseInt(voteSpan.textContent) - 1).toString();
+      console.log('-1');
+    }
+  }
+
+  const updated = updateVotesTotal(data.playlistId, data.songId, data.userId);
+  if (updated) {
+    console.log('Updated !');
+    toggleVoteClass(this);
+  } else {
+    console.log('Not updated :(');
+  }
+}
+
+async function updateVotesTotal(playlistId, songId, userId) {
+  // Set up body
+  const data = {
+    playlistId: PLAYLISTID,
+    userId: userId,
+    songId: songId,
+  };
+
+  // Set up url
+  console.log('Body addVote', JSON.stringify(data));
+  const endpoint = '/votes';
+  const url = new URL(backend + endpoint);
+
+  const updated = await fetch(url, {
+    method: 'PATCH',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
       'x-access-token': TOKEN,
     },
     body: JSON.stringify(data),
-  });
-  if (voted) {
-    console.log('Vote: ', voted);
-  } else {
-    console.log('no vote: ', voted);
-  }
+  }).catch((e) => console.log(e));
 
-  // Update vote value
-  const voteSpan =
-    this.parentElement.parentElement.querySelector('span.votesNb');
-  voteSpan.value = voteSpan.value + 1;
-  toggleVote(this);
+  if (updated) console.log('Updated song n°', songId);
 }
 
 async function submitSong() {
@@ -210,8 +271,9 @@ async function findOrAddSong(
     // console.log('added promise:', added);
     if (added.status === 201) {
       // console.log('Song added to global songs !');
-      await addToPlaylist(added, playlistId, userId);
-      // .catch((e)=>console.log(e))
+      await addToPlaylist(added, playlistId, userId).catch((e) =>
+        console.log(e)
+      );
     }
   } // If a song was found, check if in playlist
   else {
@@ -220,7 +282,7 @@ async function findOrAddSong(
     // console.log('Song already exists !');
     const localFound = await searchInPlaylist(res, playlistId);
     // console.log('3globalFound: ', globalFound);
-    // console.log('LocalFound:', localFound);
+    // console.log('LocalFound:', localFound.json());
     if (localFound.status === 404) {
       // console.log('4globalFound: ', globalFound);
       // console.log('Song isnt in current playlist');
@@ -239,25 +301,49 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   const songEndpoint = '/songs';
   const songId = promiseResult.song.id;
   // if (isInt(song.id)) songId = parseInt(id);
-  const body = JSON.stringify({
+  const data = {
     songId: songId,
     votesNb: 1,
     submitterId: userId,
-  });
-  const url = new URL(backend + playlistEndPoint + songEndpoint);
+  };
+  const songUrl = new URL(backend + playlistEndPoint + songEndpoint);
 
   // Add song to playlist
-  await fetch(url, {
+  await fetch(songUrl, {
     method: 'PUT',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
       'x-access-token': TOKEN,
     },
-    body,
+    body: JSON.stringify(data),
   }).catch((e) => console.log(e));
 
+  // Set up user vote data and url
+  const voteData = {
+    userId: USERID,
+    playlistId: PLAYLISTID,
+    songId: songId,
+  };
+  const endpoint = '/votes';
+  const voteUrl = new URL(backend + endpoint);
+
+  // Add vote of the current user to the desired song
+  const voted = await fetch(voteUrl, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json; charset=UTF-8',
+      'x-access-token': TOKEN,
+    },
+    body: JSON.stringify(voteData),
+  });
+  if (voted) {
+    console.log('Vote: ', voted);
+  } else {
+    console.log('no vote: ', voted);
+  }
+
   // Display the added song
-  await refreshPlaylist(PLAYLISTID);
+  await refreshPlaylist(PLAYLISTID).catch((e) => console.log(e));
 }
 
 async function searchInPlaylist(promiseResult, playlistId) {
@@ -268,9 +354,10 @@ async function searchInPlaylist(promiseResult, playlistId) {
   const playlistSongEndpoint = playlistEndPoint + '/' + songId + '/';
   const url = new URL(backend + playlistSongEndpoint);
 
+  // console.log('Look in playlist !');
   // Look for song in playlist
-  return await fetch(url, {
-    method: 'GET',
+  return fetch(url, {
+    method: 'POST',
     headers: {
       'content-type': 'charset=UTF-8',
       'x-access-token': TOKEN,
@@ -354,7 +441,7 @@ function runSearch(e) {
   }
 }
 
-function toggleVote(element) {
+function toggleVoteClass(element) {
   element.classList.toggle('voted');
 }
 
