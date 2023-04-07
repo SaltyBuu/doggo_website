@@ -1,5 +1,6 @@
 const backend = 'http://localhost:3000';
-const TOKEN = 'toreplace';
+const TOKEN = undefined;
+const { CLIENTID, CLIENTSECRET } = process.env;
 const PLAYLISTID = 12;
 const USERID = 1;
 //TODO admin account verify token

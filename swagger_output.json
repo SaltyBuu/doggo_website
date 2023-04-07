@@ -1102,6 +1102,55 @@
           }
         }
       }
+    },
+    "/runSearch": {
+      "post": {
+        "tags": [
+          "Spotify search"
+        ],
+        "summary": "Search songs by name.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Name of the song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "A blessing"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned list of songs."
+          },
+          "400": {
+            "description": "Search failed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Could not look for \"<songName>\""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
