@@ -4,7 +4,6 @@ const status = require('http-status');
 const has = require('has-keys');
 const CodeError = require('../CodeError');
 
-//TODO doc api
 module.exports = {
   async searchSong(req, res) {
     /*
@@ -151,7 +150,9 @@ module.exports = {
     //TODO id validation
     //TODO Email validation
     const playlistId = parseInt(req.params.playlistId);
-    const songId = parseInt(req.params.playlistId);
+    const songId = parseInt(req.params.songId);
+    console.log('playlistId', playlistId);
+    console.log('songId', songId);
     const song = await prisma.playlistSong.delete({
       where: {
         playlistId_songId: {

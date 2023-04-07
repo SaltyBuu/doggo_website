@@ -1,8 +1,8 @@
 const backend = 'http://localhost:3000';
 const TOKEN = 'toreplace';
-const PLAYLISTID = 1;
-const USERID = 3;
-
+const PLAYLISTID = 12;
+const USERID = 1;
+//TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('../music/bee-gees-stayin-alive.wav');
 
@@ -105,6 +105,7 @@ async function refreshPlaylist(playlistId) {
             );
           const voteImg = resultDiv.querySelector('span.vote > img');
           voteImg.dataset.id = song.id.toString();
+          resultDiv.dataset.id = song.id.toString();
           if (submitterid === USERID) toggleVoteClass(voteImg);
 
           // Add current song to new children
@@ -187,6 +188,21 @@ function toggleVote() {
     if (unvoted) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) - 1).toString();
       console.log('-1');
+      if (voteSpan.textContent === '0') {
+        deletePlaylistSong(PLAYLISTID, songId)
+          .then((res) => {
+            if (res.status === 200) {
+              const currentId = this.dataset.id;
+              const currentDiv = document.querySelector(
+                'div[data-id="' + currentId + '"]'
+              );
+              console.log('Div:', currentDiv);
+              currentDiv.remove();
+              return;
+            }
+          })
+          .catch((e) => console.log(e));
+      }
     }
   }
 
@@ -197,6 +213,20 @@ function toggleVote() {
   } else {
     console.log('Not updated :(');
   }
+}
+
+async function deletePlaylistSong(playlistId, songId) {
+  const endpoint = '/' + playlistId + '/' + songId;
+  const url = new URL(backend + endpoint);
+  console.log(url.href);
+
+  return await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json; charset=UTF-8',
+      'x-access-token': TOKEN,
+    },
+  });
 }
 
 async function updateVotesTotal(playlistId, songId, userId) {
@@ -280,13 +310,15 @@ async function findOrAddSong(
     const res = await globalFound.json();
     // console.log('2globalFound: ', globalFound);
     // console.log('Song already exists !');
-    const localFound = await searchInPlaylist(res, playlistId);
+    const localFound = await searchInPlaylist(res, playlistId).catch((e) =>
+      console.log(e)
+    );
     // console.log('3globalFound: ', globalFound);
     // console.log('LocalFound:', localFound.json());
     if (localFound.status === 404) {
       // console.log('4globalFound: ', globalFound);
       // console.log('Song isnt in current playlist');
-      await addToPlaylist(res, playlistId, userId);
+      await addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     } else {
       console.log('Found', localFound);
       //TODO Scroll to song
