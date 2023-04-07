@@ -33,7 +33,7 @@ function init() {
 function startUp() {
   init();
   // Display current playlistsongs on startup
-  refreshPlaylist(PLAYLISTID).catch((e) => console.log(e));
+  refreshPlaylist(PLAYLISTID);
 
   // Music controls
   audio.preload = 'auto';
@@ -49,14 +49,14 @@ function startUp() {
   //refresh without addinglistener
 }
 
-async function refreshPlaylist(playlistId) {
+function refreshPlaylist(playlistId) {
   console.log('REFRESHING');
   // Set up query url
   const endpoint = '/' + playlistId + '/songs';
   const url = new URL(backend + endpoint);
 
   // Fetch songs of the current playlist
-  await fetch(url, {
+  fetch(url, {
     method: 'GET',
     headers: {
       'x-access-token': TOKEN,
@@ -71,7 +71,7 @@ async function refreshPlaylist(playlistId) {
       console.log('Results:', results);
 
       // Check if there is at least one song
-      if (results != null || results.length !== 0) {
+      if (results != null || results !== undefined || results.length !== 0) {
         // List of songs div
         const playlistDiv = document.querySelector('div.list');
 
@@ -124,7 +124,7 @@ async function refreshPlaylist(playlistId) {
     .catch((e) => console.log(e));
 }
 
-function toggleVote() {
+async function toggleVote() {
   //TODO handle unvote
   //TODO increment votesNb
 
@@ -189,24 +189,22 @@ function toggleVote() {
       voteSpan.textContent = (parseInt(voteSpan.textContent) - 1).toString();
       console.log('-1');
       if (voteSpan.textContent === '0') {
-        deletePlaylistSong(PLAYLISTID, songId)
-          .then((res) => {
-            if (res.status === 200) {
-              const currentId = this.dataset.id;
-              const currentDiv = document.querySelector(
-                'div[data-id="' + currentId + '"]'
-              );
-              console.log('Div:', currentDiv);
-              currentDiv.remove();
-              return;
-            }
-          })
-          .catch((e) => console.log(e));
+        const deleted = await deletePlaylistSong(PLAYLISTID, songId);
+        if (deleted.status === 200) {
+          console.log('Status 200 !');
+          const currentId = this.dataset.id;
+          console.log('Get id');
+          const currentDiv = document.querySelector(
+            'div[data-id="' + currentId + '"]'
+          );
+          console.log('Div:', currentDiv);
+          currentDiv.remove();
+          return;
+        }
       }
     }
   }
-
-  const updated = updateVotesTotal(data.playlistId, data.songId, data.userId);
+  const updated = updateVotesTotal(PLAYLISTID, data.songId);
   if (updated) {
     console.log('Updated !');
     toggleVoteClass(this);
@@ -220,7 +218,7 @@ async function deletePlaylistSong(playlistId, songId) {
   const url = new URL(backend + endpoint);
   console.log(url.href);
 
-  return await fetch(url, {
+  return fetch(url, {
     method: 'DELETE',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
@@ -229,11 +227,10 @@ async function deletePlaylistSong(playlistId, songId) {
   });
 }
 
-async function updateVotesTotal(playlistId, songId, userId) {
+async function updateVotesTotal(playlistId, songId) {
   // Set up body
   const data = {
-    playlistId: PLAYLISTID,
-    userId: userId,
+    playlistId: playlistId,
     songId: songId,
   };
 
@@ -254,7 +251,7 @@ async function updateVotesTotal(playlistId, songId, userId) {
   if (updated) console.log('Updated song n°', songId);
 }
 
-async function submitSong() {
+function submitSong() {
   // Get user search input
   const searchInput = document.getElementById('search');
   if (!searchInput.value || currentResults.length === 0) return;
@@ -265,7 +262,7 @@ async function submitSong() {
   console.log(searchInput.value);
 
   // Try to add the searched song to the current playlist
-  await findOrAddSong(
+  findOrAddSong(
     PLAYLISTID,
     USERID,
     option.dataset.name,
@@ -301,9 +298,8 @@ async function findOrAddSong(
     // console.log('added promise:', added);
     if (added.status === 201) {
       // console.log('Song added to global songs !');
-      await addToPlaylist(added, playlistId, userId).catch((e) =>
-        console.log(e)
-      );
+      const res = await added.json();
+      addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     }
   } // If a song was found, check if in playlist
   else {
@@ -318,7 +314,7 @@ async function findOrAddSong(
     if (localFound.status === 404) {
       // console.log('4globalFound: ', globalFound);
       // console.log('Song isnt in current playlist');
-      await addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
+      addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     } else {
       console.log('Found', localFound);
       //TODO Scroll to song
@@ -375,7 +371,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   }
 
   // Display the added song
-  await refreshPlaylist(PLAYLISTID).catch((e) => console.log(e));
+  refreshPlaylist(PLAYLISTID);
 }
 
 async function searchInPlaylist(promiseResult, playlistId) {
@@ -397,10 +393,10 @@ async function searchInPlaylist(promiseResult, playlistId) {
   });
 }
 
-async function searchInSongs(data, url) {
+function searchInSongs(data, url) {
   // Look for song in the global song database
   const body = JSON.stringify(data);
-  return await fetch(url, {
+  return fetch(url, {
     method: 'POST',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
@@ -411,10 +407,10 @@ async function searchInSongs(data, url) {
   });
 }
 
-async function addToSongs(data, url) {
+function addToSongs(data, url) {
   // Add a song to the global song databse
   const body = JSON.stringify(data);
-  return await fetch(url, {
+  return fetch(url, {
     method: 'PUT',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
