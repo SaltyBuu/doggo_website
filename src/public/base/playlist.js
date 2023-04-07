@@ -1,7 +1,6 @@
 const backend = 'http://localhost:3000';
-const TOKEN = undefined;
-const { CLIENTID, CLIENTSECRET } = process.env;
 const PLAYLISTID = 12;
+const TOKEN = 'toreplace';
 const USERID = 1;
 //TODO admin account verify token
 let currentResults = [];
@@ -440,30 +439,42 @@ function displayResults(results) {
     newOption.dataset.thumbnail = r.thumbnail;
     optNodes.push(newOption);
   });
+  console.log(optNodes);
   datalist.replaceChildren(...optNodes);
+  document.querySelector('input#search').setAttribute('open', 'true');
 }
 
-function runSearch(e) {
+async function runSearch(e) {
   // When pressing Enter or given 2+ characters, fetch 5 search results
   if (e.key === 'Enter' || this.value.length > 2) {
     this.style.disabled = true;
     // Set up query url
-    const endPoint = '/songs';
+    const endPoint = '/runSearch';
     const url = new URL(backend + endPoint);
 
     // Fetch(url, { method: "GET" });
     console.log('Requête spotify :', url); // => apiResults.json()
-    const extractedResults = apiResults;
-    console.log(extractedResults);
+    const extractedResults = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json; charset=UTF-8',
+        'x-access-token': TOKEN,
+      },
+      body: JSON.stringify({ name: this.value }),
+    })
+      .then((res) => res.json())
+      .catch((e) => console.log(e));
+    console.log('ExtractedResults', extractedResults);
 
     // Process search results
-    const results = extractedResults.tracks.items.map((s) => ({
+    const results = await extractedResults.results.tracks.items.map((s) => ({
       artist: s.album.artists[0].name,
       album: s.album.name,
       name: s.name,
       thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
     }));
 
+    console.log('Results', results);
     // Display search results as clickable options
     currentResults = results;
     displayResults(results);
