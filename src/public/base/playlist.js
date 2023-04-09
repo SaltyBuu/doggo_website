@@ -117,6 +117,10 @@ function refreshPlaylist(playlistId) {
         [...playlistDiv.children].forEach((child) => {
           const voteImg = child.querySelector('span.vote > img');
           voteImg.addEventListener('click', toggleVote);
+          const title = child.querySelector('span.title');
+          if (title.scrollWidth > title.offsetWidth) {
+            title.classList.add('scroll');
+          }
           // voteImg.addEventListener('click', toggleVote)
         });
       }

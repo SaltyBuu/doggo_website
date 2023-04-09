@@ -11,8 +11,14 @@ div.title {
 
   /* z-index: 0; */
 
-  /* margin-left: 5%; */
+   /* margin-left: 5px; */
 }
+
+/** { */
+
+/*  outline: 1px white solid; */
+
+/* } */
 
 div#nul {
   visibility: hidden;
@@ -56,6 +62,27 @@ div.results {
   opacity: 0.9;
 }
 
+span.title {
+  align-items: start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+span.title.scroll:hover {
+  animation: scroll 5s linear infinite;
+  /*animation-play-state: running;*/
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 div.list-container {
   /* position: relative; */
   height: 100%;
@@ -63,6 +90,7 @@ div.list-container {
   display: flex;
   justify-content: center;
   flex-direction: row;
+  padding-left: 5px;
 }
 
 div.list {
@@ -72,19 +100,24 @@ div.list {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  /*border: 2px solid black;*/
+
+  /* border: 2px solid black; */
+
   opacity: 0.9;
   width: 100%;
-  scrollbar-width: thin;
+  scrollbar-width: 10px;
+  padding-right: 10px;
   scrollbar-color: black orange;
 }
 
 div.list::-webkit-scrollbar {
   width: 10px;
 }
+
 div.list::-webkit-scrollbar-track {
   background: orange;
 }
+
 div.list::-webkit-scrollbar-thumb {
   background-color: black;
 }
@@ -120,6 +153,8 @@ span.info-container {
   flex-direction: row;
   align-items: center;
   height: 100%;
+  max-width: 100%;
+  overflow: hidden;
   flex-grow: 2;
 }
 
@@ -127,7 +162,7 @@ span.info {
   height: 50%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
   align-items: center;
   justify-content: space-evenly;
   margin-left: 0;
@@ -149,19 +184,15 @@ span.artist {
   align-items: end;
 }
 
-span.title {
-  align-items: start;
-  overflow: auto;
-}
 
-span.votesNb-img {
+span.votesnb-img {
   height: 100%;
   display: flex;
   align-items: center;
   width: 40%;
 }
 
-span.votesNb-container {
+span.votesnb-container {
   height: 50%;
   display: flex;
   align-items: center;
@@ -183,13 +214,13 @@ span.cover-container {
   align-items: center;
   height: 70%;
   width: auto;
-  overflow: hidden;
   box-shadow: 1px 1px 5px black;
-  /*object-fit: contain;*/
+
+  /* object-fit: contain; */
 }
 
 div.song > span {
-  /*border: 1px solid white;*/
+  /* border: 1px solid white; */
 }
 
 span.vote {
@@ -206,7 +237,7 @@ img.vote {
 }
 
 img.vote.voted {
-  box-shadow: 0px 0px 5px #fff;
+  box-shadow: 0 0 5px #fff;
   border-radius: 10px;
   background-color: white;
 }
@@ -233,6 +264,7 @@ div.right-container {
 div#models {
   display: none;
 }
+
 /* input#add { */
 
 /*  width: 50px; */
