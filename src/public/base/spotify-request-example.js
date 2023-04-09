@@ -430,3 +430,5 @@ const apiResults = {
     total: 1000,
   },
 };
+
+module.exports = apiResults;

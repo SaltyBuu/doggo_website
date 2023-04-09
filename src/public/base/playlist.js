@@ -1,7 +1,7 @@
 const backend = 'http://localhost:3000';
-const PLAYLISTID = 12;
+const PLAYLISTID = 25;
+const USERID = 27;
 const TOKEN = 'toreplace';
-const USERID = 1;
 //TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('../music/bee-gees-stayin-alive.wav');
@@ -117,6 +117,10 @@ function refreshPlaylist(playlistId) {
         [...playlistDiv.children].forEach((child) => {
           const voteImg = child.querySelector('span.vote > img');
           voteImg.addEventListener('click', toggleVote);
+          const title = child.querySelector('span.title');
+          if (title.scrollWidth > title.offsetWidth) {
+            title.classList.add('scroll');
+          }
           // voteImg.addEventListener('click', toggleVote)
         });
       }
@@ -467,7 +471,7 @@ async function runSearch(e) {
     console.log('ExtractedResults', extractedResults);
 
     // Process search results
-    const results = await extractedResults.results.tracks.items.map((s) => ({
+    const results = extractedResults.results.tracks.items.map((s) => ({
       artist: s.album.artists[0].name,
       album: s.album.name,
       name: s.name,
