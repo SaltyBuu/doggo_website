@@ -70,7 +70,8 @@ span.title {
 
 span.title.scroll:hover {
   animation: scroll 5s linear infinite;
-  /*animation-play-state: running;*/
+
+  /* animation-play-state: running; */
 }
 
 @keyframes scroll {
@@ -159,7 +160,7 @@ span.info-container {
 }
 
 span.info {
-  height: 50%;
+  /* height: 100%; */
   width: 100%;
   display: flex;
   flex-flow: column wrap;
