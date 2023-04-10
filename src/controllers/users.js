@@ -1,9 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const status = require('http-status');
+const jwt = require('jwt');
 const has = require('has-keys');
 const CodeError = require('../CodeError');
 const { isInt } = require('../middlewares/validation');
+const { TOKENSECRET } = process.env;
 
 module.exports = {
   async getUser(req, res) {
@@ -164,6 +165,66 @@ module.exports = {
         schema: {
             message: 'User updated',
             user: { $ref: '#/definitions/user' }
+        }
+    }
+    */
+  },
+  async getToken(req, res) {
+    /*
+    #swagger.tags = ['Authentication']
+    #swagger.summary = 'Authenticate user.'
+    #swagger.parameters['obj'] = {
+        in: 'body',
+        description: 'Login and password hash of a user',
+        required: true,
+        schema: {
+            login: 'Alfredus',
+            password: 'o4e67bcda8e9',
+        }
+    }
+    */
+    if (!has(req.body, ['login', 'password'])) {
+      throw new CodeError('Missing login or password', 400);
+    }
+    const user = prisma.user.findFirst({
+      data: {
+        login: req.body.login,
+        password: req.body.password,
+      },
+    });
+    if (user) {
+      //TODO handle admin verification
+      //TODO swagger doc
+      const payload = {
+        userId: user.id,
+        login: user.login,
+        isAdmin: user.isAdmin,
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      };
+
+      // Generate token
+      const token = jwt.sign({
+        header: { alg: 'HS256' },
+        payload: payload,
+        secret: TOKENSECRET,
+      });
+      res.status(200).json({
+        token,
+      });
+    } else {
+      res.status(403).json({ message: 'Unknown user.' });
+    }
+    /*
+    #swagger.responses[200] = {
+        description: 'Token generated.',
+        schema: {
+            token: 'Ddefzkjefbkzejf'
+        }
+    }
+    #swagger.responses[403] = {
+        description: 'Unknown user.',
+        schema: {
+            message: 'Unknown user.'
         }
     }
     */

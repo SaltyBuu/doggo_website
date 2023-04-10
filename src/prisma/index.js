@@ -19,6 +19,14 @@ async function main() {
   });
   await prisma.user.create({
     data: {
+      login: 'saltybuu',
+      password: 'yes',
+      mail: 'sal@ty.buu',
+      admin: true,
+    },
+  });
+  await prisma.user.create({
+    data: {
       login: 'Jess',
       password: 'testastotestato',
       mail: 'jess@hihan.io',
