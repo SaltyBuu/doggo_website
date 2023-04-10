@@ -21,5 +21,7 @@ function startUp() {
     () => (window.location.href = 'signin.html')
   );
 }
+//TODO send post request using encrypted password
+//TODO Store received token in cookie
 
 window.addEventListener('load', startUp);

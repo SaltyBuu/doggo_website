@@ -36,6 +36,7 @@ model User {
   createdAt    DateTime       @default(now())
   PlaylistSong PlaylistSong[]
   Vote         Vote[]
+  isAdmin      Boolean        @default(false)
 }
 
 model PlaylistSong {
