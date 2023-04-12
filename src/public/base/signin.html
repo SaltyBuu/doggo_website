@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="index.css"/>
   <link rel="stylesheet" href="signin.css"/>
   <link rel="stylesheet" href="../styles/animations.css"/>
-  <script src="signin.js" type="module"></script>
+  <script src="signin.js" type="text/javascript"></script>
 </head>
 <body>
 <header>
@@ -56,9 +56,13 @@
     <legend> Connexion </legend>
     <form class="signin" action="." method="POST">
       <div class="sign">
-        <input type="text" name="login" placeholder="Nom d'utilisateur">
+        <label for="login"> Nom d'utilisateur </label>
+        <input type="text" name="login" placeholder="admirateursecret666">
+        <label for="password"> Mot de passe</label>
+        <input type="password" name="password" placeholder="pasazerty1234">
+        <label for="email"> Adresse mail </label>
         <input type="text" name="email" placeholder="Email">
-        <input type="submit" name="signin" id="signin-btn" value="Se connecter">
+        <input type="button" name="signin" id="signin-btn" value="Se connecter">
       </div>
       <div class="register">
         <input type="submit" name="register" id="register-btn" value="S'inscrire" >

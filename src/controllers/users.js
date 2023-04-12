@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const has = require('has-keys');
 const CodeError = require('../CodeError');
 const { isInt } = require('../middlewares/validation');

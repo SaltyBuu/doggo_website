@@ -228,7 +228,7 @@ input[type='button']:active {
 
   /* font-size: 1.2em; */
 }
-
+input[type='password'],
 input[type='text'] {
   border: 2px solid black;
   border-radius: 10px;

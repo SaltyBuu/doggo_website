@@ -24,6 +24,7 @@
 - chargement puis mise en page
 - changement taille albums responsive
 - bouton gradient hover infini voir playlist
+- régler pb police
 
 ## Deployment
 - githubaction vers le repo privé
