@@ -1,4 +1,5 @@
 import { toggleMute, toggleSidebar } from './lib.js';
+const TOKEN = 'toreplace';
 const backend = 'http://localhost:3000';
 
 function startUp() {
@@ -40,6 +41,7 @@ async function sendCredentials() {
     password: hashed,
     mail: mail,
   };
+  console.log('Body:', JSON.stringify(data));
   fetch(url, {
     method: 'POST',
     headers: {

@@ -1,3 +1,4 @@
+// import { toggleMute, toggleSidebar } from './lib.js';
 const backend = 'http://localhost:3000';
 const PLAYLISTID = 25;
 const USERID = 27;
@@ -457,7 +458,7 @@ async function runSearch(e) {
     const url = new URL(backend + endPoint);
 
     // Fetch(url, { method: "GET" });
-    console.log('Requête spotify :', url); // => apiResults.json()
+    console.log('Requête spotify :', url);
     const extractedResults = await fetch(url, {
       method: 'POST',
       headers: {

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+router.use(require('./authentication'));
 router.use(require('./songs'));
 router.use(require('./users'));
 router.use(require('./votes'));

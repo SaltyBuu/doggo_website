@@ -1,5 +1,5 @@
-import { toggleMute } from './lib.js';
-import { toggleSidebar } from './lib.js';
+import { toggleMute, toggleSidebar } from './lib.js';
+
 function startUp() {
   const speakers = document.querySelectorAll('div.speaker-bg');
   const menuIcon = document.querySelector('#menu-icon-bg');

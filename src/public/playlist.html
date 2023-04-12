@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Spotifight</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="images/favicon/manifest.webmanifest" crossorigin="use-credentials">
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/playlist.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <script src="lib.js" type="text/javascript"></script>
+  <script src="js/playlist.js" type="text/javascript"></script>
+</head>
+<body>
+<header>
+  <span class="logo"></span>
+</header>
+<nav>
+  <div class="btnContainer" id="nul">
+    <input type="button" name="nul" id="tjrsnul" value="Se connecter" />
+  </div>
+  <div class="title">
+    <p>
+      Tomtom's playlist
+    </p>
+  </div>
+  <div class="btnContainer sign">
+    <input type="button" name="signin" id="signin-btn" value="Se connecter" />
+  </div>
+</nav>
+<div class="background">
+  <div id="bg-drawing">
+    <div class="speakers">
+      <div class="speaker-container small left">
+        <div class="speaker-bg small left">
+          <img
+            class="speaker small left"
+            src="images/speaker.png"
+            alt="Petit haut-parleur"
+          />
+        </div>
+      </div>
+      <div class="speaker-container big">
+        <div class="speaker-bg big">
+          <img
+            class="speaker big"
+            src="images/speaker_cropped.png"
+            alt="Grand haut-parleur"
+          />
+        </div>
+      </div>
+      <div class="speaker-container small right">
+        <div class="speaker-bg small right">
+          <img
+            class="speaker small right"
+            src="images/speaker.png"
+            alt="Petit haut-parleur"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="bubbles">
+      <div class="red circle"></div>
+      <div class="orange circle"></div>
+      <div class="violet circle"></div>
+    </div>
+  </div>
+</div>
+<div id="sidebar">
+  <div id="menu-icon-bg">
+    <img
+      class="menu-icon"
+      src="images/menu_contour.png"
+      alt="Menu contextuel"
+
+    />
+  </div>
+  <div id="toggle-menu" class="pulled">
+        <span id="home">
+            <a href="index.html">
+                <img
+                  class="home-icon"
+                  src="images/home.svg"
+                  alt="Home"
+                />
+            </a>
+        </span>
+    <span id="mute">
+            <img
+              class="soundon-icon"
+              src="images/sound-max.svg"
+              alt="Sound on"
+            />
+            <img
+              class="mute-icon hidden"
+              src="images/sound-mute.svg"
+              alt="Sound off"
+            />
+            </span>
+  </div>
+</div>
+<div class="wrapper">
+  <div class="list-container">
+    <!--  <div class="scrollbar"></div>-->
+    <div class="list">
+<!--      <div class="song">Chanson A</div>-->
+<!--      <div class="song">Chanson B</div>-->
+<!--      <div class="song">Chanson C</div>-->
+<!--      <div class="song">Chanson D</div>-->
+<!--      <div class="song">Chanson E</div>-->
+<!--      <div class="song">Chanson F</div>-->
+    </div>
+  </div>
+  <div class="search">
+    <div class="search-input">
+      <input id="search" list="searchResults" type="text" name="search"
+             autocomplete="off" placeholder="Search song">
+      <input id="add" type="button" name="add" value="Ajouter">
+      <datalist id="searchResults"></datalist>
+      <!--    <div class="results"></div>-->
+    </div>
+  </div>
+</div>
+
+<div id="models">
+  <div class="model song">
+    <div class="left-container">
+      <span class="cover">
+        <span class="cover-container">
+          <img
+            class="thumbnail"
+            src=""
+            alt=""
+          />
+        </span>
+      </span>
+      <span class="info-container">
+        <span class="info">
+          <span class="title"></span>
+          <span class="artist"></span>
+        </span>
+      </span>
+    </div>
+    <div class="right-container">
+      <span class="votesnb-container">
+        <span class="votesNb"></span>
+        <span class="votesnb-img">
+          <img
+            class="votesNb"
+            src="images/trend.png"
+            alt="Current votesNb"
+          />
+        </span>
+      </span>
+      <span class="vote">
+        <img
+          class="vote"
+          src="images/vote64.png"
+          alt="Vote button"
+        />
+      </span>
+    </div>
+  </div>
+  <option class="model result" value="">
+</div>
+
+<footer>
+  <a id="contact" href="https://toto.fr">Source code</a>
+  <a id="legal" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Mentions légales</a>
+  <! https://www.youtube.com/watch?v=dPmZqsQNzGA>
+</footer>
+
+</body>
+</html>

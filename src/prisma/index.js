@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const apiResults = require('../public/base/spotify-request-example');
+const apiResults = require('../public/js/spotify-request-example');
 const prisma = new PrismaClient();
 const results = apiResults.tracks.items.map((s) => ({
   artist: s.album.artists[0].name,
