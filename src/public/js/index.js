@@ -1,5 +1,3 @@
-import { toggleMute, toggleSidebar } from './lib.js';
-
 function startUp() {
   const speakers = document.querySelectorAll('div.speaker-bg');
   const menuIcon = document.querySelector('#menu-icon-bg');
@@ -25,6 +23,12 @@ function startUp() {
     'click',
     () => (window.location.href = 'playlist.html')
   );
+
+  console.log('Token:', localStorage.accessToken);
+  if (localStorage.accessToken !== undefined) {
+    signinBtn.classList.toggle('connected');
+    signinBtn.value = localStorage.user;
+  }
 }
 function toggleSpeakers(audio) {
   const speakers = document.querySelectorAll('div.speaker-bg');

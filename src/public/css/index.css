@@ -201,6 +201,11 @@ input[type='submit'] {
   outline: none;
 }
 
+input[type='button'].connected {
+  border-radius: 5px;
+  transition: none;
+  cursor: none;
+}
 /* #signinBtn { */
 
 /*  height: 90%; */
