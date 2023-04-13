@@ -23,5 +23,6 @@ module.exports = {
     } else {
       throw new CodeError('Forbidden', 403);
     }
+    next();
   },
 };

@@ -183,16 +183,19 @@ module.exports = {
         }
     }
     */
+    // console.log('wtf', req);
+    console.log('Le voilà ton body !', req.body);
     if (!has(req.body, ['login', 'password'])) {
       throw new CodeError('Missing login or password', 400);
     }
-    const user = prisma.user.findFirst({
-      data: {
+    const user = await prisma.user.findFirst({
+      where: {
         login: req.body.login,
         password: req.body.password,
       },
     });
     if (user) {
+      console.log('USER:', user);
       //TODO handle admin verification
       //TODO swagger doc
       const payload = {
@@ -201,13 +204,9 @@ module.exports = {
         isAdmin: user.isAdmin,
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
       };
-
+      console.log('TOKENSECRET', TOKENSECRET);
       // Generate token
-      const token = jwt.sign({
-        header: { alg: 'HS256' },
-        payload: payload,
-        secret: TOKENSECRET,
-      });
+      const token = jwt.sign(payload, TOKENSECRET);
       res.status(200).json({
         token,
       });

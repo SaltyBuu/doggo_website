@@ -1,10 +1,11 @@
+// import { toggleMute, toggleSidebar } from './lib.js';
 const backend = 'http://localhost:3000';
-const PLAYLISTID = 25;
-const USERID = 27;
+const PLAYLISTID = 1;
+const USERID = 3;
 const TOKEN = 'toreplace';
 //TODO admin account verify token
 let currentResults = [];
-const audio = new Audio('../music/bee-gees-stayin-alive.wav');
+const audio = new Audio('music/bee-gees-stayin-alive.wav');
 
 // Common int validation function
 const isInt = function (id) {
@@ -457,7 +458,7 @@ async function runSearch(e) {
     const url = new URL(backend + endPoint);
 
     // Fetch(url, { method: "GET" });
-    console.log('Requête spotify :', url); // => apiResults.json()
+    console.log('Requête spotify :', url);
     const extractedResults = await fetch(url, {
       method: 'POST',
       headers: {
@@ -471,17 +472,19 @@ async function runSearch(e) {
     console.log('ExtractedResults', extractedResults);
 
     // Process search results
-    const results = extractedResults.results.tracks.items.map((s) => ({
-      artist: s.album.artists[0].name,
-      album: s.album.name,
-      name: s.name,
-      thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
-    }));
+    if (extractedResults.results !== undefined) {
+      const results = extractedResults.results.tracks.items.map((s) => ({
+        artist: s.album.artists[0].name,
+        album: s.album.name,
+        name: s.name,
+        thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
+      }));
 
-    console.log('Results', results);
-    // Display search results as clickable options
-    currentResults = results;
-    displayResults(results);
+      console.log('Results', results);
+      // Display search results as clickable options
+      currentResults = results;
+      displayResults(results);
+    }
   }
 }
 
