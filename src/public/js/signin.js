@@ -1,5 +1,3 @@
-// import { toggleMute, toggleSidebar } from './lib.js';
-const TOKEN = 'toreplace';
 const backend = 'http://localhost:3000';
 
 function startUp() {
@@ -46,18 +44,24 @@ async function sendCredentials() {
     method: 'POST',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
     },
     body: JSON.stringify(data),
   })
-    .then((res) => res.json)
-    .then((json) => {
-      // console.log(json);
-      if (json.status === 200) {
-        console.log('Token: ', json.token);
+    .then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          console.log('Token: ', json.token);
+          localStorage.accessToken = json.token;
+          console.log('index.html');
+          localStorage.user = signDiv.getElementsByTagName('input')[0].value;
+          window.location.href = 'index.html';
+          //TODO enlever listener index.js
+        });
       }
-      if (json.status === 403) {
-        console.log('No token', json.message);
+      if (res.status === 403) {
+        res.json().then((json) => {
+          console.log('No token', json.message);
+        });
       }
     })
     .catch((e) => console.log(e));

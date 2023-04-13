@@ -49,3 +49,47 @@ form.signin {
   flex-direction: column;
   height: 100%;
 }
+
+/*!* Définition des couleurs *!*/
+/*:root {*/
+/*  --yellow: #fcd307;*/
+/*  --orange: #f16d21;*/
+/*  --pink: #ea3c8d;*/
+/*  --purple: #8a2be2;*/
+/*}*/
+
+/*!* Style du bouton *!*/
+/*input#signin-btn {*/
+/*  display: inline-block;*/
+/*  padding: 10px 20px;*/
+/*  font-size: 16px;*/
+/*  font-weight: bold;*/
+/*  color: #fff;*/
+/*  text-align: center;*/
+/*  text-transform: uppercase;*/
+/*  text-decoration: none;*/
+/*  border-radius: 45px;*/
+/*  background: linear-gradient(*/
+/*    -45deg,*/
+/*    var(--yellow),*/
+/*    var(--orange),*/
+/*    var(--pink),*/
+/*    var(--purple),*/
+/*    var(--yellow)*/
+/*  );*/
+/*  background-size: 400% 400%;*/
+/*  animation: gradient 2s ease infinite;*/
+/*}*/
+
+/*!* Animation du gradient *!*/
+/*@keyframes gradient {*/
+/*  0% {*/
+/*    background-position: 0% 50%;*/
+/*  }*/
+/*  50% {*/
+/*    background-position: 100% 50%;*/
+/*  }*/
+/*  100% {*/
+/*    background-position: 0% 50%;*/
+/*  }*/
+/*}*/
