@@ -22,7 +22,7 @@ async function main() {
       login: 'saltybuu',
       password: 'yes',
       mail: 'sal@ty.buu',
-      admin: true,
+      isAdmin: true,
     },
   });
   await prisma.user.create({
