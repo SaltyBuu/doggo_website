@@ -34,6 +34,7 @@ module.exports = {
     };
     console.log('token', token);
     const response = await fetch(url, requestOptions);
+    console.log('après fetch spotify');
     if (!response.ok) {
       console.log('1');
       if (response.status === 401) {

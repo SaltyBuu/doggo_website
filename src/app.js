@@ -35,13 +35,15 @@ app.use('*', (req, res, next) => {
 // API route
 app.use('/', require('./routes/router.js'));
 
+// Handling errors
+// app.use(function (err, req, res, next) {
+//   console.error(err.stack);
+//   res.status(500).send('An error occured' + err.message);
+// });
+
 // Default response
 app.use('*', (req, res) => {
   res.status(404).json({ status: false, message: 'Endpoint Not Found' });
 });
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send('Why would you broke the server ?');
-// });
 
 module.exports = app;

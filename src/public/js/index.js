@@ -1,3 +1,4 @@
+let token = undefined;
 function startUp() {
   const speakers = document.querySelectorAll('div.speaker-bg');
   const menuIcon = document.querySelector('#menu-icon-bg');
@@ -26,8 +27,10 @@ function startUp() {
 
   console.log('Token:', localStorage.accessToken);
   if (localStorage.accessToken !== undefined) {
+    //TODO valid token route + loading request
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
+    token = localStorage.accessToken;
   }
 }
 function toggleSpeakers(audio) {

@@ -12,14 +12,26 @@ module.exports = {
     req.body.id = parseInt(req.body.id);
     next();
   },
-  async checkRequest(req, res, next) {
+  checkRequest(req, res, next) {
     if (has(req.headers, ['x-access-token'])) {
       const token = req.headers['x-access-token'];
-      if (jwt.verify(token, 'HS256', TOKENSECRET)) {
-        next();
-      } else {
-        throw new CodeError('Forbidden', 403);
-      }
+      console.log('Token reçu:', token);
+      jwt.verify(
+        token,
+        TOKENSECRET,
+        { algorithm: 'HS256' },
+        function (err, decoded) {
+          if (err) {
+            console.log('JsonWebToken error:', err);
+            throw new CodeError('Forbidden', 403);
+          } else {
+            console.log('exp:', decoded.exp);
+            console.log('exp*1000:', decoded.exp);
+            if (Date.now() >= decoded.exp) next();
+            else throw new CodeError('Expired token', 403);
+          }
+        }
+      );
     } else {
       throw new CodeError('Forbidden', 403);
     }

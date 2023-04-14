@@ -2,7 +2,7 @@
 const backend = 'http://localhost:3000';
 const PLAYLISTID = 1;
 const USERID = 1;
-const TOKEN = 'toreplace';
+let token = undefined;
 //TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
@@ -29,6 +29,13 @@ function init() {
   );
   searchInput.addEventListener('keypress', runSearch);
   addBtn.addEventListener('click', submitSong);
+  console.log('Token:', localStorage.accessToken);
+  if (localStorage.accessToken !== undefined) {
+    //TODO valid token route + loading request
+    signinBtn.classList.toggle('connected');
+    signinBtn.value = localStorage.user;
+    token = localStorage.accessToken;
+  }
 }
 
 function startUp() {
@@ -60,7 +67,7 @@ function refreshPlaylist(playlistId) {
   fetch(url, {
     method: 'GET',
     headers: {
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
   })
     .then((res) => res.json())
@@ -78,7 +85,7 @@ function refreshPlaylist(playlistId) {
 
         // Parse playlist songs json
         results.forEach((r) => {
-          console.log(r.song);
+          // console.log(r.song);
           const song = r.song;
           const submitterid = r.submitter.id;
 
@@ -98,7 +105,7 @@ function refreshPlaylist(playlistId) {
           resultDiv
             .querySelector('span.artist')
             .appendChild(document.createTextNode(song.artist));
-          console.log('votesNb', r.votesNb);
+          // console.log('votesNb', r.votesNb);
           resultDiv
             .querySelector('span.votesNb')
             .appendChild(
@@ -160,7 +167,7 @@ async function toggleVote() {
       method: 'PUT',
       headers: {
         'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': TOKEN,
+        'x-access-token': token,
       },
       body: JSON.stringify(data),
     });
@@ -184,7 +191,7 @@ async function toggleVote() {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': TOKEN,
+        'x-access-token': token,
       },
       body: JSON.stringify(data),
     }).catch((e) => console.log(e));
@@ -227,7 +234,7 @@ async function deletePlaylistSong(playlistId, songId) {
     method: 'DELETE',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
   });
 }
@@ -248,7 +255,7 @@ async function updateVotesTotal(playlistId, songId) {
     method: 'PATCH',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
     body: JSON.stringify(data),
   }).catch((e) => console.log(e));
@@ -346,7 +353,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
     method: 'PUT',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
     body: JSON.stringify(data),
   }).catch((e) => console.log(e));
@@ -365,7 +372,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
     method: 'PUT',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
     body: JSON.stringify(voteData),
   });
@@ -393,7 +400,7 @@ async function searchInPlaylist(promiseResult, playlistId) {
     method: 'POST',
     headers: {
       'content-type': 'charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
   });
 }
@@ -405,7 +412,7 @@ function searchInSongs(data, url) {
     method: 'POST',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
 
     body,
@@ -419,7 +426,7 @@ function addToSongs(data, url) {
     method: 'PUT',
     headers: {
       'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': TOKEN,
+      'x-access-token': token,
     },
     body,
   });
@@ -463,7 +470,7 @@ async function runSearch(e) {
       method: 'POST',
       headers: {
         'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': TOKEN,
+        'x-access-token': token,
       },
       body: JSON.stringify({ name: this.value }),
     })
@@ -472,7 +479,10 @@ async function runSearch(e) {
     console.log('ExtractedResults', extractedResults);
 
     // Process search results
-    if (extractedResults.results !== undefined) {
+    if (
+      extractedResults !== undefined &&
+      extractedResults.results !== undefined
+    ) {
       const results = extractedResults.results.tracks.items.map((s) => ({
         artist: s.album.artists[0].name,
         album: s.album.name,
