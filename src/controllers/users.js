@@ -206,8 +206,9 @@ module.exports = {
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
       };
       console.log('TOKENSECRET', TOKENSECRET);
+      console.log('expiration:', payload.exp);
       // Generate token
-      const token = jwt.sign(payload, TOKENSECRET);
+      const token = jwt.sign(payload, TOKENSECRET, { algorithm: 'HS256' });
       res.status(200).json({
         token,
       });
