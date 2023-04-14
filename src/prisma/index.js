@@ -10,6 +10,7 @@ const results = apiResults.tracks.items.map((s) => ({
 //TODO setup CI
 async function main() {
   await prisma.user.deleteMany({});
+  await prisma.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
   const user = await prisma.user.create({
     data: {
       login: 'Henri',
@@ -34,6 +35,7 @@ async function main() {
   });
 
   await prisma.playlist.deleteMany({});
+  await prisma.$queryRaw`ALTER SEQUENCE "Playlist_id_seq" RESTART WITH 1;`;
   const playlist = await prisma.playlist.create({
     data: {
       name: 'Chill playlist',

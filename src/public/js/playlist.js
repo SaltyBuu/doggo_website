@@ -1,7 +1,7 @@
 // import { toggleMute, toggleSidebar } from './lib.js';
 const backend = 'http://localhost:3000';
 const PLAYLISTID = 1;
-const USERID = 3;
+const USERID = 1;
 const TOKEN = 'toreplace';
 //TODO admin account verify token
 let currentResults = [];
