@@ -123,12 +123,15 @@ module.exports = {
     */
     if (!has(req.body, ['playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
+    console.log('playlistid:', req.body.playlistId);
+    console.log('songid:', req.body.songId);
     const total = await prisma.vote.count({
       where: {
-        playlistId: req.body.playlistId,
-        songId: req.body.songId,
+        playlistId: parseInt(req.body.playlistId),
+        songId: parseInt(req.body.songId),
       },
     });
+    console.log('total:', total);
     if (total != null) {
       const song = await prisma.playlistSong.update({
         where: {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "npx htmlhint src/public/base/*.html -r style-disabled",
-    "start": "node src/utils/swagger.js && node --inspect src/server.js",
+    "start": "node src/utils/swagger.js && node src/server.js",
     "debug": "nodemon src/server.js",
     "update": "prisma migrate dev --name init && node src/prisma/index.js",
     "doc": "node src/utils/swagger.js"
@@ -26,6 +26,7 @@
     "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
     "express": "^4.18.2",
+    "helmet": "^6.1.5",
     "htmlhint": "^1.1.4",
     "http-status": "^1.6.2",
     "jsonwebtoken": "^9.0.0",

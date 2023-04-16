@@ -1,9 +1,17 @@
 const express = require('express');
 const logger = require('./logger');
+const helmet = require('helmet');
 const cors = require('cors');
 const app = express();
 app.use(logger.dev, logger.combined);
 app.use(express.json());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      'img-src': ['https:', 'data:'],
+    },
+  })
+);
 
 app.use(cors());
 const staticOptions = {
@@ -35,15 +43,14 @@ app.use('*', (req, res, next) => {
 // API route
 app.use('/', require('./routes/router.js'));
 
-// Handling errors
-// app.use(function (err, req, res, next) {
-//   console.error(err.stack);
-//   res.status(500).send('An error occured' + err.message);
-// });
-
 // Default response
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({ status: false, message: 'Endpoint Not Found' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal server error.');
 });
 
 module.exports = app;
