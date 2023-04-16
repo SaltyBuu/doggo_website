@@ -211,6 +211,7 @@ module.exports = {
       const token = jwt.sign(payload, TOKENSECRET, { algorithm: 'HS256' });
       res.status(200).json({
         token,
+        userid: user.id,
       });
     } else {
       res.status(403).json({ message: 'Unknown user.' });

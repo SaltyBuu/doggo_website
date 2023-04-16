@@ -25,7 +25,7 @@
 - changement taille albums responsive
 - bouton gradient hover infini voir playlist
 - régler pb police
-
+- texte remplacement image doit s'afficher correctement quand pas de cos
 ## Deployment
 - githubaction vers le repo privé
 
@@ -85,6 +85,14 @@ comment lier
 - try/catch sur les await prisma
 - express validator
 - Cache des requêtes
+- sécurité : utiliser rate-limiter-flexible pour limiter les tentatives d'authentification
+- express-validator
+
+## Performance
+- set NODE_ENV to production
 
 ## Bugs
 - url /base/doc plante le serveur -> gaffe aux url paramétrées
+- options de l'api spotify ne s'affiche pas en tapant directement
+- Entrée sur le formulaire de connexion renvoie vers localhost:3000 avec POST -> 404
+- problème d'update du nombre de votes d'une chanson déjà submit

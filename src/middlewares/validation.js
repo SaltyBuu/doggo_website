@@ -23,18 +23,21 @@ module.exports = {
         function (err, decoded) {
           if (err) {
             console.log('JsonWebToken error:', err);
-            throw new CodeError('Forbidden', 403);
+            next(err);
           } else {
             console.log('exp:', decoded.exp);
             console.log('exp*1000:', decoded.exp);
-            if (Date.now() >= decoded.exp) next();
-            else throw new CodeError('Expired token', 403);
+            if (Date.now() >= decoded.exp) {
+              console.log('valid token');
+              next();
+            } else {
+              next(new CodeError('Expired token', 403));
+            }
           }
         }
       );
     } else {
-      throw new CodeError('Forbidden', 403);
+      next(new CodeError('Forbidden', 403));
     }
-    next();
   },
 };

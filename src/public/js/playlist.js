@@ -1,9 +1,10 @@
 // import { toggleMute, toggleSidebar } from './lib.js';
 const backend = 'http://localhost:3000';
 const PLAYLISTID = 1;
-const USERID = 1;
+let userid = 1;
 let token = undefined;
 //TODO admin account verify token
+//TODO disconnect + home on expired
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
 
@@ -34,8 +35,11 @@ function init() {
     //TODO valid token route + loading request
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
+    console.log('Local user:', localStorage.user);
     token = localStorage.accessToken;
+    userid = parseInt(localStorage.userid);
   }
+  console.log('Local user ID:', userid);
 }
 
 function startUp() {
@@ -88,6 +92,8 @@ function refreshPlaylist(playlistId) {
           // console.log(r.song);
           const song = r.song;
           const submitterid = r.submitter.id;
+          //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
+          //TODO middleware de décryptage du token
 
           // Create new playlist song div
           const resultDiv = document
@@ -114,7 +120,7 @@ function refreshPlaylist(playlistId) {
           const voteImg = resultDiv.querySelector('span.vote > img');
           voteImg.dataset.id = song.id.toString();
           resultDiv.dataset.id = song.id.toString();
-          if (submitterid === USERID) toggleVoteClass(voteImg);
+          if (submitterid === userid) toggleVoteClass(voteImg);
 
           // Add current song to new children
           newChildren.push(resultDiv);
@@ -144,7 +150,7 @@ async function toggleVote() {
   const songId = parseInt(this.dataset.id);
   console.log('this', this);
   const data = {
-    userId: USERID,
+    userId: userid,
     playlistId: PLAYLISTID,
     songId: songId,
   };
@@ -276,7 +282,7 @@ function submitSong() {
   // Try to add the searched song to the current playlist
   findOrAddSong(
     PLAYLISTID,
-    USERID,
+    userid,
     option.dataset.name,
     option.dataset.artist,
     option.dataset.album,
@@ -360,7 +366,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
 
   // Set up user vote data and url
   const voteData = {
-    userId: USERID,
+    userId: userid,
     playlistId: PLAYLISTID,
     songId: songId,
   };

@@ -55,6 +55,7 @@ async function sendCredentials() {
           console.log('index.html');
           localStorage.user = signDiv.getElementsByTagName('input')[0].value;
           window.location.href = 'index.html';
+          localStorage.userid = json.userid; //TODO Temporaire
           //TODO enlever listener index.js
         });
       }
