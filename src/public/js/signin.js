@@ -19,10 +19,7 @@ function startUp() {
     // )
   );
   console.log('Listener added');
-  registerBtn.addEventListener(
-    'click',
-    () => (window.location.href = 'signin.html')
-  );
+  registerBtn.addEventListener('click', registerUser);
 }
 
 async function sendCredentials() {
@@ -53,7 +50,7 @@ async function sendCredentials() {
           console.log('Token: ', json.token);
           localStorage.accessToken = json.token;
           console.log('index.html');
-          localStorage.user = signDiv.getElementsByTagName('input')[0].value;
+          localStorage.user = login;
           window.location.href = 'index.html';
           localStorage.userid = json.userid; //TODO Temporaire
           //TODO enlever listener index.js
@@ -69,6 +66,7 @@ async function sendCredentials() {
 }
 
 async function hashPass(password) {
+  //TODO salt+hash on server side and turn button type to submit type
   console.log('hash start');
   const hashDigest = await crypto.subtle.digest(
     'SHA-256',
@@ -80,6 +78,70 @@ async function hashPass(password) {
     .join('');
   return hashHex;
 }
+
+async function registerUser() {
+  const signDiv = document.querySelector('div.sign');
+  const login = signDiv.getElementsByTagName('input')[0].value;
+  const password = signDiv.getElementsByTagName('input')[1].value;
+  const mail = signDiv.getElementsByTagName('input')[2].value;
+  const hashed = await hashPass(password);
+
+  console.log('Password:', password);
+  console.log('Hashed:', hashed);
+  let url = new URL(backend + '/users');
+  const data = {
+    login: login,
+    password: hashed,
+    mail: mail,
+  };
+  console.log('Body:', JSON.stringify(data));
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      if (res.status === 201) {
+        res.json().then(() => {
+          url = new URL(backend + '/auth');
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json; charset=UTF-8',
+            },
+            body: JSON.stringify(data),
+          })
+            .then((res) => {
+              if (res.status === 200) {
+                res.json().then((json) => {
+                  console.log('Token: ', json.token);
+                  localStorage.accessToken = json.token;
+                  console.log('index.html');
+                  localStorage.user = login;
+                  window.location.href = 'index.html';
+                  localStorage.userid = json.id; //TODO Temporaire
+                  //TODO enlever listener index.js
+                });
+              }
+              if (res.status === 403) {
+                res.json().then((json) => {
+                  console.log('No token', json.message);
+                });
+              }
+            })
+            .catch((e) => console.log(e));
+        });
+      } else if (res.status === 400) {
+        res.json().then((json) => console.log(json.message()));
+      } else {
+        console.log('Couldnt create user');
+      }
+    })
+    .catch((error) => console.log(error));
+}
+
 //TODO send post request using encrypted password
 //TODO Store received token in cookie
 //TODO disclaimer valeur du mot de passe

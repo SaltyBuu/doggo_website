@@ -5,6 +5,7 @@ function startUp() {
   const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signin-btn');
+  const logoutBtn = document.getElementById('logout-btn');
   const voteBtn = document.getElementById('vote-btn');
 
   [...speakers].forEach((s) =>
@@ -20,6 +21,7 @@ function startUp() {
     'click',
     () => (window.location.href = 'signin.html')
   );
+  logoutBtn.addEventListener('click', userLogOut);
   voteBtn.addEventListener(
     'click',
     () => (window.location.href = 'playlist.html')
@@ -31,6 +33,7 @@ function startUp() {
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
     token = localStorage.accessToken;
+    logoutBtn.classList.toggle('hidden');
   }
 }
 function toggleSpeakers(audio) {
@@ -52,6 +55,15 @@ function toggleSpeakers(audio) {
   }
   speakersArr.forEach((s) => (s.style.animationPlayState = pausedAttr));
   void speakersArr[0].offsetWidth;
+}
+
+function userLogOut() {
+  localStorage.removeItem('user');
+  localStorage.removeItem('accessToken');
+  document.getElementById('logout-btn').classList.toggle('hidden');
+  const signinBtn = document.getElementById('signin-btn');
+  signinBtn.classList.toggle('connected');
+  signinBtn.value = 'Se connecter';
 }
 
 window.addEventListener('load', startUp);

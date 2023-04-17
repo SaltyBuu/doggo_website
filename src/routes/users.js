@@ -10,8 +10,8 @@ router
   .delete(validateId, users.removeUser);
 router
   .route('/users')
-  .all(checkRequest)
+  .all()
   .put(users.addUser)
-  .patch(validateId, users.updateUser);
+  .patch(checkRequest, validateId, users.updateUser);
 
 module.exports = router;
