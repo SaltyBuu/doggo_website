@@ -87,6 +87,9 @@ comment lier
 - Cache des requêtes
 - sécurité : utiliser rate-limiter-flexible pour limiter les tentatives d'authentification
 - express-validator
+- bundle du frontend js
+- droit de l'api par vues
+- utiliser NODE_ENV
 
 ## Performance
 - set NODE_ENV to production
