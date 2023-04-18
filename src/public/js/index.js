@@ -66,4 +66,7 @@ function userLogOut() {
   signinBtn.value = 'Se connecter';
 }
 
+function validToken(token) {
+  //TODO disconnect + home on expired
+}
 window.addEventListener('load', startUp);

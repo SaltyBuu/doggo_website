@@ -61,15 +61,14 @@
         <input type="text" name="login" placeholder="admirateursecret666">
         <label for="password"> Mot de passe</label>
         <input type="password" name="password" placeholder="pasazerty1234">
-        <label for="email"> Adresse mail </label>
-        <input type="text" name="email" placeholder="Email">
-        <input type="button" name="signin" id="signin-btn" value="Se connecter"
-               formmethod="POST" formaction="/users">
+        <label class="hidden" for="email"> Adresse mail </label>
+        <input class="hidden" type="text" name="email" placeholder="Email">
+        <input type="button" name="signin" id="signin-btn" value="Se connecter">
       </div>
       <div class="register">
-        <input type="button" name="register" id="register-btn" value="S'inscrire" >
+        <input type="button" name="preregister" id="preregister-btn" value="Inscription" >
 <!--        validation formulaire plus bouton disabled avant validation-->
-<!--        affichage champ email seulement pour l'inscription-->
+        <input class="hidden" type="button" name="register" id="register-btn" value="S'inscrire">
       </div>
     </form>
   </fieldset>

@@ -13,3 +13,14 @@ function toggleMute(audio) {
   document.querySelector('.mute-icon').classList.toggle('hidden');
   document.querySelector('.soundon-icon').classList.toggle('hidden');
 }
+
+function fetchRequest(url, method, body, token) {
+  return fetch(url, {
+    method: method,
+    headers: {
+      'content-type': 'application/json; charset=UTF-8',
+      'x-access-token': token,
+    },
+    body: body,
+  });
+}

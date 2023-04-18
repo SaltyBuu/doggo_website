@@ -17,13 +17,15 @@ div.sign {
 #signin-btn {
   margin-top: 1%;
 }
-
+#preregister-btn,
 #register-btn {
   background-color: #a73680;
   box-shadow: 0 8px 15px rgb(167 54 128/ 24000%);
   border-color: #a73680;
 }
 
+#preregister-btn:hover,
+#preregister-btn:active,
 #register-btn:hover,
 #register-btn:active {
   background-color: #fff;

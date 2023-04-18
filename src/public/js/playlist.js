@@ -4,7 +4,6 @@ const PLAYLISTID = 1;
 let userid = 1;
 let token = undefined;
 //TODO admin account verify token
-//TODO disconnect + home on expired
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
 
@@ -26,7 +25,7 @@ function init() {
   muteSpan.addEventListener('click', () => toggleMute(audio));
   signinBtn.addEventListener(
     'click',
-    () => (window.location.href = 'signin.html')
+    () => (window.location.href = '/signin.html')
   );
   searchInput.addEventListener('keypress', runSearch);
   addBtn.addEventListener('click', submitSong);
@@ -52,12 +51,6 @@ function startUp() {
   audio.volume = 0.1;
   audio.loop = true;
 
-  //TODO ajouter une chanson si elle n'est pas déjà dans la playlist
-  //TODO voter une chanson
-  //TODO dévoter une chanson - supprimer si vote à 0
-  //TODO Afficher tout dans la playlist
-  //TODO Chercher un nom, le résultat s'affiche et la chanson s'ajoute quand on clique
-  //TODO Chercher via spotify (5 à chaque lettre)
   //refresh without addinglistener
 }
 
@@ -68,12 +61,7 @@ function refreshPlaylist(playlistId) {
   const url = new URL(backend + endpoint);
 
   // Fetch songs of the current playlist
-  fetch(url, {
-    method: 'GET',
-    headers: {
-      'x-access-token': token,
-    },
-  })
+  fetchRequest(url, 'GET')
     .then((res) => res.json())
     .then((json) => {
       console.log(json);
@@ -83,63 +71,85 @@ function refreshPlaylist(playlistId) {
       console.log('Results:', results);
 
       // Check if there is at least one song
-      if (results != null || results !== undefined || results.length !== 0) {
-        // List of songs div
-        const playlistDiv = document.querySelector('div.list');
+      if (results === null || results === undefined || results.length !== 0)
+        return;
 
-        // Parse playlist songs json
-        results.forEach((r) => {
-          // console.log(r.song);
-          const song = r.song;
-          const submitterid = r.submitter.id;
-          //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
-          //TODO middleware de décryptage du token
+      // List of songs div
+      const playlistDiv = document.querySelector('div.list');
 
-          // Create new playlist song div
-          const resultDiv = document
-            .querySelector('div.model.song')
-            .cloneNode(true);
-          resultDiv.classList.toggle('model');
-          const img = resultDiv.querySelector('span.cover-container > img');
+      // Parse playlist songs json
+      results.forEach((r) => {
+        // console.log(r.song);
+        const song = r.song;
+        const songid = song.id.toString();
+        //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
+        //TODO middleware de décryptage du token
 
-          // Set attributes from json
-          img.src = song.thumbnail;
-          img.alt = song.album;
-          resultDiv
-            .querySelector('span.title')
-            .appendChild(document.createTextNode(song.name));
-          resultDiv
-            .querySelector('span.artist')
-            .appendChild(document.createTextNode(song.artist));
-          // console.log('votesNb', r.votesNb);
-          resultDiv
-            .querySelector('span.votesNb')
-            .appendChild(
-              document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
-            );
-          const voteImg = resultDiv.querySelector('span.vote > img');
-          voteImg.dataset.id = song.id.toString();
-          resultDiv.dataset.id = song.id.toString();
-          if (submitterid === userid) toggleVoteClass(voteImg);
+        // Create new playlist song div
+        const resultDiv = document
+          .querySelector('div.model.song')
+          .cloneNode(true);
+        resultDiv.classList.toggle('model');
+        const img = resultDiv.querySelector('span.cover-container > img');
 
-          // Add current song to new children
-          newChildren.push(resultDiv);
-        });
+        // Set attributes from json
+        img.src = song.thumbnail;
+        img.alt = song.album;
+        resultDiv
+          .querySelector('span.title')
+          .appendChild(document.createTextNode(song.name));
+        resultDiv
+          .querySelector('span.artist')
+          .appendChild(document.createTextNode(song.artist));
+        // console.log('votesNb', r.votesNb);
+        resultDiv
+          .querySelector('span.votesNb')
+          .appendChild(
+            document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
+          );
+        const voteImg = resultDiv.querySelector('span.vote > img');
+        voteImg.dataset.id = songid;
+        resultDiv.dataset.id = songid;
 
-        // Add to DOM and set up listeners
-        playlistDiv.replaceChildren(...newChildren);
-        [...playlistDiv.children].forEach((child) => {
-          const voteImg = child.querySelector('span.vote > img');
-          voteImg.addEventListener('click', toggleVote);
-          const title = child.querySelector('span.title');
-          if (title.scrollWidth > title.offsetWidth) {
-            title.classList.add('scroll');
-          }
-          // voteImg.addEventListener('click', toggleVote)
-        });
-      }
+        // Add current song to new children
+        newChildren.push(resultDiv);
+      });
+
+      // Add to DOM and set up listeners
+      playlistDiv.replaceChildren(...newChildren);
+      [...playlistDiv.children].forEach((child) => {
+        const voteImg = child.querySelector('span.vote > img');
+        voteImg.addEventListener('click', toggleVote);
+        const title = child.querySelector('span.title');
+        if (title.scrollWidth > title.offsetWidth) {
+          title.classList.add('scroll');
+        }
+        // voteImg.addEventListener('click', toggleVote)
+      });
+      highlightVotes();
     })
     .catch((e) => console.log(e));
+}
+
+function highlightVotes() {
+  const songCollection = document.querySelectorAll('div.list > div.song');
+  songCollection.forEach(async (s) => {
+    const voted = await userVoted(s.dataset.id);
+    if (voted) {
+      toggleVoteClass(s.querySelector('img.vote'));
+    }
+  });
+}
+
+async function userVoted(songid) {
+  const url = new URL(backend + '/votes');
+  const data = {
+    userid: userid,
+    playlistid: PLAYLISTID,
+    songid: songid,
+  };
+  const voted = await fetchRequest(url, 'POST', JSON.stringify(data), token);
+  return voted.status === 200;
 }
 
 async function toggleVote() {
@@ -169,14 +179,7 @@ async function toggleVote() {
     console.log('User has not yet voted !');
 
     // Add vote of the current user to the desired song
-    const voted = fetch(url, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': token,
-      },
-      body: JSON.stringify(data),
-    });
+    const voted = await fetchRequest(url, 'PUT', JSON.stringify(data), token);
     if (voted) {
       console.log('Vote: ', voted);
     } else {
@@ -193,14 +196,12 @@ async function toggleVote() {
   else {
     console.log('User has already voted !');
     // Add vote of the current user to the desired song
-    const unvoted = fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': token,
-      },
-      body: JSON.stringify(data),
-    }).catch((e) => console.log(e));
+    const unvoted = await fetchRequest(
+      url,
+      'DELETE',
+      JSON.stringify(data),
+      token
+    );
 
     // Update vote value
     if (unvoted) {
@@ -236,13 +237,7 @@ async function deletePlaylistSong(playlistId, songId) {
   const url = new URL(backend + endpoint);
   console.log(url.href);
 
-  return fetch(url, {
-    method: 'DELETE',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': token,
-    },
-  });
+  return fetchRequest(url, 'DELETE', undefined, token);
 }
 
 async function updateVotesTotal(playlistId, songId) {
@@ -257,14 +252,7 @@ async function updateVotesTotal(playlistId, songId) {
   const endpoint = '/votes';
   const url = new URL(backend + endpoint);
 
-  const updated = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': token,
-    },
-    body: JSON.stringify(data),
-  }).catch((e) => console.log(e));
+  const updated = await fetchRequest(url, 'PATCH', JSON.stringify(data), token);
 
   if (updated) console.log('Updated song n°', songId);
 }
@@ -355,14 +343,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   const songUrl = new URL(backend + playlistEndPoint + songEndpoint);
 
   // Add song to playlist
-  await fetch(songUrl, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': token,
-    },
-    body: JSON.stringify(data),
-  }).catch((e) => console.log(e));
+  await fetchRequest(songUrl, 'PUT', JSON.stringify(data), token);
 
   // Set up user vote data and url
   const voteData = {
@@ -374,14 +355,12 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   const voteUrl = new URL(backend + endpoint);
 
   // Add vote of the current user to the desired song
-  const voted = await fetch(voteUrl, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': token,
-    },
-    body: JSON.stringify(voteData),
-  });
+  const voted = await fetchRequest(
+    voteUrl,
+    'PUT',
+    JSON.stringify(voteData),
+    token
+  );
   if (voted) {
     console.log('Vote: ', voted);
   } else {
@@ -402,40 +381,17 @@ async function searchInPlaylist(promiseResult, playlistId) {
 
   // console.log('Look in playlist !');
   // Look for song in playlist
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'charset=UTF-8',
-      'x-access-token': token,
-    },
-  });
+  return fetchRequest(url, 'POST', undefined, token);
 }
 
 function searchInSongs(data, url) {
   // Look for song in the global song database
-  const body = JSON.stringify(data);
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': token,
-    },
-
-    body,
-  });
+  return fetchRequest(url, 'POST', JSON.stringify(data), token);
 }
 
 function addToSongs(data, url) {
   // Add a song to the global song databse
-  const body = JSON.stringify(data);
-  return fetch(url, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-      'x-access-token': token,
-    },
-    body,
-  });
+  return fetchRequest(url, 'PUT', JSON.stringify(data), token);
 }
 
 function resetSearch() {
@@ -472,14 +428,12 @@ async function runSearch(e) {
 
     // Fetch(url, { method: "GET" });
     console.log('Requête spotify :', url);
-    const extractedResults = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json; charset=UTF-8',
-        'x-access-token': token,
-      },
-      body: JSON.stringify({ name: this.value }),
-    })
+    const extractedResults = await fetchRequest(
+      url,
+      'POST',
+      JSON.stringify({ name: this.value }),
+      token
+    )
       .then((res) => res.json())
       .catch((e) => console.log(e));
     console.log('ExtractedResults', extractedResults);

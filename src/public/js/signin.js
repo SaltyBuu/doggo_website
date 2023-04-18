@@ -6,6 +6,7 @@ function startUp() {
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signin-btn');
   const registerBtn = document.getElementById('register-btn');
+  const preregisterBtn = document.getElementById('preregister-btn');
 
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
@@ -15,42 +16,47 @@ function startUp() {
   signinBtn.addEventListener(
     'click',
     // () => (window.location.href = 'playlist.html'
-    sendCredentials
+    userLogin
     // )
   );
   console.log('Listener added');
   registerBtn.addEventListener('click', registerUser);
+  preregisterBtn.addEventListener('click', enableRegister);
 }
 
-async function sendCredentials() {
+function enableRegister() {
+  const inputCollection = document.getElementsByTagName('input');
+  document.getElementsByTagName('label')[2].classList.toggle('hidden');
+  inputCollection[2].classList.toggle('hidden');
+  inputCollection[3].classList.toggle('hidden');
+  inputCollection[4].classList.toggle('hidden');
+  inputCollection[5].classList.toggle('hidden');
+}
+
+async function userLogin() {
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
   const password = signDiv.getElementsByTagName('input')[1].value;
-  const mail = signDiv.getElementsByTagName('input')[2].value;
   const hashed = await hashPass(password);
   console.log('Password:', password);
   console.log('Hashed:', hashed);
-  const url = new URL(backend + '/auth');
   const data = {
     login: login,
     password: hashed,
-    mail: mail,
   };
-  console.log('Body:', JSON.stringify(data));
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify(data),
-  })
+
+  sendCredentials(data);
+}
+function sendCredentials(data) {
+  const url = new URL(backend + '/auth');
+  fetchRequest(url, 'POST', JSON.stringify(data))
     .then((res) => {
       if (res.status === 200) {
         res.json().then((json) => {
           console.log('Token: ', json.token);
           localStorage.accessToken = json.token;
-          console.log('index.html');
-          localStorage.user = login;
+          console.log('playlist.html');
+          localStorage.user = data.login;
           window.location.href = 'index.html';
           localStorage.userid = json.userid; //TODO Temporaire
           //TODO enlever listener index.js
@@ -73,10 +79,7 @@ async function hashPass(password) {
     new TextEncoder().encode(password)
   );
   const hashArray = Array.from(new Uint8Array(hashDigest));
-  const hashHex = hashArray
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-  return hashHex;
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function registerUser() {
@@ -95,55 +98,22 @@ async function registerUser() {
     mail: mail,
   };
   console.log('Body:', JSON.stringify(data));
-  fetch(url, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify(data),
-  })
+  fetchRequest(url, 'PUT', JSON.stringify(data))
     .then((res) => {
       if (res.status === 201) {
         res.json().then(() => {
           url = new URL(backend + '/auth');
-          fetch(url, {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json; charset=UTF-8',
-            },
-            body: JSON.stringify(data),
-          })
-            .then((res) => {
-              if (res.status === 200) {
-                res.json().then((json) => {
-                  console.log('Token: ', json.token);
-                  localStorage.accessToken = json.token;
-                  console.log('index.html');
-                  localStorage.user = login;
-                  window.location.href = 'index.html';
-                  localStorage.userid = json.id; //TODO Temporaire
-                  //TODO enlever listener index.js
-                });
-              }
-              if (res.status === 403) {
-                res.json().then((json) => {
-                  console.log('No token', json.message);
-                });
-              }
-            })
-            .catch((e) => console.log(e));
+          sendCredentials(data);
         });
       } else if (res.status === 400) {
         res.json().then((json) => console.log(json.message()));
       } else {
-        console.log('Couldnt create user');
+        console.log('Couldnt create user'); // TODO handle error
       }
     })
     .catch((error) => console.log(error));
 }
 
-//TODO send post request using encrypted password
-//TODO Store received token in cookie
 //TODO disclaimer valeur du mot de passe
 
 window.addEventListener('load', startUp);

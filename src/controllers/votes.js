@@ -1,6 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const status = require('http-status');
 const has = require('has-keys');
 const CodeError = require('../CodeError');
 
@@ -132,7 +131,15 @@ module.exports = {
       },
     });
     console.log('total:', total);
+    const totaltest = await prisma.vote.count({
+      where: {
+        songId: parseInt(req.body.songId),
+        playlistId: parseInt(req.body.playlistId),
+      },
+    });
+    console.log('totaltest:', totaltest);
     if (total != null) {
+      console.log('total', total, typeof total);
       const song = await prisma.playlistSong.update({
         where: {
           playlistId_songId: {
@@ -171,5 +178,42 @@ module.exports = {
         }
     }
     */
+  },
+  async findVote(req, res) {
+    /*
+    #swagger.tags = ['Vote']
+    #swagger.summary = 'Return if user voted for a song.'
+    */
+    if (!has(req.body, ['userid', 'songid', 'playlistid']))
+      throw new CodeError('Missing parameters', 400);
+    console.log('playlistid:', req.body.playlistid);
+    console.log('userid:', req.body.userid);
+    console.log('songid:', req.body.songid);
+    const vote = await prisma.vote.findFirst({
+      where: {
+        userId: parseInt(req.body.userid),
+        songId: parseInt(req.body.songid),
+        playlistId: parseInt(req.body.playlistid),
+      },
+    });
+    if (vote === null) {
+      res.status(404).json({ message: false });
+    } else {
+      res.status(200).json({ message: true });
+    }
+    /*
+     #swagger.responses[200] = {
+       description: 'Vote found for user.',
+       schema: {
+         message: true
+       }
+     }
+     #swagger.responses[404] = {
+       description: 'Vote not found for user.',
+       schema: {
+         message: false
+       }
+     }
+     */
   },
 };

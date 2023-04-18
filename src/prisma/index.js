@@ -49,6 +49,7 @@ async function main() {
 
   await prisma.song.deleteMany({});
   await prisma.playlistSong.deleteMany({});
+  await prisma.vote.deleteMany({});
 
   for (const r of results) {
     console.log('Object -----------');
@@ -64,7 +65,15 @@ async function main() {
         submitterId: parseInt(user.id),
       },
     });
-    console.log(newPlaylistSong);
+    const newVote = await prisma.vote.create({
+      data: {
+        userId: parseInt(user.id),
+        playlistId: parseInt(playlist.id),
+        songId: newSong.id,
+      },
+    });
+    console.log('newPlaylistSong', newPlaylistSong);
+    console.log('newVote', newVote);
   }
 }
 

@@ -6,6 +6,7 @@ const { checkRequest } = require('../middlewares/validation');
 router
   .route('/votes')
   .all(checkRequest)
+  .post(votes.findVote)
   .put(votes.addVote)
   .delete(votes.removeVote)
   .patch(votes.updateVotesNb);

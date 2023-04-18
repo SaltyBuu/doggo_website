@@ -188,7 +188,6 @@ module.exports = {
         }
     }
     */
-    // console.log('wtf', req);
     console.log('Le voilà ton body !', req.body);
     if (!has(req.body, ['login', 'password'])) {
       throw new CodeError('Missing login or password', 400);
@@ -202,7 +201,6 @@ module.exports = {
     if (user) {
       console.log('USER:', user);
       //TODO handle admin verification
-      //TODO swagger doc
       const payload = {
         userId: user.id,
         login: user.login,

@@ -58,13 +58,14 @@ const doc = {
   },
 };
 const outputFile = 'swagger_output.json';
-const endpointsFiles = [
+const endpointFiles = [
   'src/routes/users.js',
   'src/routes/router.js',
   'src/routes/songs.js',
   'src/routes/votes.js',
   'src/routes/playlistSongs.js',
   'src/routes/playlists.js',
+  'src/routes/authentication.js',
 ];
 
-swaggerAutogen(outputFile, endpointsFiles, doc);
+swaggerAutogen(outputFile, endpointFiles, doc);

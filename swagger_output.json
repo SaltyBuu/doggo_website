@@ -173,6 +173,11 @@
         "description": "",
         "parameters": [
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Id of a user",
@@ -212,6 +217,68 @@
                 },
                 "user": {
                   "$ref": "#/definitions/user"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Authenticate user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Login and password hash of a user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "example": "Alfredus"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "o4e67bcda8e9"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token generated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "Ddefzkjefbkzejf"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Unknown user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unknown user."
                 }
               },
               "xml": {
@@ -855,6 +922,11 @@
             "description": "Id of a playlist"
           },
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Song ID, user ID and votesNB.",
@@ -1111,6 +1183,11 @@
         "summary": "Search songs by name.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "name",
             "in": "body",
