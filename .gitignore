@@ -11,8 +11,9 @@
 package-lock.json
 node_modules/
 src/assets/
-src/public/fonts/walkwaybold_regular_macroman/
+src/frontend/fonts/walkwaybold_regular_macroman/
 .env
-src/prisma/migrations/
-src/prisma/migrations/migration_lock.toml
+src/backend/prisma/migrations/
+src/backend/prisma/migrations/migration_lock.toml
 .cpanel.yml
+playlist_project.iml
