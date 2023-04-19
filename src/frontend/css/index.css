@@ -2,19 +2,19 @@
 
 @font-face {
   font-family: Nobile;
-  src: url('../fonts/nobile/Nobile-Bold.ttf');
+  src: url('src/frontend/fonts/nobile/Nobile-Bold.ttf');
   font-weight: bold;
 }
 
 @font-face {
   font-family: Nobile;
-  src: url('../fonts/nobile/Nobile-Regular.ttf');
+  src: url('src/frontend/fonts/nobile/Nobile-Regular.ttf');
   font-style: normal;
 }
 
 @font-face {
   font-family: Nobile;
-  src: url('../fonts/nobile/Nobile-Medium.ttf');
+  src: url('src/frontend/fonts/nobile/Nobile-Medium.ttf');
   font-style: normal;
 }
 
@@ -112,6 +112,7 @@ nav {
 
   /* position: absolute; */
 }
+
 #beegees {
   display: none;
 }
@@ -200,26 +201,31 @@ input[type='submit'] {
   outline: none;
 }
 
+input[type='button'].connected {
+  border-radius: 5px;
+  transition: none;
+  cursor: none;
+  pointer-events: none;
+}
 /* #signinBtn { */
 
 /*  height: 90%; */
 
 /* } */
 
-/*input[type='button']:hover,*/
-/*input[type='button']:active {*/
-/*  border: #bf0aa1 2px solid;*/
-/*}*/
+/* input[type='button']:hover, */
+
+/* input[type='button']:active { */
+
+/*  border: #bf0aa1 2px solid; */
+
+/* } */
+
 input[type='submit']:hover,
 input[type='submit']:active,
 input[type='button']:hover,
 input[type='button']:active {
   border: #f56828 2px solid;
-}
-input[type='submit']:hover,
-input[type='submit']:active,
-input[type='button']:hover,
-input[type='button']:active {
   background-color: #fff;
   box-shadow: 0 8px 15px rgb(240 240 240 / 24000%);
   color: #000;
@@ -228,12 +234,14 @@ input[type='button']:active {
 
   /* font-size: 1.2em; */
 }
-
+input[type='password'],
 input[type='text'] {
   border: 2px solid black;
   border-radius: 10px;
   width: 50%;
+
   /* font-family: "Quicksand", Bold, sans-serif; */
+
   font-family: Nobile, Bold, sans-serif;
   margin: 2px;
   font-size: 1.3em;
@@ -265,7 +273,7 @@ h1 {
   margin-bottom: 5vh;
 }
 
-#bg-illustration {
+#bg-drawing {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,8 +347,8 @@ footer a {
 
 /*                Media queries              */
 @media screen and (max-width: 768px) {
-  #signinBtn,
-  #voteBtn {
+  #signin-btn,
+  #vote-btn {
     font-size: 1em;
   }
 

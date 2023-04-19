@@ -1,0 +1,97 @@
+div#form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+div.sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+  flex-grow: 1;
+}
+
+#signin-btn {
+  margin-top: 1%;
+}
+#preregister-btn,
+#register-btn {
+  background-color: #a73680;
+  box-shadow: 0 8px 15px rgb(167 54 128/ 24000%);
+  border-color: #a73680;
+}
+
+#preregister-btn:hover,
+#preregister-btn:active,
+#register-btn:hover,
+#register-btn:active {
+  background-color: #fff;
+
+  /* color: black; */
+}
+
+div.register {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+fieldset {
+  height: 70%;
+  width: 40%;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+form.signin {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/*!* Définition des couleurs *!*/
+/*:root {*/
+/*  --yellow: #fcd307;*/
+/*  --orange: #f16d21;*/
+/*  --pink: #ea3c8d;*/
+/*  --purple: #8a2be2;*/
+/*}*/
+
+/*!* Style du bouton *!*/
+/*input#signin-btn {*/
+/*  display: inline-block;*/
+/*  padding: 10px 20px;*/
+/*  font-size: 16px;*/
+/*  font-weight: bold;*/
+/*  color: #fff;*/
+/*  text-align: center;*/
+/*  text-transform: uppercase;*/
+/*  text-decoration: none;*/
+/*  border-radius: 45px;*/
+/*  background: linear-gradient(*/
+/*    -45deg,*/
+/*    var(--yellow),*/
+/*    var(--orange),*/
+/*    var(--pink),*/
+/*    var(--purple),*/
+/*    var(--yellow)*/
+/*  );*/
+/*  background-size: 400% 400%;*/
+/*  animation: gradient 2s ease infinite;*/
+/*}*/
+
+/*!* Animation du gradient *!*/
+/*@keyframes gradient {*/
+/*  0% {*/
+/*    background-position: 0% 50%;*/
+/*  }*/
+/*  50% {*/
+/*    background-position: 100% 50%;*/
+/*  }*/
+/*  100% {*/
+/*    background-position: 0% 50%;*/
+/*  }*/
+/*}*/

@@ -1,0 +1,273 @@
+div.title {
+  /* width: 100%; */
+  text-align: center;
+
+  /* position: relative; */
+  font-size: 2vw;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+
+  /* z-index: 0; */
+
+   /* margin-left: 5px; */
+}
+
+/** { */
+
+/*  outline: 1px white solid; */
+
+/* } */
+
+div#nul {
+  visibility: hidden;
+}
+
+nav {
+  justify-content: space-evenly;
+}
+
+div.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+div.search {
+  /* position: relative; */
+
+  /* display: none; */
+  display: flex;
+
+  /* width: 50%; */
+  height: 100%;
+  width: 100%;
+}
+
+div.search-input {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.results {
+  overflow-y: auto;
+  height: 100%;
+  border: 1px solid white;
+  opacity: 0.9;
+}
+
+span.title {
+  align-items: start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+span.title.scroll:hover {
+  animation: scroll 5s linear infinite;
+
+  /* animation-play-state: running; */
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+div.list-container {
+  /* position: relative; */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding-left: 5px;
+}
+
+div.list {
+  /* display: flex; */
+
+  /* flex-direction: column; */
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  /* border: 2px solid black; */
+
+  opacity: 0.9;
+  width: 100%;
+  scrollbar-width: 10px;
+  padding-right: 10px;
+  scrollbar-color: black orange;
+}
+
+div.list::-webkit-scrollbar {
+  width: 10px;
+}
+
+div.list::-webkit-scrollbar-track {
+  background: orange;
+}
+
+div.list::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
+div.song {
+  height: 8vh;
+  background-color: #f45137;
+  border: 2px solid black;
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  margin-right: 10px;
+}
+
+div.background {
+  height: 60%;
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  z-index: -1;
+}
+
+div#bg-illustration {
+  height: 100%;
+}
+
+#signin-btn {
+  z-index: 2;
+}
+
+span.info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  flex-grow: 2;
+}
+
+span.info {
+  /* height: 100%; */
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+span.info > span {
+  font-size: 0.8em;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  display: inline-flex;
+}
+
+span.artist {
+  /* margin-top: 1vh; */
+  align-items: end;
+}
+
+
+span.votesnb-img {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+span.votesnb-container {
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+span.cover {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 25%;
+  min-width: 25%;
+  justify-content: center;
+}
+
+span.cover-container {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  height: 70%;
+  width: auto;
+  box-shadow: 1px 1px 5px black;
+
+  /* object-fit: contain; */
+}
+
+div.song > span {
+  /* border: 1px solid white; */
+}
+
+span.vote {
+  height: 50%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  margin-right: 10%;
+  z-index: 0;
+}
+
+img.vote {
+  cursor: pointer;
+}
+
+img.vote.voted {
+  box-shadow: 0 0 5px #fff;
+  border-radius: 10px;
+  background-color: white;
+}
+
+div.left-container,
+div.right-container {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  align-items: center;
+}
+
+div.left-container {
+  justify-content: flex-start;
+  width: 80%;
+}
+
+div.right-container {
+  justify-content: flex-end;
+  width: 20%;
+}
+
+div#models {
+  display: none;
+}
+
+/* input#add { */
+
+/*  width: 50px; */
+
+/* } */
