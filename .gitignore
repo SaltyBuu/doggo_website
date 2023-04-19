@@ -16,3 +16,4 @@ playlist_project.iml
 README.md
 /.env
 src/backend/prisma/migrations/
+log/
