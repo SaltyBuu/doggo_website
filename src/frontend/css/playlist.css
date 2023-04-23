@@ -103,7 +103,7 @@ div.list {
   /* display: flex; */
 
   /* flex-direction: column; */
-  height: 100%;
+  height: 80%;
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -111,9 +111,9 @@ div.list {
 
   opacity: 0.9;
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 5px;
   width: 100%;
-  scrollbar-width: 10px;
+  scrollbar-width: thin;
   padding-right: 10px;
   scrollbar-color: black orange;
 }
