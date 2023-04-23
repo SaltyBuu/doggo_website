@@ -5,7 +5,7 @@
     "test": "npx htmlhint src/public/base/*.html -r style-disabled",
     "start": "node src/backend/utils/swagger.js && node src/backend/server.js",
     "debug": "nodemon src/backend/server.js",
-    "initdb": "prisma migrate deploy --name init && node src/backend/prisma/index.js",
+    "initdb": "prisma migrate deploy && node src/backend/prisma/index.js",
     "doc": "node src/backend/utils/swagger.js"
   },
   "devDependencies": {
