@@ -1,5 +1,5 @@
 // import { toggleMute, toggleSidebar } from './lib.js';
-const backend = "http://qomg3726.odns.fr/api";
+const backend = "https://api-doggo.herokuapp.com/";
 const PLAYLISTID = 1;
 let userid = 1;
 let token = undefined;
