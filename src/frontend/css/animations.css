@@ -27,7 +27,35 @@ div.speaker-bg.big {
 }
 
 div#toggle-menu {
-  transition: transform 300ms;
+  /*transition: transform 300ms;*/
+  animation: drop 500ms ease-in-out forwards;
+}
+
+@keyframes scaleZ {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  80% {
+    transform: scale(1.07);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }
 
 /* div#menu-icon-bg { */

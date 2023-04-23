@@ -11,7 +11,7 @@ div.title {
 
   /* z-index: 0; */
 
-   /* margin-left: 5px; */
+  /* margin-left: 5px; */
 }
 
 /** { */
@@ -51,8 +51,13 @@ div.search-input {
   display: flex;
   height: 10%;
   width: 100%;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 2;
+}
+
+input#search {
+  height: 50%;
 }
 
 div.results {
@@ -105,6 +110,8 @@ div.list {
   /* border: 2px solid black; */
 
   opacity: 0.9;
+  border: 1px solid black;
+  border-radius: 20px;
   width: 100%;
   scrollbar-width: 10px;
   padding-right: 10px;
@@ -184,7 +191,6 @@ span.artist {
   /* margin-top: 1vh; */
   align-items: end;
 }
-
 
 span.votesnb-img {
   height: 100%;
