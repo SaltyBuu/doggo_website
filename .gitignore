@@ -17,3 +17,4 @@ README.md
 /.env
 src/backend/prisma/migrations/
 log/access.log
+swagger_output.json
