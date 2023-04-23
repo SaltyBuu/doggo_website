@@ -34,6 +34,7 @@ function enableRegister() {
 }
 
 async function userLogin() {
+  //TODO mauvais ogin message
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
   const password = signDiv.getElementsByTagName('input')[1].value;
