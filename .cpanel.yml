@@ -1,5 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/qomg3726/public_html/spotifight_frontend
-    - /bin/cp src/frontend/* $DEPLOYPATH

@@ -1,9 +1,7 @@
 const express = require("express");
-const logger = require("./logger");
 const helmet = require("helmet");
 const cors = require("cors");
 const app = express();
-app.use(logger.dev, logger.combined);
 app.use(express.json());
 app.use(
   helmet.contentSecurityPolicy({
