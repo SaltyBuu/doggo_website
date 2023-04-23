@@ -14,6 +14,5 @@ src/frontend/fonts/walkwaybold_regular_macroman/
 playlist_project.iml
 README.md
 /.env
-src/backend/prisma/migrations/
 log/access.log
 .cpanel.yml
