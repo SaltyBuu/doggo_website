@@ -79,6 +79,7 @@ function refreshPlaylist(playlistId) {
 
       // Parse playlist songs json
       results.forEach((r) => {
+        console.log('For each');
         // console.log(r.song);
         const song = r.song;
         const songid = song.id.toString();
