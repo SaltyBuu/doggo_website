@@ -114,7 +114,8 @@ function refreshPlaylist(playlistId) {
         // Add current song to new children
         newChildren.push(resultDiv);
       });
-
+      console.log('Old children:', playlistDiv.children);
+      console.log('New children:', [...newChildren]);
       // Add to DOM and set up listeners
       playlistDiv.replaceChildren(...newChildren);
       [...playlistDiv.children].forEach((child) => {
