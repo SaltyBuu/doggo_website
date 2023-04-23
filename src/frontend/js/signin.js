@@ -1,4 +1,4 @@
-const backend = "https://api-doggo.herokuapp.com/";
+const backend = "https://api-doggo.herokuapp.com";
 
 function startUp() {
   const menuIcon = document.querySelector("#menu-icon-bg");
