@@ -1,6 +1,5 @@
 const express = require("express");
 const helmet = require("helmet");
-const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(
@@ -10,8 +9,6 @@ app.use(
     },
   })
 );
-
-app.use(cors());
 
 app.use((req, res, next) => {
   console.log("Time:", Date.now());
