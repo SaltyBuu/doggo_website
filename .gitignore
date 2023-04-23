@@ -8,7 +8,6 @@
 /dataSources.local.xml
 .idea/
 .gitignore
-package-lock.json
 node_modules/
 src/frontend/fonts/walkwaybold_regular_macroman/
 .prettierrc
