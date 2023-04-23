@@ -71,7 +71,7 @@ function refreshPlaylist(playlistId) {
       console.log("Results:", results);
 
       // Check if there is at least one song
-      if (results === null || results === undefined || results.length !== 0)
+      if (results === null || results === undefined || results.length === 0)
         return;
 
       // List of songs div
