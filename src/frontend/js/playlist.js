@@ -68,7 +68,6 @@ function refreshPlaylist(playlistId) {
       // Children initialization and get list of added songs as json
       const newChildren = [];
       const results = json.results;
-      console.log("Results:", results);
 
       // Check if there is at least one song
       if (results === null || results === undefined || results.length === 0)
@@ -79,7 +78,6 @@ function refreshPlaylist(playlistId) {
 
       // Parse playlist songs json
       results.forEach((r) => {
-        console.log('For each');
         // console.log(r.song);
         const song = r.song;
         const songid = song.id.toString();
