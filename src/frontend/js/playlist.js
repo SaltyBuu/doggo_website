@@ -1,7 +1,7 @@
 // import { toggleMute, toggleSidebar } from './lib.js';
-const backend = 'http://localhost:3000';
+const backend = 'https://api-doggo.herokuapp.com';
 const PLAYLISTID = 1;
-let userid = 1;
+let userid = undefined;
 let token = undefined;
 //TODO admin account verify token
 let currentResults = [];
@@ -27,8 +27,7 @@ function init() {
     'click',
     () => (window.location.href = '/signin.html')
   );
-  searchInput.addEventListener('keypress', runSearch);
-  addBtn.addEventListener('click', submitSong);
+
   console.log('Token:', localStorage.accessToken);
   if (localStorage.accessToken !== undefined) {
     //TODO valid token route + loading request
@@ -39,6 +38,10 @@ function init() {
     userid = parseInt(localStorage.userid);
   }
   console.log('Local user ID:', userid);
+  if (userid !== undefined) {
+    searchInput.addEventListener('keypress', runSearch);
+    addBtn.addEventListener('click', submitSong);
+  }
 }
 
 function startUp() {
@@ -71,7 +74,7 @@ function refreshPlaylist(playlistId) {
       console.log('Results:', results);
 
       // Check if there is at least one song
-      if (results === null || results === undefined || results.length !== 0)
+      if (results === null || results === undefined || results.length === 0)
         return;
 
       // List of songs div
@@ -119,7 +122,7 @@ function refreshPlaylist(playlistId) {
       playlistDiv.replaceChildren(...newChildren);
       [...playlistDiv.children].forEach((child) => {
         const voteImg = child.querySelector('span.vote > img');
-        voteImg.addEventListener('click', toggleVote);
+        if (userid !== undefined) voteImg.addEventListener('click', toggleVote);
         const title = child.querySelector('span.title');
         if (title.scrollWidth > title.offsetWidth) {
           title.classList.add('scroll');
@@ -187,7 +190,7 @@ async function toggleVote() {
     }
 
     // Update vote value
-    if (voted) {
+    if (voted.status === 201) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) + 1).toString();
       console.log('+1');
     }

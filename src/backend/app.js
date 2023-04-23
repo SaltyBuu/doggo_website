@@ -21,7 +21,7 @@ const staticOptions = {
     }
   },
 };
-app.use(express.static('src/public', staticOptions));
+app.use(express.static('src/frontend', staticOptions));
 app.use((req, res, next) => {
   console.log('Time:', Date.now());
   console.log('Request URL:', req.originalUrl);
