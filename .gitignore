@@ -15,6 +15,4 @@ src/frontend/fonts/walkwaybold_regular_macroman/
 playlist_project.iml
 README.md
 /.env
-src/backend/prisma/migrations/
-log/access.log
-swagger_output.json
+package.json
