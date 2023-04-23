@@ -14,14 +14,7 @@ app.use(
 );
 
 app.use(cors());
-// const staticOptions = {
-//   setHeaders: (res, path) => {
-//     if (path.endsWith(".js")) {
-//       res.setHeader("Content-Type", "application/javascript");
-//     }
-//   },
-// };
-// app.use(express.static("src/frontend/", staticOptions));
+
 app.use((req, res, next) => {
   console.log("Time:", Date.now());
   console.log("Request URL:", req.originalUrl);
