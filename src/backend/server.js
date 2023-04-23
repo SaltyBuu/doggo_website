@@ -8,4 +8,4 @@ const app = require("./app");
 
 console.log("STARTING", PORT);
 // Open Server on selected Port
-app.listen(PORT, () => console.log("Server listening on port ", PORT));
+const listener = app.listen(PORT, () => console.log("Server listening on port ", listener.address().port));
