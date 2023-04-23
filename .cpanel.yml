@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/qomg3726/public_html
+    - /bin/cp src/frontend/* $DEPLOYPATH
