@@ -185,7 +185,7 @@ div.list-container {
   flex-direction: row;
   margin-top: 1%;
   margin-bottom: 1%;
-  margin-right: 1%;
+  padding-right: 1%;
   /*border: 1px solid black;*/
   /*border-radius: 5px;*/
 }

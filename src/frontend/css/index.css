@@ -2,19 +2,19 @@
 
 @font-face {
   font-family: Nobile;
-  src: url("src/frontend/fonts/nobile/Nobile-Bold.ttf");
+  src: url("../fonts/nobile/Nobile-Bold.ttf");
   font-weight: bold;
 }
 
 @font-face {
   font-family: Nobile;
-  src: url("src/frontend/fonts/nobile/Nobile-Regular.ttf");
+  src: url("../fonts/nobile/Nobile-Regular.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: Nobile;
-  src: url("src/frontend/fonts/nobile/Nobile-Medium.ttf");
+  src: url("../fonts/nobile/Nobile-Medium.ttf");
   font-style: normal;
 }
 
