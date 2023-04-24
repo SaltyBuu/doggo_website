@@ -99,13 +99,17 @@ span.title.scroll:hover {
 
 div.list-container {
   /* position: relative; */
-  height: 100%;
+  max-height: 100%;
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   margin-left: 1%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  /*border: 1px solid black;*/
+  /*border-radius: 5px;*/
 }
 
 div.list {
@@ -119,12 +123,13 @@ div.list {
   /* border: 2px solid black; */
 
   opacity: 0.9;
-  border: 1px solid black;
-  border-radius: 5px;
+  box-shadow: 0px 0px 5px 1px black;
+  border-radius: 10px;
+
   width: 100%;
   scrollbar-width: thin;
   padding-right: 10px;
-  scrollbar-color: black orange;
+  scrollbar-color: white black;
 }
 
 div.list::-webkit-scrollbar {
