@@ -100,6 +100,29 @@
   </div>
 </div>
 <div class="wrapper">
+  <div class="search">
+    <div class="case">
+      <div class="search-input">
+        <input id="search" list="searchResults" type="text" name="search"
+               autocomplete="off" placeholder="Search song">
+        <input id="add" type="button" name="add" value="Ajouter">
+        <datalist id="searchResults"></datalist>
+        <!--    <div class="results"></div>-->
+      </div>
+      <div class="add-container">
+        <div>
+          <div class="circle">
+            <div class="inner-circle"></div>
+          </div>
+        </div>
+        <div>
+          <div class="circle">
+            <div class="inner-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="list-container">
     <!--  <div class="scrollbar"></div>-->
     <div class="list">
@@ -109,15 +132,6 @@
 <!--      <div class="song">Chanson D</div>-->
 <!--      <div class="song">Chanson E</div>-->
 <!--      <div class="song">Chanson F</div>-->
-    </div>
-  </div>
-  <div class="search">
-    <div class="search-input">
-      <input id="search" list="searchResults" type="text" name="search"
-             autocomplete="off" placeholder="Search song">
-      <input id="add" type="button" name="add" value="Ajouter">
-      <datalist id="searchResults"></datalist>
-      <!--    <div class="results"></div>-->
     </div>
   </div>
 </div>

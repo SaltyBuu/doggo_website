@@ -45,6 +45,8 @@ div.search {
 
   /* display: none; */
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   width: 50%;
@@ -53,17 +55,64 @@ div.search {
   /*width: 100%;*/
 }
 
+div.case {
+  height: 40%;
+  width: 80%;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+}
+
+div.add-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+div.add-container > div {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  border: 1px solid white;
+  justify-content: center;
+  align-items: center;
+}
+
+div.circle {
+  width: 50%;
+  height: 50%;
+  border: 1px solid white;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.inner-circle {
+  width: 60%;
+  height: 60%;
+  border: 1px solid white;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  background-color: white;
+}
+
 div.search-input {
   display: flex;
-  height: 10%;
+  height: 30%;
   width: 100%;
+  border: 1px solid white;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   z-index: 2;
 }
 
-input#search {
+div.add-c input#search {
   height: 50%;
   flex-grow: 2;
 }
@@ -146,12 +195,13 @@ div.list::-webkit-scrollbar-thumb {
 
 div.song {
   height: 8vh;
-  background-color: #f45137;
+  background-color: #ffffffc7;
   border: 2px solid black;
   border-radius: 10px;
   display: flex;
   width: 100%;
   margin-right: 10px;
+  margin-bottom: 2px;
 }
 
 div.background {
