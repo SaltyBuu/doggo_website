@@ -19,13 +19,14 @@ function init() {
   const signinBtn = document.getElementById('signin-btn');
   const searchInput = document.getElementById('search');
   const addBtn = document.getElementById('add');
+  const title = document.querySelector('div.title > p');
 
   // Add listeners
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
   signinBtn.addEventListener(
     'click',
-    () => (window.location.href = '/signin.html')
+    () => (window.location.href = 'signin.html')
   );
 
   console.log('Token:', localStorage.accessToken);
@@ -42,6 +43,7 @@ function init() {
     searchInput.addEventListener('keypress', runSearch);
     addBtn.addEventListener('click', submitSong);
   }
+  title.addEventListener('click', () => (window.location = 'index.html'));
 }
 
 function startUp() {
@@ -129,7 +131,7 @@ function refreshPlaylist(playlistId) {
         }
         // voteImg.addEventListener('click', toggleVote)
       });
-      highlightVotes();
+      if (userid !== undefined) highlightVotes();
     })
     .catch((e) => console.log(e));
 }

@@ -52,6 +52,14 @@ form.signin {
   height: 100%;
 }
 
+input:invalid {
+  box-shadow: 0 0 5px 5px #a73680;
+}
+
+input:focus:invalid {
+  box-shadow: none;
+}
+
 /*!* Définition des couleurs *!*/
 /*:root {*/
 /*  --yellow: #fcd307;*/

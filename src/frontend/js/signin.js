@@ -27,14 +27,18 @@ function startUp() {
 function enableRegister() {
   const inputCollection = document.getElementsByTagName('input');
   document.getElementsByTagName('label')[2].classList.toggle('hidden');
+  document.getElementsByTagName('label')[3].classList.toggle('hidden');
   inputCollection[2].classList.toggle('hidden');
   inputCollection[3].classList.toggle('hidden');
   inputCollection[4].classList.toggle('hidden');
   inputCollection[5].classList.toggle('hidden');
+  inputCollection[6].classList.toggle('hidden');
 }
 
 async function userLogin() {
   //TODO mauvais ogin message
+  console.log('this', this);
+  if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
   const password = signDiv.getElementsByTagName('input')[1].value;
@@ -45,9 +49,36 @@ async function userLogin() {
     login: login,
     password: hashed,
   };
-
+  return;
   sendCredentials(data);
 }
+
+function checkSignForm() {
+  const signDiv = document.querySelector('div.sign');
+  const inputs = signDiv.querySelectorAll(
+    'input[type="text"]:not(.hidden),input[type="password"]:not(.hidden),input[type="email"]:not(.hidden)'
+  );
+  const nodes = [...inputs];
+  let verified = true;
+  for (let i = 0; i < nodes.length; i++) {
+    nodes[i].required = true;
+    if (nodes[i].validity.valueMissing) {
+      nodes[i].setCustomValidity('Field should not be empty.');
+      verified = false;
+      break;
+    }
+    if (nodes[i].validity.typeMismatch) {
+      nodes[i].setCustomValidity('Email address expected.');
+      verified = false;
+      break;
+    } else {
+      nodes[i].setCustomValidity('');
+    }
+  }
+  console.log('returned', verified);
+  return verified;
+}
+
 function sendCredentials(data) {
   const url = new URL(backend + '/auth');
   fetchRequest(url, 'POST', JSON.stringify(data))
@@ -84,6 +115,7 @@ async function hashPass(password) {
 }
 
 async function registerUser() {
+  if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
   const password = signDiv.getElementsByTagName('input')[1].value;
