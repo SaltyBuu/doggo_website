@@ -137,11 +137,11 @@ div.list::-webkit-scrollbar {
 }
 
 div.list::-webkit-scrollbar-track {
-  background: orange;
+  background: black;
 }
 
 div.list::-webkit-scrollbar-thumb {
-  background-color: black;
+  background-color: white;
 }
 
 div.song {
