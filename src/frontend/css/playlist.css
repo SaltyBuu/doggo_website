@@ -55,34 +55,68 @@ div.search {
   /*width: 100%;*/
 }
 
+input#add {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
 div.case {
-  height: 40%;
-  width: 80%;
-  border: 1px solid white;
+  max-height: 100%;
+  max-width: 100%;
+  width: 40vw;
+  border: 2px solid black;
   display: flex;
   flex-direction: column;
 }
 
-div.add-container {
+div.tape-container {
+  height: 20vw;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 100%;
+  width: 40vw;
+  flex-shrink: 0;
 }
 
-div.add-container > div {
+div.tape-container > div {
   height: 100%;
   width: 50%;
   display: flex;
-  border: 1px solid white;
+  border: 2px solid black;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+div.rectangle-container {
+  height: 50%;
+  width: 50%;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  position: absolute;
+  transform: translateY(-2px);
+  top: 25%;
+}
+
+div.rectangle-container.left {
+  right: 0;
+}
+
+div.rectangle-container.right {
+  left: 0;
+}
+
+div.circle-container {
+  height: 50%;
+  width: 50%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 div.circle {
-  width: 50%;
-  height: 50%;
-  border: 1px solid white;
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -94,27 +128,22 @@ div.circle {
 div.inner-circle {
   width: 60%;
   height: 60%;
-  border: 1px solid white;
+  border: 1px solid black;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
-  background-color: white;
+  background-color: rgba(117, 117, 117, 0.27);
 }
 
 div.search-input {
   display: flex;
   height: 30%;
   width: 100%;
-  border: 1px solid white;
+  border: 1px solid black;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   z-index: 2;
-}
-
-div.add-c input#search {
-  height: 50%;
-  flex-grow: 2;
 }
 
 div.results {
@@ -154,9 +183,9 @@ div.list-container {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  margin-left: 1%;
   margin-top: 1%;
   margin-bottom: 1%;
+  margin-right: 1%;
   /*border: 1px solid black;*/
   /*border-radius: 5px;*/
 }
@@ -195,7 +224,7 @@ div.list::-webkit-scrollbar-thumb {
 
 div.song {
   height: 8vh;
-  background-color: #ffffffc7;
+  background-color: #f45137;
   border: 2px solid black;
   border-radius: 10px;
   display: flex;
@@ -362,9 +391,11 @@ div#models {
   div.search-input {
     flex-direction: column;
     height: 90%;
+    padding-top: 1%;
+    padding-bottom: 1%;
   }
   input#search {
-    width: 100%;
+    width: 90%;
     height: 50%;
     padding-right: 0;
     padding-left: 0;
@@ -372,6 +403,16 @@ div#models {
   input#add {
     height: 50%;
     padding: 5px 10px;
+  }
+  div.case {
+    width: 60vw;
+  }
+
+  div.tape-container {
+    width: 60vw;
+    height: 30vw;
+    background-color: #f45235;
+    opacity: 80%;
   }
 }
 
