@@ -63,11 +63,13 @@ function checkSignForm() {
     nodes[i].required = true;
     if (nodes[i].validity.valueMissing) {
       nodes[i].setCustomValidity("Field should not be empty.");
+      nodes[i].reportValidity();
       verified = false;
       break;
     }
     if (nodes[i].validity.typeMismatch) {
       nodes[i].setCustomValidity("Email address expected.");
+      nodes[i].reportValidity();
       verified = false;
       break;
     } else {
