@@ -18,6 +18,29 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: Stilltime;
+  src: url('../fonts/stilltime/still time.otf');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Slaytanic;
+  src: url('../fonts/Slaytanic/Slaytanic.ttf');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Bangers;
+  src: url('../fonts/bangers/Bangers.ttf');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Sunnyspells;
+  src: url('../fonts/sunny-spells/Sunny Spells.ttf');
+  font-style: normal;
+}
 /** { */
 
 /*  border: 1px solid; */

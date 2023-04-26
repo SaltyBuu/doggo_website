@@ -3,7 +3,8 @@ div.title {
   text-align: center;
   height: 100%;
   /* position: relative; */
-  font-size: 2vw;
+  font-family: Bangers;
+  font-size: 4vw;
   color: white;
   display: flex;
   flex-direction: column;
@@ -15,15 +16,10 @@ div.title {
   /* margin-left: 5px; */
 }
 
-div.title > p {
+div.title > p:hover {
   cursor: pointer;
+  text-shadow: 1px 1px 10px white;
 }
-
-/** { */
-
-/*  outline: 1px white solid; */
-
-/* } */
 
 nav {
   justify-content: space-evenly;
