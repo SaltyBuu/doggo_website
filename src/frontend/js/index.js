@@ -51,7 +51,7 @@ function toggleSpeakers(audio) {
     audio.play();
   } else {
     audio.pause();
-    audio.currentTime = 0;
+    // audio.currentTime = 0;
   }
   speakersArr.forEach((s) => (s.style.animationPlayState = pausedAttr));
   void speakersArr[0].offsetWidth;
