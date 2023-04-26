@@ -17,3 +17,4 @@ src/backend/prisma/migrations/
 src/backend/prisma/migrations/migration_lock.toml
 .cpanel.yml
 playlist_project.iml
+log/
