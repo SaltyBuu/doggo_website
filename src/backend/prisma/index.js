@@ -6,6 +6,8 @@ const results = apiResults.tracks.items.map((s) => ({
   album: s.album.name,
   name: s.name,
   thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
+  preview: s.preview_url,
+  uri: s.uri,
 }));
 //TODO setup CI
 async function main() {
