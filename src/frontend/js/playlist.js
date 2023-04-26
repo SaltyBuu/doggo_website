@@ -121,6 +121,7 @@ function refreshPlaylist(playlistId) {
 
         //Add preview url
         resultDiv.querySelector('audio').src = song.preview;
+        resultDiv.querySelector('audio').volume = 0.5;
 
         // Add current song to new children
         newChildren.push(resultDiv);
