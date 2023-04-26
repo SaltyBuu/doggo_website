@@ -56,6 +56,10 @@ input#add {
   margin-bottom: 2%;
 }
 
+input#search {
+  margin-right: 1%;
+}
+
 div.case {
   max-height: 100%;
   max-width: 100%;
@@ -136,7 +140,7 @@ div.inner-circle {
 div.search-input {
   display: flex;
   height: 30%;
-  width: calc(100% - 6px);
+  width: calc(100% - 8px);
   border: 4px black solid;
   flex-direction: row;
   justify-content: center;
