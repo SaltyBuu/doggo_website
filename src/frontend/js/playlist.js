@@ -1,11 +1,11 @@
 // import { toggleMute, toggleSidebar } from './lib.js';
-const backend = 'https://api-doggo.herokuapp.com';
+const backend = "https://api-doggo.herokuapp.com";
 const PLAYLISTID = 1;
 let userid = undefined;
 let token = undefined;
 //TODO admin account verify token
 let currentResults = [];
-const audio = new Audio('music/bee-gees-stayin-alive.wav');
+const audio = new Audio("music/bee-gees-stayin-alive.wav");
 
 // Common int validation function
 const isInt = function (id) {
@@ -14,36 +14,36 @@ const isInt = function (id) {
 
 function init() {
   // DOM queries
-  const menuIcon = document.querySelector('#menu-icon-bg');
-  const muteSpan = document.getElementById('mute');
-  const signinBtn = document.getElementById('signin-btn');
-  const searchInput = document.getElementById('search');
-  const addBtn = document.getElementById('add');
-  const title = document.querySelector('div.title > p');
+  const menuIcon = document.querySelector("#menu-icon-bg");
+  const muteSpan = document.getElementById("mute");
+  const signinBtn = document.getElementById("signin-btn");
+  const searchInput = document.getElementById("search");
+  const addBtn = document.getElementById("add");
+  const title = document.querySelector("div.title > p");
 
   // Add listeners
-  menuIcon.addEventListener('click', toggleSidebar);
-  muteSpan.addEventListener('click', () => toggleMute(audio));
+  menuIcon.addEventListener("click", toggleSidebar);
+  muteSpan.addEventListener("click", () => toggleMute(audio));
   signinBtn.addEventListener(
-    'click',
-    () => (window.location.href = 'signin.html')
+    "click",
+    () => (window.location.href = "signin.html")
   );
 
-  console.log('Token:', localStorage.accessToken);
+  console.log("Token:", localStorage.accessToken);
   if (localStorage.accessToken !== undefined) {
     //TODO valid token route + loading request
-    signinBtn.classList.toggle('connected');
+    signinBtn.classList.toggle("connected");
     signinBtn.value = localStorage.user;
-    console.log('Local user:', localStorage.user);
+    console.log("Local user:", localStorage.user);
     token = localStorage.accessToken;
     userid = parseInt(localStorage.userid);
   }
-  console.log('Local user ID:', userid);
+  console.log("Local user ID:", userid);
   if (userid !== undefined) {
-    searchInput.addEventListener('keypress', runSearch);
-    addBtn.addEventListener('click', submitSong);
+    searchInput.addEventListener("keypress", runSearch);
+    addBtn.addEventListener("click", submitSong);
   }
-  title.addEventListener('click', () => (window.location = 'index.html'));
+  title.addEventListener("click", () => (window.location = "index.html"));
 }
 
 function startUp() {
@@ -52,7 +52,7 @@ function startUp() {
   refreshPlaylist(PLAYLISTID);
 
   // Music controls
-  audio.preload = 'auto';
+  audio.preload = "auto";
   audio.volume = 0.1;
   audio.loop = true;
 
@@ -60,27 +60,27 @@ function startUp() {
 }
 
 function refreshPlaylist(playlistId) {
-  console.log('REFRESHING');
+  console.log("REFRESHING");
   // Set up query url
-  const endpoint = '/' + playlistId + '/songs';
+  const endpoint = "/" + playlistId + "/songs";
   const url = new URL(backend + endpoint);
 
   // Fetch songs of the current playlist
-  fetchRequest(url, 'GET')
+  fetchRequest(url, "GET")
     .then((res) => res.json())
     .then((json) => {
       console.log(json);
       // Children initialization and get list of added songs as json
       const newChildren = [];
       const results = json.results;
-      console.log('Results:', results);
+      console.log("Results:", results);
 
       // Check if there is at least one song
       if (results === null || results === undefined || results.length === 0)
         return;
 
       // List of songs div
-      const playlistDiv = document.querySelector('div.list');
+      const playlistDiv = document.querySelector("div.list");
 
       // Parse playlist songs json
       results.forEach((r) => {
@@ -92,29 +92,35 @@ function refreshPlaylist(playlistId) {
 
         // Create new playlist song div
         const resultDiv = document
-          .querySelector('div.model.song')
+          .querySelector("div.model.song")
           .cloneNode(true);
-        resultDiv.classList.toggle('model');
-        const img = resultDiv.querySelector('span.cover-container > img');
+        resultDiv.classList.toggle("model");
+        const img = resultDiv.querySelector("span.cover-container > img");
 
         // Set attributes from json
         img.src = song.thumbnail;
         img.alt = song.album;
         resultDiv
-          .querySelector('span.title')
+          .querySelector("span.title")
           .appendChild(document.createTextNode(song.name));
         resultDiv
-          .querySelector('span.artist')
+          .querySelector("span.artist")
           .appendChild(document.createTextNode(song.artist));
         // console.log('votesNb', r.votesNb);
         resultDiv
-          .querySelector('span.votesNb')
+          .querySelector("span.votesNb")
           .appendChild(
             document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
           );
-        const voteImg = resultDiv.querySelector('span.vote > img');
+        const voteImg = resultDiv.querySelector("span.vote > img");
+        //TODO remove dataset attributes -> dedicated code structure
         voteImg.dataset.id = songid;
         resultDiv.dataset.id = songid;
+        resultDiv.dataset.preview = song.preview;
+        resultDiv.dataset.uri = song.uri;
+
+        //Add preview url
+        resultDiv.querySelector("audio").src = song.preview;
 
         // Add current song to new children
         newChildren.push(resultDiv);
@@ -123,11 +129,11 @@ function refreshPlaylist(playlistId) {
       // Add to DOM and set up listeners
       playlistDiv.replaceChildren(...newChildren);
       [...playlistDiv.children].forEach((child) => {
-        const voteImg = child.querySelector('span.vote > img');
-        if (userid !== undefined) voteImg.addEventListener('click', toggleVote);
-        const title = child.querySelector('span.title');
+        const voteImg = child.querySelector("span.vote > img");
+        if (userid !== undefined) voteImg.addEventListener("click", toggleVote);
+        const title = child.querySelector("span.title");
         if (title.scrollWidth > title.offsetWidth) {
-          title.classList.add('scroll');
+          title.classList.add("scroll");
         }
         // voteImg.addEventListener('click', toggleVote)
       });
@@ -137,23 +143,23 @@ function refreshPlaylist(playlistId) {
 }
 
 function highlightVotes() {
-  const songCollection = document.querySelectorAll('div.list > div.song');
+  const songCollection = document.querySelectorAll("div.list > div.song");
   songCollection.forEach(async (s) => {
     const voted = await userVoted(s.dataset.id);
     if (voted) {
-      toggleVoteClass(s.querySelector('img.vote'));
+      toggleVoteClass(s.querySelector("img.vote"));
     }
   });
 }
 
 async function userVoted(songid) {
-  const url = new URL(backend + '/votes');
+  const url = new URL(backend + "/votes");
   const data = {
     userid: userid,
     playlistid: PLAYLISTID,
     songid: songid,
   };
-  const voted = await fetchRequest(url, 'POST', JSON.stringify(data), token);
+  const voted = await fetchRequest(url, "POST", JSON.stringify(data), token);
   return voted.status === 200;
 }
 
@@ -163,7 +169,7 @@ async function toggleVote() {
 
   // Set up body
   const songId = parseInt(this.dataset.id);
-  console.log('this', this);
+  console.log("this", this);
   const data = {
     userId: userid,
     playlistId: PLAYLISTID,
@@ -171,39 +177,39 @@ async function toggleVote() {
   };
 
   // Set up url
-  console.log('Body addVote', JSON.stringify(data));
-  const endpoint = '/votes';
+  console.log("Body addVote", JSON.stringify(data));
+  const endpoint = "/votes";
   const url = new URL(backend + endpoint);
 
   // Retrieve displayed vote element
   const voteSpan =
-    this.parentElement.parentElement.querySelector('span.votesNb');
+    this.parentElement.parentElement.querySelector("span.votesNb");
 
   // Vote if user has not voted yet
-  if (!this.classList.contains('voted')) {
-    console.log('User has not yet voted !');
+  if (!this.classList.contains("voted")) {
+    console.log("User has not yet voted !");
 
     // Add vote of the current user to the desired song
-    const voted = await fetchRequest(url, 'PUT', JSON.stringify(data), token);
+    const voted = await fetchRequest(url, "PUT", JSON.stringify(data), token);
     if (voted) {
-      console.log('Vote: ', voted);
+      console.log("Vote: ", voted);
     } else {
-      console.log('no vote: ', voted);
+      console.log("no vote: ", voted);
     }
 
     // Update vote value
     if (voted.status === 201) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) + 1).toString();
-      console.log('+1');
+      console.log("+1");
     }
   }
   // Unvote if user has already voted
   else {
-    console.log('User has already voted !');
+    console.log("User has already voted !");
     // Add vote of the current user to the desired song
     const unvoted = await fetchRequest(
       url,
-      'DELETE',
+      "DELETE",
       JSON.stringify(data),
       token
     );
@@ -211,17 +217,17 @@ async function toggleVote() {
     // Update vote value
     if (unvoted) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) - 1).toString();
-      console.log('-1');
-      if (voteSpan.textContent === '0') {
+      console.log("-1");
+      if (voteSpan.textContent === "0") {
         const deleted = await deletePlaylistSong(PLAYLISTID, songId);
         if (deleted.status === 200) {
-          console.log('Status 200 !');
+          console.log("Status 200 !");
           const currentId = this.dataset.id;
-          console.log('Get id');
+          console.log("Get id");
           const currentDiv = document.querySelector(
             'div[data-id="' + currentId + '"]'
           );
-          console.log('Div:', currentDiv);
+          console.log("Div:", currentDiv);
           currentDiv.remove();
           return;
         }
@@ -230,19 +236,19 @@ async function toggleVote() {
   }
   const updated = updateVotesTotal(PLAYLISTID, data.songId);
   if (updated) {
-    console.log('Updated !');
+    console.log("Updated !");
     toggleVoteClass(this);
   } else {
-    console.log('Not updated :(');
+    console.log("Not updated :(");
   }
 }
 
 async function deletePlaylistSong(playlistId, songId) {
-  const endpoint = '/' + playlistId + '/' + songId;
+  const endpoint = "/" + playlistId + "/" + songId;
   const url = new URL(backend + endpoint);
   console.log(url.href);
 
-  return fetchRequest(url, 'DELETE', undefined, token);
+  return fetchRequest(url, "DELETE", undefined, token);
 }
 
 async function updateVotesTotal(playlistId, songId) {
@@ -253,18 +259,18 @@ async function updateVotesTotal(playlistId, songId) {
   };
 
   // Set up url
-  console.log('Body addVote', JSON.stringify(data));
-  const endpoint = '/votes';
+  console.log("Body addVote", JSON.stringify(data));
+  const endpoint = "/votes";
   const url = new URL(backend + endpoint);
 
-  const updated = await fetchRequest(url, 'PATCH', JSON.stringify(data), token);
+  const updated = await fetchRequest(url, "PATCH", JSON.stringify(data), token);
 
-  if (updated) console.log('Updated song n°', songId);
+  if (updated) console.log("Updated song n°", songId);
 }
 
 function submitSong() {
   // Get user search input
-  const searchInput = document.getElementById('search');
+  const searchInput = document.getElementById("search");
   if (!searchInput.value || currentResults.length === 0) return;
   const option = document.querySelector(
     'option[value="' + searchInput.value + '"]'
@@ -279,7 +285,9 @@ function submitSong() {
     option.dataset.name,
     option.dataset.artist,
     option.dataset.album,
-    option.dataset.thumbnail
+    option.dataset.thumbnail,
+    option.dataset.preview,
+    option.dataset.uri
   );
 }
 
@@ -289,16 +297,20 @@ async function findOrAddSong(
   name,
   artist,
   album,
-  thumbnail
+  thumbnail,
+  preview,
+  uri
 ) {
   // Set up query url and body
-  const songEndpoint = '/songs';
+  const songEndpoint = "/songs";
   const url = new URL(backend + songEndpoint);
   const data = {
     name: name,
     album: album,
     artist: artist,
     thumbnail: thumbnail,
+    preview: preview,
+    uri: uri,
   };
   const globalFound = await searchInSongs(data, url);
   // console.log('1globalFound', globalFound);
@@ -327,7 +339,7 @@ async function findOrAddSong(
       // console.log('Song isnt in current playlist');
       addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     } else {
-      console.log('Found', localFound);
+      console.log("Found", localFound);
       //TODO Scroll to song
     }
   }
@@ -336,8 +348,8 @@ async function findOrAddSong(
 
 async function addToPlaylist(promiseResult, playlistId, userId) {
   // Set up query url and body
-  const playlistEndPoint = '/' + playlistId;
-  const songEndpoint = '/songs';
+  const playlistEndPoint = "/" + playlistId;
+  const songEndpoint = "/songs";
   const songId = promiseResult.song.id;
   // if (isInt(song.id)) songId = parseInt(id);
   const data = {
@@ -348,7 +360,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   const songUrl = new URL(backend + playlistEndPoint + songEndpoint);
 
   // Add song to playlist
-  await fetchRequest(songUrl, 'PUT', JSON.stringify(data), token);
+  await fetchRequest(songUrl, "PUT", JSON.stringify(data), token);
 
   // Set up user vote data and url
   const voteData = {
@@ -356,20 +368,20 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
     playlistId: PLAYLISTID,
     songId: songId,
   };
-  const endpoint = '/votes';
+  const endpoint = "/votes";
   const voteUrl = new URL(backend + endpoint);
 
   // Add vote of the current user to the desired song
   const voted = await fetchRequest(
     voteUrl,
-    'PUT',
+    "PUT",
     JSON.stringify(voteData),
     token
   );
   if (voted) {
-    console.log('Vote: ', voted);
+    console.log("Vote: ", voted);
   } else {
-    console.log('no vote: ', voted);
+    console.log("no vote: ", voted);
   }
 
   // Display the added song
@@ -378,70 +390,72 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
 
 async function searchInPlaylist(promiseResult, playlistId) {
   // Set up query url and body
-  const playlistEndPoint = '/' + playlistId;
+  const playlistEndPoint = "/" + playlistId;
   const songId = promiseResult.song.id;
   // if (isInt(song.id)) songId = parseInt(id);
-  const playlistSongEndpoint = playlistEndPoint + '/' + songId + '/';
+  const playlistSongEndpoint = playlistEndPoint + "/" + songId + "/";
   const url = new URL(backend + playlistSongEndpoint);
 
   // console.log('Look in playlist !');
   // Look for song in playlist
-  return fetchRequest(url, 'POST', undefined, token);
+  return fetchRequest(url, "POST", undefined, token);
 }
 
 function searchInSongs(data, url) {
   // Look for song in the global song database
-  return fetchRequest(url, 'POST', JSON.stringify(data), token);
+  return fetchRequest(url, "POST", JSON.stringify(data), token);
 }
 
 function addToSongs(data, url) {
   // Add a song to the global song databse
-  return fetchRequest(url, 'PUT', JSON.stringify(data), token);
+  return fetchRequest(url, "PUT", JSON.stringify(data), token);
 }
 
 function resetSearch() {
-  const searchInput = document.getElementById('search');
-  searchInput.value = '';
+  const searchInput = document.getElementById("search");
+  searchInput.value = "";
 }
 
 function displayResults(results) {
-  const datalist = document.getElementById('searchResults');
+  const datalist = document.getElementById("searchResults");
   const optNodes = [];
-  const option = document.querySelector('option.model.result');
+  const option = document.querySelector("option.model.result");
   results.forEach((r) => {
     const newOption = option.cloneNode();
-    newOption.value = r.name + ', ' + r.artist;
-    newOption.className = 'searchResult';
+    newOption.value = r.name + ", " + r.artist;
+    newOption.className = "searchResult";
     newOption.dataset.album = r.album;
     newOption.dataset.name = r.name;
     newOption.dataset.artist = r.artist;
     newOption.dataset.thumbnail = r.thumbnail;
+    newOption.dataset.preview = r.preview;
+    newOption.dataset.uri = r.uri;
     optNodes.push(newOption);
   });
   console.log(optNodes);
   datalist.replaceChildren(...optNodes);
-  document.querySelector('input#search').setAttribute('open', 'true');
+  document.querySelector("input#search").setAttribute("open", "true");
 }
 
 async function runSearch(e) {
   // When pressing Enter or given 2+ characters, fetch 5 search results
-  if (e.key === 'Enter' || this.value.length > 2) {
+  if (e.key === "Enter" || this.value.length > 2) {
     this.style.disabled = true;
     // Set up query url
-    const endPoint = '/runSearch';
+    const endPoint = "/runSearch";
     const url = new URL(backend + endPoint);
 
     // Fetch(url, { method: "GET" });
-    console.log('Requête spotify :', url);
+    console.log("Requête spotify :", url);
     const extractedResults = await fetchRequest(
       url,
-      'POST',
+      "POST",
       JSON.stringify({ name: this.value }),
       token
     )
       .then((res) => res.json())
       .catch((e) => console.log(e));
-    console.log('ExtractedResults', extractedResults);
+    console.log("ExtractedResults", extractedResults);
 
     // Process search results
     if (
@@ -452,10 +466,12 @@ async function runSearch(e) {
         artist: s.album.artists[0].name,
         album: s.album.name,
         name: s.name,
+        uri: s.uri,
+        preview: s.preview_url,
         thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
       }));
 
-      console.log('Results', results);
+      console.log("Results", results);
       // Display search results as clickable options
       currentResults = results;
       displayResults(results);
@@ -464,7 +480,7 @@ async function runSearch(e) {
 }
 
 function toggleVoteClass(element) {
-  element.classList.toggle('voted');
+  element.classList.toggle("voted");
 }
 
-window.addEventListener('load', startUp);
+window.addEventListener("load", startUp);

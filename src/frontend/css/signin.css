@@ -3,6 +3,7 @@ div#form {
   flex-direction: column;
   align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 div.sign {
@@ -12,6 +13,12 @@ div.sign {
   justify-content: center;
   height: 70%;
   flex-grow: 1;
+}
+
+div.sign > label {
+  width: 50%;
+  text-align: left;
+  font-size: 1.4em;
 }
 
 #signin-btn {
@@ -52,46 +59,30 @@ form.signin {
   height: 100%;
 }
 
-/*!* Définition des couleurs *!*/
-/*:root {*/
-/*  --yellow: #fcd307;*/
-/*  --orange: #f16d21;*/
-/*  --pink: #ea3c8d;*/
-/*  --purple: #8a2be2;*/
-/*}*/
+input:invalid {
+  box-shadow: 0 0 5px 5px #a73680;
+}
 
-/*!* Style du bouton *!*/
-/*input#signin-btn {*/
-/*  display: inline-block;*/
-/*  padding: 10px 20px;*/
-/*  font-size: 16px;*/
-/*  font-weight: bold;*/
-/*  color: #fff;*/
-/*  text-align: center;*/
-/*  text-transform: uppercase;*/
-/*  text-decoration: none;*/
-/*  border-radius: 45px;*/
-/*  background: linear-gradient(*/
-/*    -45deg,*/
-/*    var(--yellow),*/
-/*    var(--orange),*/
-/*    var(--pink),*/
-/*    var(--purple),*/
-/*    var(--yellow)*/
-/*  );*/
-/*  background-size: 400% 400%;*/
-/*  animation: gradient 2s ease infinite;*/
-/*}*/
+input:focus:invalid {
+  box-shadow: none;
+}
 
-/*!* Animation du gradient *!*/
-/*@keyframes gradient {*/
-/*  0% {*/
-/*    background-position: 0% 50%;*/
-/*  }*/
-/*  50% {*/
-/*    background-position: 100% 50%;*/
-/*  }*/
-/*  100% {*/
-/*    background-position: 0% 50%;*/
-/*  }*/
-/*}*/
+@media screen and (max-width: 768px) {
+  div#form > fieldset {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    width: 80%;
+  }
+
+  div.sign > input[type='text'],
+  div.sign > input[type='password'],
+  div.sign > input[type='email'] {
+    width: 80%;
+  }
+
+  div.sign > label {
+    margin-top: 1%;
+    font-size: 1.3em;
+    width: 80%;
+  }
+}
