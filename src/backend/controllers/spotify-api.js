@@ -1,8 +1,8 @@
-const has = require('has-keys');
-const CodeError = require('../CodeError');
+const has = require("has-keys");
+const CodeError = require("../CodeError");
 let token = undefined;
 const { CLIENTID, CLIENTSECRET } = process.env;
-const { getSpotifyToken } = require('../utils/spotify-token');
+const { getSpotifyToken } = require("../utils/spotify-token");
 
 module.exports = {
   async searchApi(req, res) {
@@ -17,46 +17,57 @@ module.exports = {
       schema: { $name: 'A blessing' }
     }
     */
-    console.log('res0', res.headersSent);
-    if (!has(req.body, ['name']))
-      throw new CodeError('The song name is missing', 400);
+    console.log("res0", res.headersSent);
+    if (!has(req.body, ["name"]))
+      throw new CodeError("The song name is missing", 400);
     const songName = req.body.name;
+
+    // Retreive spotify token if undefined
     if (token === undefined)
       token = await getSpotifyToken(CLIENTID, CLIENTSECRET).catch((error) =>
         console.error(error)
-      ); // Obtient le jeton d'accès
+      );
+
+    // Build trach search request
     const url = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
       songName
     )}&type=track&market=FR&limit=5`;
     const requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
+
+    // Run search for desired song
     const resultPromise = await fetch(url, requestOptions);
+
     if (!resultPromise.ok) {
+      // If access_token is invalid, renw it
       if (resultPromise.status === 401) {
         const newToken = await getSpotifyToken(CLIENTID, CLIENTSECRET);
+        console.log("INFO Spotify access token renewal:", newToken);
 
         const newRequestOptions = {
-          method: 'POST',
+          method: "GET",
           headers: {
             Authorization: `Bearer ${newToken}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         };
 
+        // Issue song request with new token
         const newResponse = await fetch(url, newRequestOptions);
+        console.log("DEBUG Spotify track request:", newResponse);
 
         if (newResponse.ok) {
-          console.log('3');
           const accepted = newResponse.json();
+          console.log("Accepted:", accepted);
           token = accepted.access_token;
         } else {
           res.status(400).json({
-            message: `Erreur ${resultPromise.status} : Could not look for "${songName}"`,
+            message: `Erreur ${newResponse.status} : Could not look for "${songName}"`,
           });
         }
       } else {

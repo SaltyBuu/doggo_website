@@ -1,10 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTarget = "native"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Playlist {
@@ -21,6 +22,8 @@ model Song {
   album        String         @db.VarChar(100)
   artist       String         @db.VarChar(100)
   thumbnail    String         @db.VarChar(150)
+  preview      String         @db.VarChar(150)
+  uri          String         @db.VarChar(150)
   createdAt    DateTime       @default(now())
   PlaylistSong PlaylistSong[]
   Vote         Vote[]

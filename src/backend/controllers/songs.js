@@ -1,7 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const has = require('has-keys');
-const CodeError = require('../CodeError');
+const has = require("has-keys");
+const CodeError = require("../CodeError");
 
 module.exports = {
   async searchSong(req, res) {
@@ -27,12 +27,12 @@ module.exports = {
     console.log(song);
     if (song != null) {
       res.status(200).json({
-        message: 'Song found !',
+        message: "Song found !",
         song,
       });
     } else {
       res.status(404).json({
-        message: 'Song not found',
+        message: "Song not found",
       });
     }
     /*
@@ -63,12 +63,14 @@ module.exports = {
             album: 'A blessing and a curse',
             artist: 'Here come the mummies',
             thumbnail: 'http://toto.png',
+            preview: 'https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86',
+            uri: 'spotify:track:6saOAnhIoLEdWbfSEwCV2l',
         }
     }
     */
     console.log(req.body);
-    if (!has(req.body, ['name', 'album', 'artist', 'thumbnail']))
-      throw new CodeError('Missing parameters', 400);
+    if (!has(req.body, ["name", "album", "artist", "thumbnail"]))
+      throw new CodeError("Missing parameters", 400);
 
     const name = req.body.name;
     const artist = req.body.artist;
@@ -85,15 +87,17 @@ module.exports = {
           artist: artist,
           album: req.body.album,
           thumbnail: req.body.thumbnail,
+          preview: req.body.preview,
+          uri: req.body.uri,
         },
       });
       res.status(201).json({
-        message: 'The song was successfully created !',
+        message: "The song was successfully created !",
         song,
       });
     } else {
       res.status(400).json({
-        message: 'The song already exists',
+        message: "The song already exists",
       });
     }
     /*
@@ -129,7 +133,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: 'Song deleted',
+      message: "Song deleted",
       song,
     });
     /*
@@ -155,6 +159,8 @@ module.exports = {
             name: 'A blessing and a curse',
             album: 'A blessing and a curse',
             artist: 'Here come the mummies',
+            preview: 'https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86',
+            uri: 'spotify:track:6saOAnhIoLEdWbfSEwCV2l',
         }
     }
     */
@@ -166,10 +172,12 @@ module.exports = {
         name: req.body.name || undefined,
         album: req.body.album || undefined,
         artist: req.body.artist || undefined,
+        preview: req.body.preview || undefined,
+        uri: req.body.uri || undefined,
       },
     });
     res.status(200).json({
-      message: 'Song updated',
+      message: "Song updated",
       song,
     });
     /*
