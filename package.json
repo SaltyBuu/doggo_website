@@ -6,6 +6,7 @@
     "start": "node src/backend/utils/swagger.js && node src/backend/server.js",
     "debug": "nodemon src/backend/server.js",
     "initdb": "prisma migrate deploy && node src/backend/prisma/index.js",
+    "gen": "prisma generate",
     "doc": "node src/backend/utils/swagger.js"
   },
   "dependencies": {
