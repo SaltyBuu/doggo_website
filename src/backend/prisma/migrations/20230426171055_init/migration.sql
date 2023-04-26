@@ -14,6 +14,8 @@ CREATE TABLE "Song" (
     "album" VARCHAR(100) NOT NULL,
     "artist" VARCHAR(100) NOT NULL,
     "thumbnail" VARCHAR(150) NOT NULL,
+    "preview" VARCHAR(100) NOT NULL,
+    "uri" VARCHAR(100) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Song_pkey" PRIMARY KEY ("id")
