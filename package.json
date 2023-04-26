@@ -38,6 +38,6 @@
     "vue": "^3.2.47"
   },
   "prisma": {
-    "schema": "src/prisma/schema.prisma"
+    "schema": "src/backend/prisma/schema.prisma"
   }
 }
