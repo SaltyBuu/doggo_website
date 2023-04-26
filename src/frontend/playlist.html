@@ -11,17 +11,14 @@
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/playlist.css" />
   <link rel="stylesheet" href="css/animations.css" />
-  <script src="js/lib.js" type="text/javascript"></script>
-  <script src="js/playlist.js" type="text/javascript"></script>
+  <script src="js/lib.js" type="application/javascript"></script>
+  <script src="js/playlist.js" type="application/javascript"></script>
 </head>
 <body>
 <header>
   <span class="logo"></span>
 </header>
 <nav>
-  <div class="btnContainer" id="nul">
-    <input type="button" name="nul" id="tjrsnul" value="Se connecter" />
-  </div>
   <div class="title">
     <p>
       Tomtom's playlist
@@ -103,6 +100,37 @@
   </div>
 </div>
 <div class="wrapper">
+  <div class="search">
+    <div class="case">
+      <div class="search-input">
+        <input id="search" list="searchResults" type="text" name="search"
+               autocomplete="off" placeholder="Search song">
+        <input id="add" type="button" name="add" value="Ajouter">
+        <datalist id="searchResults"></datalist>
+        <!--    <div class="results"></div>-->
+      </div>
+      <div class="tape-container">
+        <div>
+          <div class="rectangle-container left">
+          </div>
+          <div class="circle-container">
+            <div class="circle">
+              <div class="inner-circle"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="rectangle-container right">
+          </div>
+          <div class="circle-container">
+            <div class="circle">
+              <div class="inner-circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="list-container">
     <!--  <div class="scrollbar"></div>-->
     <div class="list">
@@ -112,15 +140,6 @@
 <!--      <div class="song">Chanson D</div>-->
 <!--      <div class="song">Chanson E</div>-->
 <!--      <div class="song">Chanson F</div>-->
-    </div>
-  </div>
-  <div class="search">
-    <div class="search-input">
-      <input id="search" list="searchResults" type="text" name="search"
-             autocomplete="off" placeholder="Search song">
-      <input id="add" type="button" name="add" value="Ajouter">
-      <datalist id="searchResults"></datalist>
-      <!--    <div class="results"></div>-->
     </div>
   </div>
 </div>
