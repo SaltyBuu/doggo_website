@@ -99,3 +99,4 @@ comment lier
 - options de l'api spotify ne s'affiche pas en tapant directement
 - Entrée sur le formulaire de connexion renvoie vers localhost:3000 avec POST -> 404
 - problème d'update du nombre de votes d'une chanson déjà submit
+- Faire gestion des rôles, restreindre requetes utilisateurs à leurs votes
