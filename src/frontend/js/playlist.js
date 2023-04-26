@@ -113,8 +113,11 @@ function refreshPlaylist(playlistId) {
             document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
           );
         const voteImg = resultDiv.querySelector("span.vote > img");
+        //TODO remove dataset attributes -> dedicated code structure
         voteImg.dataset.id = songid;
         resultDiv.dataset.id = songid;
+        resultDiv.dataset.preview = song.preview;
+        resultDiv.dataset.uri = song.uri;
 
         //Add preview url
         resultDiv.querySelector("audio").src = song.preview;
@@ -282,7 +285,9 @@ function submitSong() {
     option.dataset.name,
     option.dataset.artist,
     option.dataset.album,
-    option.dataset.thumbnail
+    option.dataset.thumbnail,
+    option.dataset.preview,
+    option.dataset.uri
   );
 }
 
@@ -292,7 +297,9 @@ async function findOrAddSong(
   name,
   artist,
   album,
-  thumbnail
+  thumbnail,
+  preview,
+  uri
 ) {
   // Set up query url and body
   const songEndpoint = "/songs";
@@ -302,6 +309,8 @@ async function findOrAddSong(
     album: album,
     artist: artist,
     thumbnail: thumbnail,
+    preview: preview,
+    uri: uri,
   };
   const globalFound = await searchInSongs(data, url);
   // console.log('1globalFound', globalFound);
@@ -419,6 +428,8 @@ function displayResults(results) {
     newOption.dataset.name = r.name;
     newOption.dataset.artist = r.artist;
     newOption.dataset.thumbnail = r.thumbnail;
+    newOption.dataset.preview = r.preview;
+    newOption.dataset.uri = r.uri;
     optNodes.push(newOption);
   });
   console.log(optNodes);
