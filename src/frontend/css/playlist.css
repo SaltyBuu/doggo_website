@@ -91,7 +91,7 @@ div.rectangle-container {
   border-top: 4px solid black;
   border-bottom: 4px solid black;
   position: absolute;
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   top: 25%;
 }
 
