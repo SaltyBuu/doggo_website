@@ -274,8 +274,9 @@ function submitSong() {
   const searchInput = document.getElementById('search');
   if (!searchInput.value || currentResults.length === 0) return;
   const option = document.querySelector(
-    'option[value="' + searchInput.value + '"]'
+    'option[value=' + JSON.stringify(searchInput.value) + ']'
   );
+  //TODO searchInput.value validation XSS
   if (!option) return;
   console.log(searchInput.value);
 
