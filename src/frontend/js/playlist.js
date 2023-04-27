@@ -341,8 +341,11 @@ async function findOrAddSong(
       // console.log('Song isnt in current playlist');
       addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     } else {
-      console.log('Found', localFound);
-      //TODO Scroll to song
+      // console.log('Found', localFound);
+      const res = await localFound.json();
+      document
+        .querySelector('div.song[data-id="' + res.playlistSong.songId + '"]')
+        .scrollIntoView({ behavior: 'smooth' });
     }
   }
   resetSearch();
