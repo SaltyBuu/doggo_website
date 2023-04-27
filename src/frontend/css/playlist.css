@@ -219,7 +219,7 @@ div.list::-webkit-scrollbar-thumb {
 }
 
 div.song {
-  height: 8vh;
+  height: 12vh;
   background-color: var(--fourth-color);
   border: 4px solid black;
   border-radius: 10px;
