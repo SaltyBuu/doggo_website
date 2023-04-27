@@ -2,7 +2,7 @@ const backend = 'https://api-doggo.herokuapp.com';
 
 function startUp() {
   const menuIcon = document.querySelector('#menu-icon-bg');
-  const muteSpan = document.getElementById('mute');
+  // const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signin-btn');
   const registerBtn = document.getElementById('register-btn');
@@ -35,7 +35,7 @@ function enableRegister() {
 }
 
 async function userLogin() {
-  //TODO mauvais ogin message
+  //TODO mauvais login message ou compte inconnu
   console.log('this', this);
   if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');

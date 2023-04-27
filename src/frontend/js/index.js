@@ -5,7 +5,6 @@ function startUp() {
   const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signin-btn');
-  const logoutBtn = document.getElementById('logout-btn');
   const voteBtn = document.getElementById('vote-btn');
 
   [...speakers].forEach((s) =>
@@ -17,23 +16,23 @@ function startUp() {
   audio.preload = 'auto';
   audio.volume = 0.1;
   audio.loop = true;
-  signinBtn.addEventListener(
-    'click',
-    () => (window.location.href = 'signin.html')
-  );
-  logoutBtn.addEventListener('click', userLogOut);
   voteBtn.addEventListener(
     'click',
     () => (window.location.href = 'playlist.html')
   );
 
   console.log('Token:', localStorage.accessToken);
+  // Assume user is connected
   if (localStorage.accessToken !== undefined) {
     //TODO valid token route + loading request
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
+    signinBtn.addEventListener('mouseenter', showDisconnect);
+    signinBtn.addEventListener('mouseleave', showUsername);
+    signinBtn.addEventListener('click', userLogOut);
     token = localStorage.accessToken;
-    logoutBtn.classList.toggle('hidden');
+  } else {
+    signinBtn.addEventListener('click', goToSignPage);
   }
 }
 function toggleSpeakers(audio) {
@@ -57,13 +56,8 @@ function toggleSpeakers(audio) {
   void speakersArr[0].offsetWidth;
 }
 
-function userLogOut() {
-  localStorage.removeItem('user');
-  localStorage.removeItem('accessToken');
-  document.getElementById('logout-btn').classList.toggle('hidden');
-  const signinBtn = document.getElementById('signin-btn');
-  signinBtn.classList.toggle('connected');
-  signinBtn.value = 'Se connecter';
+function goToSignPage() {
+  window.location.href = 'signin.html';
 }
 
 function validToken(token) {

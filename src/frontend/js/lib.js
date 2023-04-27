@@ -24,3 +24,23 @@ function fetchRequest(url, method, body, token) {
     body: body,
   });
 }
+
+function showDisconnect() {
+  this.value = 'Déconnexion';
+}
+
+function showUsername() {
+  this.value = localStorage.user;
+}
+
+function userLogOut() {
+  localStorage.removeItem('user');
+  localStorage.removeItem('accessToken');
+  const signinBtn = document.getElementById('signin-btn');
+  signinBtn.classList.toggle('connected');
+  signinBtn.value = 'Se connecter';
+  signinBtn.removeEventListener('click', userLogOut);
+  signinBtn.removeEventListener('mouseenter', showDisconnect);
+  signinBtn.removeEventListener('mouseleave', showUsername);
+  signinBtn.addEventListener('click', goToSignPage);
+}
