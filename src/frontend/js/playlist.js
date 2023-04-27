@@ -29,6 +29,7 @@ function init() {
     signinBtn.addEventListener('mouseleave', showUsername);
     signinBtn.addEventListener('click', userLogOut);
     token = localStorage.accessToken;
+    userid = parseInt(localStorage.userid);
   } else {
     signinBtn.addEventListener('click', goToSignPage);
   }
