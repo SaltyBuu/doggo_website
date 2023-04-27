@@ -56,10 +56,6 @@ function toggleSpeakers(audio) {
   void speakersArr[0].offsetWidth;
 }
 
-function goToSignPage() {
-  window.location.href = 'signin.html';
-}
-
 function validToken(token) {
   //TODO disconnect + home on expired
 }

@@ -44,3 +44,7 @@ function userLogOut() {
   signinBtn.removeEventListener('mouseleave', showUsername);
   signinBtn.addEventListener('click', goToSignPage);
 }
+
+function goToSignPage() {
+  window.location.href = 'signin.html';
+}
