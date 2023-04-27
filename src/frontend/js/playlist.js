@@ -7,11 +7,6 @@ let token = undefined;
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
 
-// Common int validation function
-const isInt = function (id) {
-  return !isNaN(id) && parseInt(Number(id)) == id && !isNaN(parseInt(id, 10));
-};
-
 function init() {
   // DOM queries
   const menuIcon = document.querySelector('#menu-icon-bg');
@@ -24,19 +19,18 @@ function init() {
   // Add listeners
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
-  signinBtn.addEventListener(
-    'click',
-    () => (window.location.href = 'signin.html')
-  );
 
   console.log('Token:', localStorage.accessToken);
   if (localStorage.accessToken !== undefined) {
     //TODO valid token route + loading request
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
-    console.log('Local user:', localStorage.user);
+    signinBtn.addEventListener('mouseenter', showDisconnect);
+    signinBtn.addEventListener('mouseleave', showUsername);
+    signinBtn.addEventListener('click', userLogOut);
     token = localStorage.accessToken;
-    userid = parseInt(localStorage.userid);
+  } else {
+    signinBtn.addEventListener('click', goToSignPage);
   }
   console.log('Local user ID:', userid);
   if (userid !== undefined) {
@@ -270,6 +264,7 @@ async function updateVotesTotal(playlistId, songId) {
 }
 
 function submitSong() {
+  //TODO connection needed message
   // Get user search input
   const searchInput = document.getElementById('search');
   if (!searchInput.value || currentResults.length === 0) return;
