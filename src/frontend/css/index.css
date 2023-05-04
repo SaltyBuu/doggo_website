@@ -300,6 +300,7 @@ h1 {
   text-shadow: 2px 2px 5px var(--third-color);
   padding-right: 20%;
   padding-left: 20%;
+  font-family: Nobile, Bold, sans-serif;
 
   /* font-size: 40px; */
   font-size: 3vw;

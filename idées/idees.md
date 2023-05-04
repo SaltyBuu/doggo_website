@@ -26,6 +26,11 @@
 - bouton gradient hover infini voir playlist
 - régler pb police
 - texte remplacement image doit s'afficher correctement quand pas de cos
+- responsive bouton se connecter
+- neon titre playlist seulement sur hover paragraphe
+- margins des chansons
+- bug overflow police inscription
+
 ## Deployment
 - githubaction vers le repo privé
 
