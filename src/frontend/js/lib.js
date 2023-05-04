@@ -1,4 +1,4 @@
-const backend = 'http://localhost:3000';
+const backend = 'https://api-doggo.herokuapp.com';
 let token = undefined;
 let userid = undefined;
 

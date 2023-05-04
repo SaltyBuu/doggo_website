@@ -2,6 +2,8 @@ const express = require('express');
 const logger = require('./logger');
 const helmet = require('helmet');
 const cors = require('cors');
+
+const environment = process.env.NODE_ENV;
 const app = express();
 app.use(logger.dev, logger.combined);
 app.use(express.json());
@@ -14,14 +16,17 @@ app.use(
 );
 
 app.use(cors());
-const staticOptions = {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  },
-};
-app.use(express.static('src/frontend', staticOptions));
+if (environment === 'environment') {
+  const staticOptions = {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    },
+  };
+  app.use(express.static('src/frontend', staticOptions));
+}
+
 app.use((req, res, next) => {
   console.log('Time:', Date.now());
   console.log('Request URL:', req.originalUrl);
