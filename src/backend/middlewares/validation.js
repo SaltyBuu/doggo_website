@@ -23,7 +23,7 @@ module.exports = {
         function (err, decoded) {
           if (err) {
             // console.log('JsonWebToken error:', err);
-            next(err);
+            res.status(403).json({ message: 'Expired token.' });
           } else {
             // console.log('exp:', decoded.exp);
             // console.log('exp*1000:', decoded.exp);
@@ -31,6 +31,7 @@ module.exports = {
               console.log('valid token');
               next();
             } else {
+              console.log('expired token !!');
               next(new CodeError('Expired token', 403));
             }
           }

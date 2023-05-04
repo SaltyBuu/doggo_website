@@ -50,7 +50,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Internal server error.');
+  if (!res.writableEnded) res.status(500).send('Internal server error.');
 });
 
 module.exports = app;

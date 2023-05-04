@@ -93,6 +93,9 @@ comment lier
 
 ## Performance
 - set NODE_ENV to production
+- bd faire une view qui count * group by songid sur les votes
+reste qu'à faire select where songid = n pour avoir le vote
+au lieu de la requête patch
 
 ## Bugs
 - url /base/doc plante le serveur -> gaffe aux url paramétrées

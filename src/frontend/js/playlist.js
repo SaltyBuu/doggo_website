@@ -1,8 +1,4 @@
-// import { toggleMute, toggleSidebar } from './lib.js';
-const backend = 'https://api-doggo.herokuapp.com';
 const PLAYLISTID = 1;
-let userid = undefined;
-let token = undefined;
 //TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
@@ -11,7 +7,6 @@ function init() {
   // DOM queries
   const menuIcon = document.querySelector('#menu-icon-bg');
   const muteSpan = document.getElementById('mute');
-  const signinBtn = document.getElementById('signin-btn');
   const searchInput = document.getElementById('search');
   const addBtn = document.getElementById('add');
   const title = document.querySelector('div.title > p');
@@ -21,18 +16,7 @@ function init() {
   muteSpan.addEventListener('click', () => toggleMute(audio));
 
   console.log('Token:', localStorage.accessToken);
-  if (localStorage.accessToken !== undefined) {
-    //TODO valid token route + loading request
-    signinBtn.classList.toggle('connected');
-    signinBtn.value = localStorage.user;
-    signinBtn.addEventListener('mouseenter', showDisconnect);
-    signinBtn.addEventListener('mouseleave', showUsername);
-    signinBtn.addEventListener('click', userLogOut);
-    token = localStorage.accessToken;
-    userid = parseInt(localStorage.userid);
-  } else {
-    signinBtn.addEventListener('click', goToSignPage);
-  }
+  getConnectionStatus().catch((e) => console.log(e));
   console.log('Local user ID:', userid);
   if (userid !== undefined) {
     searchInput.addEventListener('keypress', runSearch);
@@ -248,6 +232,7 @@ async function deletePlaylistSong(playlistId, songId) {
 }
 
 async function updateVotesTotal(playlistId, songId) {
+  //TODO merge this function in backend
   // Set up body
   const data = {
     playlistId: playlistId,

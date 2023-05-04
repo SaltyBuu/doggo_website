@@ -1,5 +1,3 @@
-const backend = 'https://api-doggo.herokuapp.com';
-
 function startUp() {
   const menuIcon = document.querySelector('#menu-icon-bg');
   // const muteSpan = document.getElementById('mute');

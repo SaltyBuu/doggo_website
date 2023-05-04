@@ -4,5 +4,4 @@ const router = express.Router();
 const { checkRequest } = require('../middlewares/validation');
 
 router.post('/runSearch', checkRequest, spotifyApi.searchApi);
-
 module.exports = router;
