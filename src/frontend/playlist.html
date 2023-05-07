@@ -20,12 +20,38 @@
 </header>
 <nav>
   <div class="title">
-    <p>
-      Tomtom's playlist
-    </p>
+    <div class="text-container">
+      <p>
+        Tomtom's playlist
+      </p>
+    </div>
   </div>
   <div class="btnContainer sign">
     <input type="button" name="signin" id="signin-btn" value="Se connecter" />
+  </div>
+  <div id="sidebar">
+    <div id="menu-icon-bg">
+      <img
+        class="menu-icon"
+        src="images/menu_contour.png"
+        alt="Menu contextuel"
+
+      />
+    </div>
+    <div id="toggle-menu" class="pulled">
+    <span id="mute">
+            <img
+              class="soundon-icon"
+              src="images/sound-max.svg"
+              alt="Sound on"
+            />
+            <img
+              class="mute-icon hidden"
+              src="images/sound-mute.svg"
+              alt="Sound off"
+            />
+            </span>
+    </div>
   </div>
 </nav>
 <div class="background">
@@ -66,36 +92,13 @@
 <!--    </div>-->
   </div>
 </div>
-<div id="sidebar">
-  <div id="menu-icon-bg">
-    <img
-      class="menu-icon"
-      src="images/menu_contour.png"
-      alt="Menu contextuel"
 
-    />
-  </div>
-  <div id="toggle-menu" class="pulled">
-    <span id="mute">
-            <img
-              class="soundon-icon"
-              src="images/sound-max.svg"
-              alt="Sound on"
-            />
-            <img
-              class="mute-icon hidden"
-              src="images/sound-mute.svg"
-              alt="Sound off"
-            />
-            </span>
-  </div>
-</div>
 <div class="wrapper">
   <div class="search">
     <div class="case">
       <div class="search-input">
         <input id="search" list="searchResults" type="text" name="search"
-               autocomplete="off" placeholder="Search song">
+               autocomplete="off" placeholder="Sélectionner une chanson">
         <input id="add" type="button" name="add" value="Ajouter">
         <datalist id="searchResults"></datalist>
       </div>

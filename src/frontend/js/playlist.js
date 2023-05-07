@@ -9,7 +9,7 @@ function init() {
   const muteSpan = document.getElementById('mute');
   const searchInput = document.getElementById('search');
   const addBtn = document.getElementById('add');
-  const title = document.querySelector('div.title > p');
+  const title = document.querySelector('div.text-container > p');
 
   // Add listeners
   menuIcon.addEventListener('click', toggleSidebar);
