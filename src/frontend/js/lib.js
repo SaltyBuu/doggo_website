@@ -69,6 +69,7 @@ function userLogOut() {
   signinBtn.removeEventListener("mouseenter", showDisconnect);
   signinBtn.removeEventListener("mouseleave", showUsername);
   signinBtn.addEventListener("click", goToSignPage);
+  window.location.href = "index.html";
 }
 
 function goToSignPage() {
