@@ -10,6 +10,12 @@ function init() {
   const searchInput = document.getElementById('search');
   const addBtn = document.getElementById('add');
   const title = document.querySelector('div.text-container > p');
+  const audio = new Audio('../music/bee-gees-stayin-alive.wav');
+  const speakers = document.querySelectorAll('div.speaker-bg');
+
+  [...speakers].forEach((s) =>
+    s.addEventListener('click', () => toggleSpeakers(audio))
+  );
 
   // Add listeners
   menuIcon.addEventListener('click', toggleSidebar);

@@ -69,6 +69,7 @@ div.case {
   display: flex;
   flex-direction: column;
   background-color: var(--fourth-color);
+  z-index: 1;
 }
 
 div.tape-container {
@@ -223,7 +224,7 @@ div.background {
   position: absolute;
   bottom: 5%;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 
 div#bg-illustration {
