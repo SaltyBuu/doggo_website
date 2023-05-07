@@ -28,7 +28,7 @@ function init() {
     .then(() => {
       console.log('Local user ID:', userid);
       if (userid !== undefined) {
-        searchInput.addEventListener('keypress', runSearch);
+        searchInput.addEventListener('keydown', runSearch);
         addBtn.addEventListener('click', submitSong);
       } else {
         searchInput.addEventListener('mouseenter', toggleSearchTooltip);
