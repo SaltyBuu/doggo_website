@@ -188,6 +188,7 @@ module.exports = {
         }
     }
     */
+    console.log(req);
     console.log('Le voilà ton body !', req.body);
     if (!has(req.body, ['login', 'password'])) {
       throw new CodeError('Missing login or password', 400);

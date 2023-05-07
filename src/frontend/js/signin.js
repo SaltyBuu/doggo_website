@@ -1,5 +1,3 @@
-const backend = 'https://api-doggo.herokuapp.com';
-
 function startUp() {
   const menuIcon = document.querySelector('#menu-icon-bg');
   // const muteSpan = document.getElementById('mute');
@@ -19,8 +17,18 @@ function startUp() {
     // )
   );
   console.log('Listener added');
-  registerBtn.addEventListener('click', registerUser);
+  registerBtn.addEventListener('click', userRegister);
   preregisterBtn.addEventListener('click', enableRegister);
+  document
+    .querySelectorAll('div.sign > input:not([type="button"])')
+    .forEach((e) =>
+      e.addEventListener('keypress', async function (e) {
+        if (e.key === 'Enter') {
+          if (registerBtn.classList.contains('hidden')) userLogin();
+          else userRegister();
+        }
+      })
+    );
 }
 
 function enableRegister() {
@@ -73,6 +81,7 @@ function checkSignForm() {
       break;
     } else {
       nodes[i].setCustomValidity('');
+      nodes[i].reportValidity();
     }
   }
   console.log('returned', verified);
@@ -96,7 +105,14 @@ function sendCredentials(data) {
       }
       if (res.status === 403) {
         res.json().then((json) => {
-          console.log('No token', json.message);
+          console.log('User not found', json.message);
+          const passwordInput = document.querySelector(
+            'div.sign > input[name="password"]'
+          );
+          passwordInput.setCustomValidity('');
+          passwordInput.checkValidity();
+          passwordInput.setCustomValidity('Invalid login or password.');
+          passwordInput.reportValidity();
         });
       }
     })
@@ -114,7 +130,7 @@ async function hashPass(password) {
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-async function registerUser() {
+async function userRegister() {
   if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;

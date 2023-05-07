@@ -1,3 +1,8 @@
+// const backend = 'https://api-doggo.herokuapp.com';
+const backend = 'http://localhost:3000';
+let token = undefined;
+let userid = undefined;
+
 function toggleSidebar() {
   // const menuIconDiv = document.getElementById('menu-icon-bg');
   const toggleMenuDiv = document.getElementById('toggle-menu');
@@ -6,6 +11,27 @@ function toggleSidebar() {
   // toggleMenuDiv.style.display =
   //   toggleMenuDiv.style.display === 'none' ? '' : 'none';
   console.log('ou');
+}
+
+function toggleSpeakers(audio) {
+  const speakers = document.querySelectorAll('div.speaker-bg');
+  const speakersArr = [...speakers];
+  // const audio = new Audio('../music/bee-gees-stayin-alive.wav');
+
+  const pausedAttr =
+    speakersArr[0].style.animationPlayState === 'running'
+      ? 'paused'
+      : 'running';
+  if (pausedAttr === 'running') {
+    // audio.currentTime = 0;
+    // console.log('Playing');
+    audio.play();
+  } else {
+    audio.pause();
+    // audio.currentTime = 0;
+  }
+  speakersArr.forEach((s) => (s.style.animationPlayState = pausedAttr));
+  void speakersArr[0].offsetWidth;
 }
 
 function toggleMute(audio) {
@@ -47,4 +73,30 @@ function userLogOut() {
 
 function goToSignPage() {
   window.location.href = 'signin.html';
+}
+
+async function validToken(t) {
+  if (localStorage.userid === undefined) return false;
+  const endpoint = '/users/' + parseInt(localStorage.userid);
+  const url = new URL(backend + endpoint);
+  const user = await fetchRequest(url, 'GET', null, t);
+  console.log('User token response', user);
+  return user.status === 200;
+}
+
+async function getConnectionStatus() {
+  const signinBtn = document.getElementById('signin-btn');
+
+  if (await validToken(localStorage.accessToken)) {
+    //TODO valid token route + loading request
+    signinBtn.classList.toggle('connected');
+    signinBtn.value = localStorage.user;
+    signinBtn.addEventListener('mouseenter', showDisconnect);
+    signinBtn.addEventListener('mouseleave', showUsername);
+    signinBtn.addEventListener('click', userLogOut);
+    token = localStorage.accessToken;
+    userid = parseInt(localStorage.userid);
+  } else {
+    signinBtn.addEventListener('click', goToSignPage);
+  }
 }

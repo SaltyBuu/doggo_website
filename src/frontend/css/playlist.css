@@ -1,10 +1,9 @@
 div.title {
   /* width: 100%; */
-  text-align: center;
   height: 100%;
   /* position: relative; */
   font-family: Bangers, serif;
-  font-size: 4vw;
+  font-size: 5vw;
   color: white;
   display: flex;
   flex-direction: column;
@@ -15,19 +14,20 @@ div.title {
 
   /* margin-left: 5px; */
 }
+div.text-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /*width: 100%;*/
+}
 
-div.title > p:hover {
+div.text-container > p:hover {
   cursor: pointer;
   text-shadow: 1px 1px 10px white;
 }
 
-nav {
-  justify-content: space-evenly;
-}
-div.btnContainer.sign {
-  position: absolute;
-  right: 1%;
-}
 div.wrapper {
   display: flex;
   flex-direction: row;
@@ -69,6 +69,7 @@ div.case {
   display: flex;
   flex-direction: column;
   background-color: var(--fourth-color);
+  z-index: 1;
 }
 
 div.tape-container {
@@ -148,17 +149,6 @@ div.search-input {
   z-index: 2;
 }
 
-span.title {
-  align-items: center;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-span.title.scroll:hover {
-  animation: scroll 5s linear infinite;
-
-  /* animation-play-state: running; */
-}
 
 @keyframes scroll {
   from {
@@ -234,7 +224,7 @@ div.background {
   position: absolute;
   bottom: 5%;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 
 div#bg-illustration {
@@ -250,7 +240,7 @@ span.info-container {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
-  height: 70%;
+  height: 90%;
   max-width: 98%;
   overflow: hidden;
   margin-right: 1%;
@@ -262,7 +252,7 @@ span.info {
   height: 60%;
   width: 100%;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   align-items: center;
   justify-content: space-evenly;
   margin-left: 0;
@@ -281,12 +271,11 @@ audio.preview {
 }
 
 span.info > span {
-  font-size: 1em;
+  font-size: 0.8em;
   padding-left: 5px;
   padding-right: 5px;
   width: 100%;
   height: 50%;
-  margin: 0;
   display: inline-flex;
 }
 
@@ -294,6 +283,20 @@ span.artist {
   /* margin-top: 1vh; */
   /*margin: 0;*/
   align-items: center;
+  margin-bottom: 2px;
+}
+
+span.title {
+  align-items: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+span.title.scroll:hover {
+  animation: scroll 5s linear infinite;
+
+  /* animation-play-state: running; */
 }
 
 span.votesnb-img {

@@ -18,28 +18,29 @@
 <header>
   <span class="logo"></span>
 </header>
-<nav></nav>
-<div id="sidebar">
-  <div id="menu-icon-bg">
-    <img
-      class="menu-icon"
-      src="images/menu_contour.png"
-      alt="Menu contextuel"
+<nav>
+  <div id="sidebar">
+    <div id="menu-icon-bg">
+      <img
+        class="menu-icon"
+        src="images/menu_contour.png"
+        alt="Menu contextuel"
 
-    />
+      />
+    </div>
+    <div id="toggle-menu" class="pulled">
+          <span id="home">
+              <a href="index.html">
+                  <img
+                    class="home-icon"
+                    src="images/home.svg"
+                    alt="Home"
+                  />
+              </a>
+          </span>
+    </div>
   </div>
-  <div id="toggle-menu" class="pulled">
-        <span id="home">
-            <a href="index.html">
-                <img
-                  class="home-icon"
-                  src="images/home.svg"
-                  alt="Home"
-                />
-            </a>
-        </span>
-  </div>
-</div>
+</nav>
 <div id="form">
   <fieldset>
     <legend> Connexion/Inscription </legend>
@@ -48,7 +49,7 @@
         <label for="login"> Nom d'utilisateur </label>
         <input type="text" name="login" placeholder="admirateursecret666">
         <label for="password"> Mot de passe</label>
-        <input type="password" name="password" placeholder="pasazerty1234" >
+        <input type="password" name="password" placeholder="pasazerty1234" oninput="setCustomValidity('')">
         <label class="hidden" for="passwordconf"> Confirmation du mot de passe</label>
         <input class="hidden" type="password" name="passwordconf" placeholder="pasazerty1234" >
         <label class="hidden" for="email"> Adresse mail </label>
