@@ -410,6 +410,25 @@ footer a {
 /*  }*/
 /*}*/
 
+.tooltip {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #eed;
+  transition: background 1s, ease;
+  border-radius: 4px;
+  padding: 2px 4px;
+  bottom: 0;
+  left: 50%;
+  white-space: nowrap;
+  font-size: 1em;
+  transform: translateX(-50%);
+}
+
+.tooltip.shown {
+  display: block;
+}
+
 /* Style du bouton */
 input#vote-btn {
   border-width: 1px;

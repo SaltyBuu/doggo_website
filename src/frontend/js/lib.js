@@ -49,14 +49,6 @@ function fetchRequest(url, method, body, token) {
   });
 }
 
-function showDisconnect() {
-  this.value = 'Déconnexion';
-}
-
-function showUsername() {
-  this.value = localStorage.user;
-}
-
 function userLogOut() {
   localStorage.removeItem('user');
   localStorage.removeItem('accessToken');
@@ -64,8 +56,6 @@ function userLogOut() {
   signinBtn.classList.toggle('connected');
   signinBtn.value = 'Se connecter';
   signinBtn.removeEventListener('click', userLogOut);
-  signinBtn.removeEventListener('mouseenter', showDisconnect);
-  signinBtn.removeEventListener('mouseleave', showUsername);
   signinBtn.addEventListener('click', goToSignPage);
   window.location.href = 'index.html';
 }
@@ -90,9 +80,8 @@ async function getConnectionStatus() {
     //TODO valid token route + loading request
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
-    signinBtn.addEventListener('mouseenter', showDisconnect);
-    signinBtn.addEventListener('mouseleave', showUsername);
     signinBtn.addEventListener('click', userLogOut);
+    signinBtn.setAttribute('title', 'Se déconnecter');
     console.log('Token updated');
     token = localStorage.accessToken;
     userid = parseInt(localStorage.userid);

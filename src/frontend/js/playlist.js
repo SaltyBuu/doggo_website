@@ -30,6 +30,9 @@ function init() {
       if (userid !== undefined) {
         searchInput.addEventListener('keypress', runSearch);
         addBtn.addEventListener('click', submitSong);
+      } else {
+        searchInput.addEventListener('mouseenter', toggleSearchTooltip);
+        searchInput.addEventListener('mouseleave', toggleSearchTooltip);
       }
       title.addEventListener('click', () => (window.location = 'index.html'));
     })
@@ -482,6 +485,12 @@ async function runSearch(e) {
 
 function toggleVoteClass(element) {
   element.classList.toggle('voted');
+}
+
+function toggleSearchTooltip() {
+  document
+    .querySelector('div.search-input > span.tooltip')
+    .classList.toggle('shown');
 }
 
 window.addEventListener('load', startUp);
