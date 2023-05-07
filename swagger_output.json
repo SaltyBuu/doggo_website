@@ -1,0 +1,1524 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:undefined",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get information of a user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id of a user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Remove a user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id of a user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 5
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User deleted"
+                },
+                "user": {
+                  "$ref": "#/definitions/user"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add a user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "example": "Alfredus"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "oueoueoue67"
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "lafamille@letsgo.org"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created.",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "User could not be created.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The user already exists"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update a user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Id of a user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 3
+                },
+                "login": {
+                  "type": "string",
+                  "example": "Alfredus"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "oueoueoue67"
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "lafamille@letsgo.org"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User updated"
+                },
+                "user": {
+                  "$ref": "#/definitions/user"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Authenticate user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Login and password hash of a user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "example": "Alfredus"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "o4e67bcda8e9"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token generated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "Ddefzkjefbkzejf"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Unknown user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unknown user."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/songs": {
+      "post": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Find a song.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Name and artist of a song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "A blessing and a curse"
+                },
+                "artist": {
+                  "type": "string",
+                  "example": "Here come the mummies"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song found.",
+            "schema": {
+              "$ref": "#/definitions/song"
+            }
+          },
+          "404": {
+            "description": "Song not found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Add a song.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Song information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "A blessing and a curse"
+                },
+                "album": {
+                  "type": "string",
+                  "example": "A blessing and a curse"
+                },
+                "artist": {
+                  "type": "string",
+                  "example": "Here come the mummies"
+                },
+                "thumbnail": {
+                  "type": "string",
+                  "example": "http://toto.png"
+                },
+                "preview": {
+                  "type": "string",
+                  "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+                },
+                "uri": {
+                  "type": "string",
+                  "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Song created.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The song was successfully created !"
+                },
+                "song": {
+                  "$ref": "#/definitions/song"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "The song already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The song already exists"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Remove a song.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "Id of a song",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song deleted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song deleted"
+                },
+                "song": {
+                  "$ref": "#/definitions/song"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Song"
+        ],
+        "summary": "Update a song.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Song information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 3
+                },
+                "name": {
+                  "type": "string",
+                  "example": "A blessing and a curse"
+                },
+                "album": {
+                  "type": "string",
+                  "example": "A blessing and a curse"
+                },
+                "artist": {
+                  "type": "string",
+                  "example": "Here come the mummies"
+                },
+                "preview": {
+                  "type": "string",
+                  "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+                },
+                "uri": {
+                  "type": "string",
+                  "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song updated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song updated"
+                },
+                "song": {
+                  "$ref": "#/definitions/song"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votes": {
+      "post": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Return if user voted for a song.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "playlistid": {
+                  "example": "any"
+                },
+                "userid": {
+                  "example": "any"
+                },
+                "songid": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote found for user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Vote not found for user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "boolean",
+                  "example": false
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Add a vote.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Vote information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "playlistId": {
+                  "type": "number",
+                  "example": 2
+                },
+                "songId": {
+                  "type": "number",
+                  "example": 4
+                },
+                "userid": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Vote added.",
+            "schema": {
+              "$ref": "#/definitions/vote"
+            }
+          },
+          "400": {
+            "description": "The vote already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The vote already exists"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Remove a vote.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Vote information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "playlistId": {
+                  "type": "number",
+                  "example": 2
+                },
+                "songId": {
+                  "type": "number",
+                  "example": 4
+                },
+                "userid": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote deleted.",
+            "schema": {
+              "$ref": "#/definitions/vote"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Vote"
+        ],
+        "summary": "Count the number of a votes to a song and store it in the related playlistSong.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Vote information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "playlistId": {
+                  "type": "number",
+                  "example": 2
+                },
+                "songId": {
+                  "type": "number",
+                  "example": 4
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Could not count vote.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Could not count votes"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/playlists": {
+      "put": {
+        "tags": [
+          "Playlist"
+        ],
+        "summary": "Add a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Name of the playlist",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Reggae"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Playlist successfully created.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Reggae"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2023-03-25 13:20:24.579"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Playlist already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The playlist already exists"
+                },
+                "existing": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Reggae"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-03-25 13:20:24.579"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Playlist"
+        ],
+        "summary": "Remove a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "Id of a playlist",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 4
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playlist successfully deleted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Playlist deleted"
+                },
+                "playlist": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Reggae"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-03-25 13:20:24.579"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Playlist"
+        ],
+        "summary": "Update a playlist's name.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "Id of a playlist",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Chill"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playlist successfully updated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Playlist updated"
+                },
+                "playlist": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Chill"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2023-03-25 13:20:24.579"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{playlistId}/songs": {
+      "get": {
+        "tags": [
+          "Playlist song"
+        ],
+        "summary": "Get all songs in a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id of a playlist"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song(s) found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song(s) found !"
+                },
+                "results": {
+                  "$ref": "#/definitions/results"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Playlist song"
+        ],
+        "summary": "Add a song in a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id of a playlist"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Song ID, user ID and votesNB.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "songId": {
+                  "type": "number",
+                  "example": 13
+                },
+                "votesNb": {
+                  "type": "number",
+                  "example": 3
+                },
+                "submitterId": {
+                  "type": "number",
+                  "example": 7
+                }
+              },
+              "required": [
+                "songId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Song added.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The song was added"
+                },
+                "song": {
+                  "$ref": "#/definitions/playlistSong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Song already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The song already exists"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{playlistid}/export": {
+      "post": {
+        "tags": [
+          "Export"
+        ],
+        "summary": "Export songs of the specified playlist to a default collaborative playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistid",
+            "in": "path",
+            "required": true,
+            "type": "int",
+            "description": "Id of the playlist"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{playlistId}/{songId}": {
+      "post": {
+        "tags": [
+          "Playlist song"
+        ],
+        "summary": "Find a song in a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "songId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "path",
+            "description": "Playlist information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "playlistId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "songId": {
+                  "type": "number",
+                  "example": 14
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song found.",
+            "schema": {
+              "$ref": "#/definitions/playlistSong"
+            }
+          },
+          "404": {
+            "description": "Song not found.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Playlist song"
+        ],
+        "summary": "Remove a song in a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "songId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "path",
+            "description": "Playlist information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "playlistId": {
+                  "type": "number",
+                  "example": 1
+                },
+                "songId": {
+                  "type": "number",
+                  "example": 14
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song deleted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song deleted"
+                },
+                "song": {
+                  "$ref": "#/definitions/playlistSong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Playlist song"
+        ],
+        "summary": "Update a song in a playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "songId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Total of song votes and submitter.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "votesNb": {
+                  "type": "number",
+                  "example": 13
+                },
+                "submitterId": {
+                  "type": "number",
+                  "example": 13
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Song updated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Song updated"
+                },
+                "song": {
+                  "$ref": "#/definitions/playlistSong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runSearch": {
+      "post": {
+        "tags": [
+          "Spotify search"
+        ],
+        "summary": "Search songs by name.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Name of the song",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "A blessing"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned list of songs."
+          },
+          "400": {
+            "description": "Search failed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Could not look for \"<songName>\""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "playlistSong": {
+      "type": "object",
+      "properties": {
+        "playlistId": {
+          "type": "number",
+          "example": 1
+        },
+        "songId": {
+          "type": "number",
+          "example": 14
+        },
+        "votesNb": {
+          "type": "number",
+          "example": 53
+        },
+        "submitterId": {
+          "type": "number",
+          "example": 2
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-03-25T13:20:24.579Z"
+        }
+      }
+    },
+    "vote": {
+      "type": "object",
+      "properties": {
+        "playlistId": {
+          "type": "number",
+          "example": 2
+        },
+        "songId": {
+          "type": "number",
+          "example": 4
+        },
+        "userid": {
+          "type": "number",
+          "example": 3
+        },
+        "voteDate": {
+          "type": "string",
+          "example": "2023-03-27T21:23:57.672Z"
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 3
+        },
+        "login": {
+          "type": "string",
+          "example": "Alfredus"
+        },
+        "password": {
+          "type": "string",
+          "example": "oueoueoue67"
+        },
+        "mail": {
+          "type": "string",
+          "example": "lafamille@letsgo.org"
+        },
+        "name": {
+          "type": "string",
+          "example": "darksasuke"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-03-25T13:20:24.579Z"
+        }
+      }
+    },
+    "song": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 3
+        },
+        "name": {
+          "type": "string",
+          "example": "A blessing and a curse"
+        },
+        "album": {
+          "type": "string",
+          "example": "A blessing and a curse"
+        },
+        "artist": {
+          "type": "string",
+          "example": "Here come the mummies"
+        },
+        "thumbnail": {
+          "type": "string",
+          "example": "http://toto.png"
+        },
+        "preview": {
+          "type": "string",
+          "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+        },
+        "uri": {
+          "type": "string",
+          "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-03-25T13:20:24.579Z"
+        }
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "playlistId": {
+            "type": "number",
+            "example": 1
+          },
+          "songId": {
+            "type": "number",
+            "example": 1
+          },
+          "votesNb": {},
+          "submitterId": {},
+          "createdAt": {
+            "type": "string",
+            "example": "2023-03-28T16:33:53.772Z"
+          },
+          "song": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "A Blessing And A Curse"
+              },
+              "album": {
+                "type": "string",
+                "example": "Future Worlds"
+              },
+              "artist": {
+                "type": "string",
+                "example": "Atomica Music"
+              },
+              "thumbnail": {
+                "type": "string",
+                "example": "https://i.scdn.co/image/ab67616d00004851ea6d794f7e1c9b2fb8b73890"
+              },
+              "preview": {
+                "type": "string",
+                "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+              },
+              "uri": {
+                "type": "string",
+                "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2023-03-26T11:35:29.102Z"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
