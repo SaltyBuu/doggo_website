@@ -394,9 +394,9 @@ div#models {
   }
   div.list-container {
     width: 90%;
-    max-height: 80%;
+    max-height: 65%;
     margin-top: 2%;
-    margin-bottom: 2%;
+    margin-bottom: 4%;
     margin-left: 0;
   }
 
