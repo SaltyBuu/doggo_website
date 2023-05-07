@@ -283,7 +283,7 @@ input[type='text'] {
   align-items: center;
   /*height: 100%;*/
   padding-top: 1%;
-
+  flex-grow: 1;
   /* padding-bottom: 1%; */
 }
 
@@ -311,7 +311,8 @@ h1 {
   font-size: 3vw;
 
   /* margin-bottom: 25px; */
-  margin-bottom: 5vh;
+  margin-bottom: 8vh;
+  margin-top: 5vh;
 }
 
 #bg-drawing {
@@ -321,7 +322,6 @@ h1 {
   height: 40%;
 
   /* margin-bottom: 20px; */
-  flex-grow: 1;
 }
 
 .speakers {
@@ -436,13 +436,18 @@ input#vote-btn {
 
 /*                Media queries              */
 @media screen and (max-width: 768px) {
-  #signin-btn,
-  #vote-btn {
-    font-size: 1em;
+  input[type='button'],
+  input[type='submit'] {
+    height: 8vh;
+    padding: 5px 15px;
+  }
+
+  #bg-drawing {
+    height: 30%;
   }
 
   h1 {
-    font-size: 1.4em;
+    font-size: 6vw;
   }
 
   div#menu-icon-bg {
@@ -453,15 +458,18 @@ input#vote-btn {
   }
 
   nav {
-    margin: 4% 6%;
+    margin-top: 3vw;
+    margin-bottom: 3vw;
   }
 
   div#sidebar {
-    margin-left: 4%;
-    margin-top: 4%;
-    width: 15%;
+    left: 3vw;
+    top: calc(3vw + 1vh);
+    width: 8vh;
+  }
 
-    /* position: absolute; */
+  .btnContainer.sign {
+    right: 5vw;
   }
 }
 

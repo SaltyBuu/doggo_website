@@ -118,8 +118,12 @@ function refreshPlaylist(playlistId) {
         const voteImg = child.querySelector('span.vote > img');
         if (userid !== undefined) voteImg.addEventListener('click', toggleVote);
         const title = child.querySelector('span.title');
+        const artist = child.querySelector('span.artist');
         if (title.scrollWidth > title.offsetWidth) {
           title.classList.add('scroll');
+        }
+        if (artist.scrollWidth > artist.offsetWidth) {
+          artist.classList.add('scroll');
         }
         // voteImg.addEventListener('click', toggleVote)
       });

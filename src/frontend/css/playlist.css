@@ -283,6 +283,8 @@ span.artist {
   /*margin: 0;*/
   align-items: center;
   margin-bottom: 2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 span.title {
@@ -292,7 +294,7 @@ span.title {
   margin-top: 2px;
 }
 
-span.title.scroll:hover {
+.scroll:hover {
   animation: scroll 5s linear infinite;
 
   /* animation-play-state: running; */
@@ -366,6 +368,7 @@ div.right-container {
 div.left-container {
   justify-content: flex-start;
   width: 90%;
+  gap: 2px;
 }
 
 div.right-container {
@@ -380,7 +383,7 @@ div#models {
 
 @media screen and (max-width: 768px) {
   div.title {
-    font-size: 5vw;
+    font-size: 8vw;
   }
   input#signin-btn {
     display: none;
@@ -390,7 +393,7 @@ div#models {
     align-items: center;
   }
   div.list-container {
-    width: 80%;
+    width: 90%;
     max-height: 80%;
     margin-top: 2%;
     margin-bottom: 2%;
@@ -398,11 +401,11 @@ div#models {
   }
 
   span.cover {
-    min-width: 20%;
+    min-width: 25%;
   }
 
-  span.cover-container {
-    height: 60%;
+  span.votesnb-img {
+    width: 50%;
   }
 
   div.right-container {
@@ -414,7 +417,7 @@ div#models {
 
   div.search {
     height: auto;
-    width: 80%;
+    width: 90%;
     margin-bottom: 2%;
   }
   div.search-input {
@@ -439,6 +442,7 @@ div#models {
     width: 60vw;
     background-color: var(--fourth-color);
     border-width: 2px;
+    box-shadow: 10px 10px 3px 2px black;
   }
 
   div.tape-container {
@@ -461,6 +465,7 @@ div#models {
   div.rectangle-container {
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+    transform: translateY(-2px);
   }
 }
 
