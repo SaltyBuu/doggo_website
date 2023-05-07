@@ -1,46 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
 
 /*@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');*/
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap");
 @font-face {
   font-family: Nobile;
-  src: url('../fonts/nobile/Nobile-Bold.ttf');
+  src: url("../fonts/nobile/Nobile-Bold.ttf");
   font-weight: bold;
 }
 
 @font-face {
   font-family: Nobile;
-  src: url('../fonts/nobile/Nobile-Regular.ttf');
+  src: url("../fonts/nobile/Nobile-Regular.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: Nobile;
-  src: url('../fonts/nobile/Nobile-Medium.ttf');
+  src: url("../fonts/nobile/Nobile-Medium.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: Stilltime;
-  src: url('../fonts/stilltime/still time.otf');
+  src: url("../fonts/stilltime/still time.otf");
   font-style: normal;
 }
 
 @font-face {
   font-family: Slaytanic;
-  src: url('../fonts/Slaytanic/Slaytanic.ttf');
+  src: url("../fonts/Slaytanic/Slaytanic.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: Bangers;
-  src: url('../fonts/bangers/Bangers.ttf');
+  src: url("../fonts/bangers/Bangers.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: Sunnyspells;
-  src: url('../fonts/sunny-spells/Sunny Spells.ttf');
+  src: url("../fonts/sunny-spells/Sunny Spells.ttf");
   font-style: normal;
 }
 /** { */
@@ -78,7 +78,7 @@ html {
   height: 100%;
 
   /* font-family: "Quicksand", sans-serif, Bold; */
-  font-family: 'Open Sans', serif;
+  font-family: "Open Sans", serif;
 }
 
 body {
@@ -198,7 +198,7 @@ div.speaker-bg,
 img.speaker,
 img.menu-icon,
 div#menu-icon-bg,
-input[type='button'] {
+input[type="button"] {
   /* pointer-events: none; */
 
   /* user-focus: none; */
@@ -207,8 +207,8 @@ input[type='button'] {
   -webkit-tap-highlight-color: transparent;
 }
 
-input[type='button'],
-input[type='submit'] {
+input[type="button"],
+input[type="submit"] {
   background-color: var(--second-color);
   color: var(--first-color);
   border-radius: 45px;
@@ -220,7 +220,7 @@ input[type='submit'] {
   /* letter-spacing: 0.1vw; */
 
   /* height: 70%; */
-  font-size: 0.9em;
+  font-size: 1.1em;
   height: 4vw;
   padding: 1vw 2vw;
   box-shadow: 2px 2px 5px rgb(10 10 10 / 1000%);
@@ -229,7 +229,7 @@ input[type='submit'] {
   outline: none;
 }
 
-input[type='button'].connected {
+input[type="button"].connected {
   border-radius: 5px;
 }
 /* #signinBtn { */
@@ -246,28 +246,27 @@ input[type='button'].connected {
 
 /* } */
 
-input[type='submit']:hover,
-input[type='submit']:active,
-input[type='button']:hover,
-input[type='button']:active {
+input[type="submit"]:hover,
+input[type="submit"]:active,
+input[type="button"]:hover,
+input[type="button"]:active {
   border: #f56828 2px solid;
   background-color: #fff;
   box-shadow: 0 8px 15px rgb(240 240 240 / 24000%);
   color: #000;
   transform: translateY(-4px);
   font-family: Nobile, Bold, sans-serif;
-
 }
-input[type='password'],
-input[type='email'],
-input[type='text'] {
+input[type="password"],
+input[type="email"],
+input[type="text"] {
   border: 2px solid black;
   border-radius: 10px;
   width: 50%;
 
   /* font-family: "Quicksand", Bold, sans-serif; */
 
-  font-family: Nobile, Bold, sans-serif;
+  /*font-family: Nobile, Bold, sans-serif;*/
   margin: 2px;
   font-size: 1em;
   padding: 5px;

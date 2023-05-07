@@ -149,7 +149,6 @@ div.search-input {
   z-index: 2;
 }
 
-
 @keyframes scroll {
   from {
     transform: translateX(0%);
@@ -271,7 +270,7 @@ audio.preview {
 }
 
 span.info > span {
-  font-size: 0.8em;
+  font-size: 1em;
   padding-left: 5px;
   padding-right: 5px;
   width: 100%;
