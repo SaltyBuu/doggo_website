@@ -2,6 +2,8 @@ const PLAYLISTID = 1;
 //TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
+let token = undefined;
+let userid = undefined;
 
 function init() {
   // DOM queries
@@ -22,13 +24,16 @@ function init() {
   muteSpan.addEventListener('click', () => toggleMute(audio));
 
   console.log('Token:', localStorage.accessToken);
-  getConnectionStatus().catch((e) => console.log(e));
-  console.log('Local user ID:', userid);
-  if (userid !== undefined) {
-    searchInput.addEventListener('keypress', runSearch);
-    addBtn.addEventListener('click', submitSong);
-  }
-  title.addEventListener('click', () => (window.location = 'index.html'));
+  getConnectionStatus()
+    .then(() => {
+      console.log('Local user ID:', userid);
+      if (userid !== undefined) {
+        searchInput.addEventListener('keypress', runSearch);
+        addBtn.addEventListener('click', submitSong);
+      }
+      title.addEventListener('click', () => (window.location = 'index.html'));
+    })
+    .catch((e) => console.log(e));
 }
 
 function startUp() {
