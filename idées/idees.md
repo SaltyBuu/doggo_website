@@ -96,6 +96,7 @@ comment lier
 - console admin
 - Logs pertinents
 - icône de chargement avant d'arriver sur la page
+- restreindre api pour utilisateur courant
 
 ## Performance
 [OK] set NODE_ENV to production
