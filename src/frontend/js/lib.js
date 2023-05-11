@@ -1,5 +1,5 @@
-// const backend = 'https://api-doggo.herokuapp.com';
-const backend = 'http://localhost:3000';
+const backend = 'https://api-doggo.herokuapp.com';
+// const backend = 'http://localhost:3000';
 
 function toggleSidebar() {
   // const menuIconDiv = document.getElementById('menu-icon-bg');
