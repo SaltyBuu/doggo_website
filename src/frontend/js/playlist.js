@@ -1,6 +1,5 @@
 const PLAYLISTID = 1;
 let currentResults = [];
-const audio = new Audio('music/bee-gees-stayin-alive.wav');
 let token = undefined;
 let userid = undefined;
 
@@ -40,13 +39,12 @@ function startUp() {
   init();
   // Display current playlistsongs on startup
   refreshPlaylist(PLAYLISTID);
+  const audio = new Audio('../music/bee-gees-stayin-alive.wav');
 
   // Music controls
   audio.preload = 'auto';
   audio.volume = 0.1;
   audio.loop = true;
-
-  //refresh without addinglistener
 }
 
 function refreshPlaylist(playlistId) {
