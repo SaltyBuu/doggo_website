@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const playlistSongs = require('../controllers/playlistSongs');
-const { checkRequest } = require('../middlewares/validation');
+const { checkRequest, checkAdmin } = require('../middlewares/validation');
 const spotifyApi = require('../controllers/spotify-api');
 
 router
@@ -13,9 +13,8 @@ router.post('/:playlistid/export', checkRequest, spotifyApi.exportPlaylist);
 
 router
   .route('/:playlistId/:songId')
-  .all(checkRequest)
-  .post(playlistSongs.searchSong)
-  .delete(playlistSongs.removeSong)
-  .patch(playlistSongs.editSong); //votesNb & submitter
+  .post(checkRequest, playlistSongs.searchSong)
+  .delete(checkAdmin, playlistSongs.removeSong)
+  .patch(checkAdmin, playlistSongs.editSong); //votesNb & submitter
 
 module.exports = router;

@@ -2,6 +2,8 @@ const PLAYLISTID = 1;
 //TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
+let token = undefined;
+let userid = undefined;
 
 function init() {
   // DOM queries
@@ -22,13 +24,19 @@ function init() {
   muteSpan.addEventListener('click', () => toggleMute(audio));
 
   console.log('Token:', localStorage.accessToken);
-  getConnectionStatus().catch((e) => console.log(e));
-  console.log('Local user ID:', userid);
-  if (userid !== undefined) {
-    searchInput.addEventListener('keypress', runSearch);
-    addBtn.addEventListener('click', submitSong);
-  }
-  title.addEventListener('click', () => (window.location = 'index.html'));
+  getConnectionStatus()
+    .then(() => {
+      console.log('Local user ID:', userid);
+      if (userid !== undefined) {
+        searchInput.addEventListener('input', runSearch);
+        addBtn.addEventListener('click', submitSong);
+      } else {
+        searchInput.addEventListener('mouseenter', toggleSearchTooltip);
+        searchInput.addEventListener('mouseleave', toggleSearchTooltip);
+      }
+      title.addEventListener('click', () => (window.location = 'index.html'));
+    })
+    .catch((e) => console.log(e));
 }
 
 function startUp() {
@@ -118,8 +126,12 @@ function refreshPlaylist(playlistId) {
         const voteImg = child.querySelector('span.vote > img');
         if (userid !== undefined) voteImg.addEventListener('click', toggleVote);
         const title = child.querySelector('span.title');
+        const artist = child.querySelector('span.artist');
         if (title.scrollWidth > title.offsetWidth) {
           title.classList.add('scroll');
+        }
+        if (artist.scrollWidth > artist.offsetWidth) {
+          artist.classList.add('scroll');
         }
         // voteImg.addEventListener('click', toggleVote)
       });
@@ -330,9 +342,16 @@ async function findOrAddSong(
     } else {
       // console.log('Found', localFound);
       const res = await localFound.json();
-      document
-        .querySelector('div.song[data-id="' + res.playlistSong.songId + '"]')
-        .scrollIntoView({ behavior: 'smooth' });
+      const foundSong = document.querySelector(
+        'div.song[data-id="' + res.playlistSong.songId + '"]'
+      );
+      foundSong.style.borderColor = 'white';
+      setTimeout(() => {
+        foundSong.style.borderColor = '';
+      }, 3000);
+      foundSong.scrollIntoView({
+        behavior: 'smooth',
+      });
     }
   }
   resetSearch();
@@ -473,6 +492,12 @@ async function runSearch(e) {
 
 function toggleVoteClass(element) {
   element.classList.toggle('voted');
+}
+
+function toggleSearchTooltip() {
+  document
+    .querySelector('div.search-input > span.tooltip')
+    .classList.toggle('shown');
 }
 
 window.addEventListener('load', startUp);

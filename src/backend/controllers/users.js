@@ -188,7 +188,6 @@ module.exports = {
         }
     }
     */
-    console.log(req);
     console.log('Le voilà ton body !', req.body);
     if (!has(req.body, ['login', 'password'])) {
       throw new CodeError('Missing login or password', 400);
@@ -208,7 +207,6 @@ module.exports = {
         isAdmin: user.isAdmin,
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
       };
-      console.log('TOKENSECRET', TOKENSECRET);
       console.log('expiration:', payload.exp);
       // Generate token
       const token = jwt.sign(payload, TOKENSECRET, { algorithm: 'HS256' });
@@ -233,5 +231,35 @@ module.exports = {
         }
     }
     */
+  },
+  async getAdminToken(req, res) {
+    console.log('Admin connection!', req.body);
+    if (!has(req.body, ['login', 'password'])) {
+      throw new CodeError('Missing login or password', 400);
+    }
+    const user = await prisma.user.findFirst({
+      where: {
+        login: req.body.login,
+        password: req.body.password,
+      },
+    });
+    if (user && user.isAdmin) {
+      console.log('USER:', user);
+      const payload = {
+        userId: user.id,
+        login: user.login,
+        isAdmin: user.isAdmin,
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      };
+      console.log('expiration:', payload.exp);
+      // Generate token
+      const token = jwt.sign(payload, TOKENSECRET, { algorithm: 'HS256' });
+      res.status(200).json({
+        token,
+        userid: user.id,
+      });
+    } else {
+      res.status(403).json({ message: 'Forbidden.' });
+    }
   },
 };

@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <title>Spotifight</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
@@ -11,8 +14,6 @@
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/playlist.css" />
   <link rel="stylesheet" href="css/animations.css" />
-  <script src="js/lib.js" type="application/javascript"></script>
-  <script src="js/playlist.js" type="application/javascript"></script>
 </head>
 <body>
 <header>
@@ -98,11 +99,13 @@
     <div class="case">
       <div class="search-input">
         <input id="search" list="searchResults" type="text" name="search"
-               autocomplete="off" placeholder="Sélectionner une chanson">
+               autocomplete="off" placeholder=" Sélectionner une chanson">
         <input id="add" type="button" name="add" value="Ajouter">
         <datalist id="searchResults"></datalist>
+        <span class="tooltip">Connecte-toi pour chercher et ajouter une chanson</span>
       </div>
-      <div class="tape-container">
+      <div class="tape-container hidden">
+
         <div>
           <div class="rectangle-container left">
           </div>
@@ -125,14 +128,7 @@
     </div>
   </div>
   <div class="list-container">
-    <!--  <div class="scrollbar"></div>-->
     <div class="list">
-<!--      <div class="song">Chanson A</div>-->
-<!--      <div class="song">Chanson B</div>-->
-<!--      <div class="song">Chanson C</div>-->
-<!--      <div class="song">Chanson D</div>-->
-<!--      <div class="song">Chanson E</div>-->
-<!--      <div class="song">Chanson F</div>-->
     </div>
   </div>
 </div>
@@ -164,7 +160,7 @@
     <div class="right-container">
       <span class="votesnb-container">
         <span class="votesNb"></span>
-        <span class="votesnb-img">
+        <span class="votesnb-img hidden">
           <img
             class="votesNb"
             src="images/trend.png"
@@ -189,6 +185,7 @@
   <a id="legal" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Mentions légales</a>
   <! https://www.youtube.com/watch?v=dPmZqsQNzGA>
 </footer>
-
+<script src="js/playlist.js" type="application/javascript"></script>
+<script src="js/lib.js" type="application/javascript"></script>
 </body>
 </html>

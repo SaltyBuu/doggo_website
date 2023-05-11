@@ -4,14 +4,15 @@
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Spotifight</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
     <link rel="manifest" href="images/favicon/manifest.webmanifest" crossorigin="use-credentials">
     <link rel="stylesheet" href="css/index.css"/>
     <link rel="stylesheet" href="css/animations.css"/>
-    <script src="js" type="module"></script>
-    <script src="js/lib.js" type="application/javascript"></script>
 </head>
 <body>
 <header>
@@ -20,6 +21,7 @@
 <nav>
     <div class="btnContainer sign">
       <input type="button" name="signin" id="signin-btn" value="Se connecter" />
+      <span class="tooltip">Se déconnecter</span>
     </div>
     <div id="sidebar">
         <div id="menu-icon-bg">
@@ -93,5 +95,7 @@
     <a id="legal" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Mentions légales</a>
     <! https://www.youtube.com/watch?v=dPmZqsQNzGA>
 </footer>
+<script src="js/index.js" type="module"></script>
+<script src="js/lib.js" type="application/javascript"></script>
 </body>
 </html>
