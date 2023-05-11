@@ -33,7 +33,7 @@ module.exports = {
     // Build track search request
     const url = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
       songName
-    )}&type=track&market=FR&limit=5`;
+    )}&type=track&market=FR&limit=10`;
     const requestOptions = {
       method: 'GET',
       headers: {

@@ -5,8 +5,13 @@ let userid = undefined;
 function startUp() {
   const signinBtn = document.getElementById('signin-btn');
   const exportBtn = document.getElementById('export');
+  const title = document.getElementsByTagName('h1')[0];
   signinBtn.addEventListener('click', userLogin);
   exportBtn.addEventListener('click', exportToFile);
+  title.addEventListener(
+    'click',
+    () => (window.location.href = 'playlist.html')
+  );
   // document.getElementById('manager').classList.toggle('hidden');
   (async () => {
     if (await validToken(localStorage.accessToken)) {
