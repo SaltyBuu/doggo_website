@@ -22,7 +22,7 @@ function startUp() {
   document
     .querySelectorAll('div.sign > input:not([type="button"])')
     .forEach((e) =>
-      e.addEventListener('input', async function (e) {
+      e.addEventListener('keydown', async function (e) {
         if (e.key === 'Enter') {
           if (registerBtn.classList.contains('hidden')) userLogin();
           else userRegister();
