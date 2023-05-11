@@ -16,4 +16,6 @@ src/frontend/fonts/walkwaybold_regular_macroman/
 playlist_project.iml
 log/
 README.md
-/.env
+/.env*
+.stylelintrc
+

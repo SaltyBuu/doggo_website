@@ -145,7 +145,7 @@ function refreshPlaylist(playlistId) {
           .querySelector('span.artist')
           .appendChild(document.createTextNode(song.artist));
         resultDiv
-          .querySelector('span.votesNb')
+          .querySelector('span.votesnb')
           .appendChild(
             document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
           );
