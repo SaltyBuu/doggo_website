@@ -342,9 +342,16 @@ async function findOrAddSong(
     } else {
       // console.log('Found', localFound);
       const res = await localFound.json();
-      document
-        .querySelector('div.song[data-id="' + res.playlistSong.songId + '"]')
-        .scrollIntoView({ behavior: 'smooth' });
+      const foundSong = document.querySelector(
+        'div.song[data-id="' + res.playlistSong.songId + '"]'
+      );
+      foundSong.style.borderColor = 'white';
+      setTimeout(() => {
+        foundSong.style.borderColor = '';
+      }, 3000);
+      foundSong.scrollIntoView({
+        behavior: 'smooth',
+      });
     }
   }
   resetSearch();
