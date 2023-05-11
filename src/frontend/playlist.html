@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <title>Spotifight</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
@@ -98,12 +101,13 @@
     <div class="case">
       <div class="search-input">
         <input id="search" list="searchResults" type="text" name="search"
-               autocomplete="off" placeholder="Sélectionner une chanson">
+               autocomplete="off" placeholder=" Sélectionner une chanson">
         <input id="add" type="button" name="add" value="Ajouter">
         <datalist id="searchResults"></datalist>
         <span class="tooltip">Connecte-toi pour chercher et ajouter une chanson</span>
       </div>
-      <div class="tape-container">
+      <div class="tape-container hidden">
+
         <div>
           <div class="rectangle-container left">
           </div>
@@ -165,7 +169,7 @@
     <div class="right-container">
       <span class="votesnb-container">
         <span class="votesNb"></span>
-        <span class="votesnb-img">
+        <span class="votesnb-img hidden">
           <img
             class="votesNb"
             src="images/trend.png"

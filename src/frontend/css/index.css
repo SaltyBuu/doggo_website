@@ -1,12 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-
-/*@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');*/
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap');
-
 @font-face {
   font-family: Nobile;
   src: url('../fonts/nobile/Nobile-Bold.ttf');
-  font-weight: bold;
+  font-weight: Bold;
 }
 
 @font-face {
@@ -80,7 +75,7 @@ html {
   height: 100%;
 
   /* font-family: "Quicksand", sans-serif, Bold; */
-  font-family: 'Open Sans', serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
@@ -96,6 +91,10 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.hidden {
+  display: none;
 }
 
 img {
@@ -490,10 +489,6 @@ input#vote-btn {
   .btnContainer.sign {
     right: 5vw;
   }
-}
-
-.hidden {
-  display: none;
 }
 
 /*
