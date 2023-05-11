@@ -73,6 +73,10 @@ div.case {
   z-index: 1;
 }
 
+div.tape-container.hidden {
+  display: none;
+}
+
 div.tape-container {
   height: 20vw;
   display: flex;
