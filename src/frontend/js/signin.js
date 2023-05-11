@@ -1,6 +1,5 @@
 function startUp() {
   const menuIcon = document.querySelector('#menu-icon-bg');
-  // const muteSpan = document.getElementById('mute');
   const audio = new Audio('../music/bee-gees-stayin-alive.wav');
   const signinBtn = document.getElementById('signin-btn');
   const registerBtn = document.getElementById('register-btn');
@@ -10,13 +9,7 @@ function startUp() {
   audio.preload = 'auto';
   audio.volume = 0.1;
   audio.loop = true;
-  signinBtn.addEventListener(
-    'click',
-    // () => (window.location.href = 'playlist.html'
-    userLogin
-    // )
-  );
-  console.log('Listener added');
+  signinBtn.addEventListener('click', userLogin);
   registerBtn.addEventListener('click', userRegister);
   preregisterBtn.addEventListener('click', enableRegister);
   document
@@ -44,14 +37,11 @@ function enableRegister() {
 
 async function userLogin() {
   //TODO mauvais login message ou compte inconnu
-  console.log('this', this);
   if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
   const password = signDiv.getElementsByTagName('input')[1].value;
   const hashed = await hashPass(password);
-  console.log('Password:', password);
-  console.log('Hashed:', hashed);
   const data = {
     login: login,
     password: hashed,
@@ -84,7 +74,6 @@ function checkSignForm() {
       nodes[i].reportValidity();
     }
   }
-  console.log('returned', verified);
   return verified;
 }
 
@@ -94,9 +83,7 @@ function sendCredentials(data) {
     .then((res) => {
       if (res.status === 200) {
         res.json().then((json) => {
-          console.log('Token: ', json.token);
           localStorage.accessToken = json.token;
-          console.log('playlist.html');
           localStorage.user = data.login;
           window.location.href = 'index.html';
           localStorage.userid = json.userid; //TODO Temporaire
@@ -104,8 +91,7 @@ function sendCredentials(data) {
         });
       }
       if (res.status === 403) {
-        res.json().then((json) => {
-          console.log('User not found', json.message);
+        res.json().then(() => {
           const passwordInput = document.querySelector(
             'div.sign > input[name="password"]'
           );
@@ -121,7 +107,6 @@ function sendCredentials(data) {
 
 async function hashPass(password) {
   //TODO salt+hash on server side and turn button type to submit type
-  console.log('hash start');
   const hashDigest = await crypto.subtle.digest(
     'SHA-256',
     new TextEncoder().encode(password)
@@ -138,15 +123,12 @@ async function userRegister() {
   const mail = signDiv.getElementsByTagName('input')[2].value;
   const hashed = await hashPass(password);
 
-  console.log('Password:', password);
-  console.log('Hashed:', hashed);
   let url = new URL(backend + '/users');
   const data = {
     login: login,
     password: hashed,
     mail: mail,
   };
-  console.log('Body:', JSON.stringify(data));
   fetchRequest(url, 'PUT', JSON.stringify(data))
     .then((res) => {
       if (res.status === 201) {
@@ -156,8 +138,6 @@ async function userRegister() {
         });
       } else if (res.status === 400) {
         res.json().then((json) => console.log(json.message()));
-      } else {
-        console.log('Couldnt create user'); // TODO handle error
       }
     })
     .catch((error) => console.log(error));

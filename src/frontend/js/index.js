@@ -10,7 +10,6 @@ function startUp() {
   );
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
-  // let audio = new Audio("../music/bee-gees-stayin-alive.mp3"); //try catch
   audio.preload = 'auto';
   audio.volume = 0.1;
   audio.loop = true;

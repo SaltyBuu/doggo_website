@@ -1,5 +1,4 @@
 const PLAYLISTID = 1;
-//TODO admin account verify token
 let currentResults = [];
 const audio = new Audio('music/bee-gees-stayin-alive.wav');
 let token = undefined;
@@ -23,10 +22,8 @@ function init() {
   menuIcon.addEventListener('click', toggleSidebar);
   muteSpan.addEventListener('click', () => toggleMute(audio));
 
-  console.log('Token:', localStorage.accessToken);
   getConnectionStatus()
     .then(() => {
-      console.log('Local user ID:', userid);
       if (userid !== undefined) {
         searchInput.addEventListener('input', runSearch);
         addBtn.addEventListener('click', submitSong);
@@ -53,7 +50,6 @@ function startUp() {
 }
 
 function refreshPlaylist(playlistId) {
-  console.log('REFRESHING');
   // Set up query url
   const endpoint = '/' + playlistId + '/songs';
   const url = new URL(backend + endpoint);
@@ -62,11 +58,9 @@ function refreshPlaylist(playlistId) {
   fetchRequest(url, 'GET')
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       // Children initialization and get list of added songs as json
       const newChildren = [];
       const results = json.results;
-      console.log('Results:', results);
 
       // Check if there is at least one song
       if (results === null || results === undefined || results.length === 0)
@@ -77,7 +71,6 @@ function refreshPlaylist(playlistId) {
 
       // Parse playlist songs json
       results.forEach((r) => {
-        // console.log(r.song);
         const song = r.song;
         const songid = song.id.toString();
         //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
@@ -99,7 +92,6 @@ function refreshPlaylist(playlistId) {
         resultDiv
           .querySelector('span.artist')
           .appendChild(document.createTextNode(song.artist));
-        // console.log('votesNb', r.votesNb);
         resultDiv
           .querySelector('span.votesNb')
           .appendChild(
@@ -133,7 +125,6 @@ function refreshPlaylist(playlistId) {
         if (artist.scrollWidth > artist.offsetWidth) {
           artist.classList.add('scroll');
         }
-        // voteImg.addEventListener('click', toggleVote)
       });
       if (userid !== undefined) highlightVotes();
     })
@@ -167,7 +158,6 @@ async function toggleVote() {
 
   // Set up body
   const songId = parseInt(this.dataset.id);
-  console.log('this', this);
   const data = {
     userId: userid,
     playlistId: PLAYLISTID,
@@ -175,7 +165,6 @@ async function toggleVote() {
   };
 
   // Set up url
-  console.log('Body addVote', JSON.stringify(data));
   const endpoint = '/votes';
   const url = new URL(backend + endpoint);
 
@@ -185,25 +174,16 @@ async function toggleVote() {
 
   // Vote if user has not voted yet
   if (!this.classList.contains('voted')) {
-    console.log('User has not yet voted !');
-
     // Add vote of the current user to the desired song
     const voted = await fetchRequest(url, 'PUT', JSON.stringify(data), token);
-    if (voted) {
-      console.log('Vote: ', voted);
-    } else {
-      console.log('no vote: ', voted);
-    }
 
     // Update vote value
     if (voted.status === 201) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) + 1).toString();
-      console.log('+1');
     }
   }
   // Unvote if user has already voted
   else {
-    console.log('User has already voted !');
     // Add vote of the current user to the desired song
     const unvoted = await fetchRequest(
       url,
@@ -215,36 +195,17 @@ async function toggleVote() {
     // Update vote value
     if (unvoted.status === 200) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) - 1).toString();
-      console.log(voteSpan.textContent);
-      // if (voteSpan.textContent === '0') {
-      //   const deleted = await deletePlaylistSong(PLAYLISTID, songId);
-      //   if (deleted.status === 200) {
-      //     console.log('Status 200 !');
-      //     const currentId = this.dataset.id;
-      //     console.log('Get id');
-      //     const currentDiv = document.querySelector(
-      //       'div[data-id="' + currentId + '"]'
-      //     );
-      //     console.log('Div:', currentDiv);
-      //     currentDiv.remove();
-      //     return;
-      //   }
-      // }
     }
   }
   const updated = updateVotesTotal(PLAYLISTID, data.songId);
   if (updated) {
-    console.log('Updated !');
     toggleVoteClass(this);
-  } else {
-    console.log('Not updated :(');
   }
 }
 
 async function deletePlaylistSong(playlistId, songId) {
   const endpoint = '/' + playlistId + '/' + songId;
   const url = new URL(backend + endpoint);
-  console.log(url.href);
 
   return fetchRequest(url, 'DELETE', undefined, token);
 }
@@ -258,13 +219,10 @@ async function updateVotesTotal(playlistId, songId) {
   };
 
   // Set up url
-  console.log('Body addVote', JSON.stringify(data));
   const endpoint = '/votes';
   const url = new URL(backend + endpoint);
 
-  const updated = await fetchRequest(url, 'PATCH', JSON.stringify(data), token);
-
-  if (updated) console.log('Updated song n°', songId);
+  await fetchRequest(url, 'PATCH', JSON.stringify(data), token);
 }
 
 function submitSong() {
@@ -277,7 +235,6 @@ function submitSong() {
   );
   //TODO searchInput.value validation XSS
   if (!option) return;
-  console.log(searchInput.value);
 
   // Try to add the searched song to the current playlist
   findOrAddSong(
@@ -314,33 +271,22 @@ async function findOrAddSong(
     uri: uri,
   };
   const globalFound = await searchInSongs(data, url);
-  // console.log('1globalFound', globalFound);
   //If the song isn't in any playlist, add to songs and playlist
   if (globalFound.status === 404) {
-    // console.log('Song doesnt exist in any playlist !');
     const added = await addToSongs(data, url);
-    // console.log('added promise:', added);
     if (added.status === 201) {
-      // console.log('Song added to global songs !');
       const res = await added.json();
       addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     }
   } // If a song was found, check if in playlist
   else {
     const res = await globalFound.json();
-    // console.log('2globalFound: ', globalFound);
-    // console.log('Song already exists !');
     const localFound = await searchInPlaylist(res, playlistId).catch((e) =>
       console.log(e)
     );
-    // console.log('3globalFound: ', globalFound);
-    // console.log('LocalFound:', localFound.json());
     if (localFound.status === 404) {
-      // console.log('4globalFound: ', globalFound);
-      // console.log('Song isnt in current playlist');
       addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     } else {
-      // console.log('Found', localFound);
       const res = await localFound.json();
       const foundSong = document.querySelector(
         'div.song[data-id="' + res.playlistSong.songId + '"]'
@@ -383,17 +329,7 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   const voteUrl = new URL(backend + endpoint);
 
   // Add vote of the current user to the desired song
-  const voted = await fetchRequest(
-    voteUrl,
-    'PUT',
-    JSON.stringify(voteData),
-    token
-  );
-  if (voted) {
-    console.log('Vote: ', voted);
-  } else {
-    console.log('no vote: ', voted);
-  }
+  await fetchRequest(voteUrl, 'PUT', JSON.stringify(voteData), token);
 
   // Display the added song
   refreshPlaylist(PLAYLISTID);
@@ -403,11 +339,9 @@ async function searchInPlaylist(promiseResult, playlistId) {
   // Set up query url and body
   const playlistEndPoint = '/' + playlistId;
   const songId = promiseResult.song.id;
-  // if (isInt(song.id)) songId = parseInt(id);
   const playlistSongEndpoint = playlistEndPoint + '/' + songId + '/';
   const url = new URL(backend + playlistSongEndpoint);
 
-  // console.log('Look in playlist !');
   // Look for song in playlist
   return fetchRequest(url, 'POST', undefined, token);
 }
@@ -443,7 +377,6 @@ function displayResults(results) {
     newOption.dataset.uri = r.uri;
     optNodes.push(newOption);
   });
-  console.log(optNodes);
   datalist.replaceChildren(...optNodes);
   document.querySelector('input#search').setAttribute('open', 'true');
 }
@@ -457,7 +390,6 @@ async function runSearch(e) {
     const url = new URL(backend + endPoint);
 
     // Fetch(url, { method: "GET" });
-    console.log('Requête spotify :', url);
     const extractedResults = await fetchRequest(
       url,
       'POST',
@@ -466,7 +398,6 @@ async function runSearch(e) {
     )
       .then((res) => res.json())
       .catch((e) => console.log(e));
-    console.log('ExtractedResults', extractedResults);
 
     // Process search results
     if (
@@ -482,7 +413,6 @@ async function runSearch(e) {
         thumbnail: s.album.images[s.album.images.length - 1].url, //Get smallest image url
       }));
 
-      console.log('Results', results);
       // Display search results as clickable options
       currentResults = results;
       displayResults(results);
