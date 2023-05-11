@@ -461,7 +461,7 @@ input#vote-btn {
     /* position: absolute; */
   }
 }
-
+[hidden],
 .hidden {
   display: none;
 }
