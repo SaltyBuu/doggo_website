@@ -8,10 +8,11 @@ function startUp() {
   const title = document.getElementsByTagName('h1')[0];
   signinBtn.addEventListener('click', userLogin);
   exportBtn.addEventListener('click', exportToFile);
-  title.addEventListener(
-    'click',
-    () => (window.location.href = 'playlist.html')
-  );
+  title.addEventListener('click', () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userid');
+    window.location.href = 'playlist.html';
+  });
   // document.getElementById('manager').classList.toggle('hidden');
   (async () => {
     if (await validToken(localStorage.accessToken)) {
