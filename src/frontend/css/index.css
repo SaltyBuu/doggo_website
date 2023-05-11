@@ -93,7 +93,8 @@ body {
   overflow: hidden;
 }
 
-[hidden] {
+[hidden],
+.hidden {
   display: none;
 }
 
