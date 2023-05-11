@@ -84,19 +84,32 @@ module.exports = {
     const userId = req.body.userId;
     const playlistId = req.body.playlistId;
     const songId = req.body.songId;
-    const vote = await prisma.vote.delete({
+    const found = await prisma.vote.findFirst({
       where: {
-        songId_playlistId_userId: {
-          songId: songId,
-          playlistId: playlistId,
-          userId: userId,
-        },
+        songId: songId,
+        playlistId: playlistId,
+        userId: userId,
       },
     });
-    res.status(200).json({
-      message: 'Vote deleted',
-      vote,
-    });
+    if (found !== null) {
+      const vote = await prisma.vote.delete({
+        where: {
+          songId_playlistId_userId: {
+            songId: songId,
+            playlistId: playlistId,
+            userId: userId,
+          },
+        },
+      });
+      res.status(200).json({
+        message: 'Vote deleted',
+        vote,
+      });
+    } else {
+      res.status(404).json({
+        message: 'Vote not found',
+      });
+    }
     /*
     #swagger.responses[200] = {
         description: 'Vote deleted.',

@@ -213,23 +213,23 @@ async function toggleVote() {
     );
 
     // Update vote value
-    if (unvoted) {
+    if (unvoted.status === 200) {
       voteSpan.textContent = (parseInt(voteSpan.textContent) - 1).toString();
-      console.log('-1');
-      if (voteSpan.textContent === '0') {
-        const deleted = await deletePlaylistSong(PLAYLISTID, songId);
-        if (deleted.status === 200) {
-          console.log('Status 200 !');
-          const currentId = this.dataset.id;
-          console.log('Get id');
-          const currentDiv = document.querySelector(
-            'div[data-id="' + currentId + '"]'
-          );
-          console.log('Div:', currentDiv);
-          currentDiv.remove();
-          return;
-        }
-      }
+      console.log(voteSpan.textContent);
+      // if (voteSpan.textContent === '0') {
+      //   const deleted = await deletePlaylistSong(PLAYLISTID, songId);
+      //   if (deleted.status === 200) {
+      //     console.log('Status 200 !');
+      //     const currentId = this.dataset.id;
+      //     console.log('Get id');
+      //     const currentDiv = document.querySelector(
+      //       'div[data-id="' + currentId + '"]'
+      //     );
+      //     console.log('Div:', currentDiv);
+      //     currentDiv.remove();
+      //     return;
+      //   }
+      // }
     }
   }
   const updated = updateVotesTotal(PLAYLISTID, data.songId);
