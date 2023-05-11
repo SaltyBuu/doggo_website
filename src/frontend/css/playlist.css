@@ -73,10 +73,6 @@ div.case {
   z-index: 1;
 }
 
-div.tape-container.hidden {
-  display: none;
-}
-
 div.tape-container {
   height: 20vw;
   display: flex;
@@ -152,16 +148,6 @@ div.search-input {
   justify-content: center;
   align-items: center;
   z-index: 2;
-}
-
-@keyframes scroll {
-  from {
-    transform: translateX(0%);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
 }
 
 div.list-container {
@@ -266,6 +252,10 @@ span.info {
   margin-right: 0;
 }
 
+.scroll:hover {
+  animation: scroll 5s linear infinite;
+}
+
 span.preview {
   width: 100%;
   height: 40%;
@@ -302,21 +292,11 @@ span.title {
   margin-top: 2px;
 }
 
-.scroll:hover {
-  animation: scroll 5s linear infinite;
-
-  /* animation-play-state: running; */
-}
-
 span.votesNb {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   display: flex;
   justify-content: center;
-}
-
-span.votesnb-img.hidden {
-  display: none;
 }
 
 span.votesnb-img {

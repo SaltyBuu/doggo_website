@@ -133,7 +133,7 @@ async function hashPass(password) {
 async function userRegister() {
   if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
-  const login = signDiv.getElementsByTagName('input')[0].value;
+  const login = signDiv.getElementsByTagName('input')[0].value.toLowerCase();
   const password = signDiv.getElementsByTagName('input')[1].value;
   const mail = signDiv.getElementsByTagName('input')[2].value;
   const hashed = await hashPass(password);

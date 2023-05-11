@@ -3,8 +3,9 @@
 <head>
   <title>Console Admin</title>
   <!-- Ajoutez ici les liens vers les fichiers CSS nécessaires -->
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="css/cynthia.css"/>
 
 </head>
 <body>
@@ -18,17 +19,70 @@
 <div id="admin-content">
   <!-- Ajoutez ici les différentes sections et fonctionnalités de la console admin -->
   <form id="login-form">
-    <label for="username">Nom d'utilisateur:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Mot de passe:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <input type="submit" value="Se connecter">
+    <div class="inputs">
+      <label for="login"> Nom d'utilisateur </label>
+      <input type="text" name="login">
+      <label for="password"> Mot de passe</label>
+      <input type="password" name="password" oninput="setCustomValidity('')">
+    </div>
+    <input type="button" name="signin" id="signin-btn" value="Se connecter">
   </form>
+
+  <div id="manager" class="hidden">
+    <div class="song-management">
+      <div class="list-container">
+        <div class="list">
+        </div>
+      </div>
+      <div id="export-container">
+        <button id="export">Export</button>
+      </div>
+    </div>
+
+    <div class="user-management">
+      <input id="search" list="searchResults" type="text" name="search"
+             autocomplete="off" placeholder=" Chercher un utilisateur">
+      <input id="add" type="button" name="add" value="Supprimer">
+      <datalist id="searchResults"></datalist>
+    </div>
+  </div>
+
+</div>
+
+<div id="models" hidden>
+  <div class="model song">
+    <div class="left-container">
+      <span class="cover">
+        <span class="cover-container">
+          <img
+            class="thumbnail"
+            src=""
+            alt=""
+          />
+        </span>
+      </span>
+      <span class="info-container">
+        <span class="info">
+          <span class="title"></span>
+          <span class="artist"></span>
+        </span>
+      </span>
+    </div>
+    <div class="right-container">
+      <span class="votesnb-container">
+        <span class="votesNb"></span>
+      </span>
+      <span class="buttons">
+        <button class="delete">Delete</button>
+        <button class="editVotes" hidden>Edit Votes</button>
+      </span>
+    </div>
+  </div>
+  <option class="model result" value="">
 </div>
 
 <!-- Ajoutez ici les liens vers les fichiers JavaScript nécessaires -->
-<script src="cynthia.js"></script>
+<script src="js/cynthia.js" type="application/javascript"></script>
+<script src="js/lib.js" type="application/javascript"></script>
 </body>
 </html>
