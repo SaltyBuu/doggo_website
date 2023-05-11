@@ -8,10 +8,11 @@ function startUp() {
   const title = document.getElementsByTagName('h1')[0];
   signinBtn.addEventListener('click', userLogin);
   exportBtn.addEventListener('click', exportToFile);
-  title.addEventListener(
-    'click',
-    () => (window.location.href = 'playlist.html')
-  );
+  title.addEventListener('click', () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userid');
+    window.location.href = 'playlist.html';
+  });
   // document.getElementById('manager').classList.toggle('hidden');
   (async () => {
     if (await validToken(localStorage.accessToken)) {
@@ -25,14 +26,10 @@ function startUp() {
 }
 
 async function userLogin() {
-  //TODO mauvais login message ou compte inconnu
-  console.log('this', this);
   const signDiv = document.querySelector('#login-form');
   const login = signDiv.getElementsByTagName('input')[0].value.toLowerCase();
   const password = signDiv.getElementsByTagName('input')[1].value;
   const hashed = await hashPass(password);
-  console.log('Password:', password);
-  console.log('Hashed:', hashed);
   const data = {
     login: login,
     password: hashed,
@@ -55,7 +52,6 @@ async function exportToFile() {
     csvRows.push(rank.toString() + ',' + r.song.name + ',' + r.song.artist);
     rank++;
   });
-  console.log(csvRows);
 
   const blob = new Blob([csvRows.join('\n')], {
     type: 'text/csv;charset=utf-8',
@@ -64,14 +60,11 @@ async function exportToFile() {
   const anchor = document.createElement('a');
   anchor.href = URL.createObjectURL(blob);
   anchor.download = 'doggo_exported_playlist' + '-' + date;
-  console.log('doggo_exported_playlist' + date);
   anchor.click();
   URL.revokeObjectURL(anchor.href);
 }
 
 async function hashPass(password) {
-  //TODO salt+hash on server side and turn button type to submit type
-  console.log('hash start');
   const hashDigest = await crypto.subtle.digest(
     'SHA-256',
     new TextEncoder().encode(password)
@@ -86,7 +79,6 @@ function sendCredentials(data) {
     .then((res) => {
       if (res.status === 200) {
         res.json().then((json) => {
-          console.log('Token: ', json.token);
           token = json.token;
           localStorage.accessToken = json.token;
           userid = json.userid;
@@ -96,8 +88,7 @@ function sendCredentials(data) {
         });
       }
       if (res.status === 403) {
-        res.json().then((json) => {
-          console.log('User not found', json.message);
+        res.json().then(() => {
           const passwordInput = document.querySelector(
             '.inputs > input[name="password"]'
           );
@@ -112,7 +103,6 @@ function sendCredentials(data) {
 }
 
 function refreshPlaylist(playlistId) {
-  console.log('REFRESHING');
   // Set up query url
   const endpoint = '/' + playlistId + '/songs';
   const url = new URL(backend + endpoint);
@@ -121,11 +111,9 @@ function refreshPlaylist(playlistId) {
   fetchRequest(url, 'GET')
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       // Children initialization and get list of added songs as json
       const newChildren = [];
       const results = json.results;
-      console.log('Results:', results);
 
       // Check if there is at least one song
       if (results === null || results === undefined || results.length === 0)
@@ -136,7 +124,6 @@ function refreshPlaylist(playlistId) {
 
       // Parse playlist songs json
       results.forEach((r) => {
-        // console.log(r.song);
         const song = r.song;
         const songid = song.id.toString();
         //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
@@ -158,9 +145,8 @@ function refreshPlaylist(playlistId) {
         resultDiv
           .querySelector('span.artist')
           .appendChild(document.createTextNode(song.artist));
-        // console.log('votesNb', r.votesNb);
         resultDiv
-          .querySelector('span.votesNb')
+          .querySelector('span.votesnb')
           .appendChild(
             document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
           );
@@ -182,7 +168,6 @@ function refreshPlaylist(playlistId) {
             )
               .then((r) => {
                 if (r.status === 200) {
-                  console.log('Deleted:', song.id, song.name, song.album);
                   refreshPlaylist(PLAYLISTID);
                 }
               })
