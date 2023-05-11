@@ -73,7 +73,7 @@ html {
     no-repeat;
   background-size: cover;
   height: 100%;
-
+  overflow-y: hidden;
   /* font-family: "Quicksand", sans-serif, Bold; */
   font-family: 'Open Sans', sans-serif;
 }
@@ -90,7 +90,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 [hidden],
