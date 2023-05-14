@@ -1,6 +1,6 @@
 # doggo_website
 ## Summary
-A fullstack application hosting a collaborative playlist with rankings using a expressjs backend and a bare HTML/CSS/JS frontend.
+A fullstack application hosting a collaborative playlist with rankings using an expressjs backend and a bare HTML/CSS/JS frontend.
 
 ## Features
 Users can :
