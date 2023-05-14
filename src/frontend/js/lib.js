@@ -1,5 +1,4 @@
-// const backend = 'https://api-doggo.herokuapp.com';
-const backend = "http:localhost:3000";
+const backend = "https://api-doggo.herokuapp.com";
 function toggleSidebar() {
   const toggleMenuDiv = document.getElementById("toggle-menu");
   this.classList.toggle("pulled");
@@ -77,4 +76,18 @@ async function getConnectionStatus() {
   } else {
     signinBtn.addEventListener("click", goToSignPage);
   }
+}
+
+async function loadMusic() {
+  const audio = new Audio("music/bee-gees-stayin-alive.wav");
+  const speakers = document.querySelectorAll("div.speaker-bg");
+  const muteSpan = document.getElementById("mute");
+  // Music controls
+  audio.preload = "auto";
+  audio.volume = 0.1;
+  audio.loop = true;
+  [...speakers].forEach((s) =>
+    s.addEventListener("click", () => toggleSpeakers(audio))
+  );
+  muteSpan.addEventListener("click", () => toggleMute(audio));
 }
