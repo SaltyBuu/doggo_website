@@ -30,6 +30,9 @@
 - neon titre playlist seulement sur hover paragraphe
 - margins des chansons
 - bug overflow police inscription
+- Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
+- remove dataset attributes -> dedicated code structure
+
 
 ## Deployment
 - githubaction vers le repo privé

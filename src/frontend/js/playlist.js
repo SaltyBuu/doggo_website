@@ -3,6 +3,9 @@ let currentResults = [];
 const audio = new Audio("music/bee-gees-stayin-alive.wav");
 let token = undefined;
 let userid = undefined;
+let playlistData = [];
+let currentIndex = 0;
+let initBatch = 2;
 
 function init() {
   // DOM queries
@@ -42,11 +45,17 @@ function init() {
 
 function startUp() {
   init();
+  // Loading screen before playlist fetching
+  const loadingIcon = document.getElementById("loadingIcon");
+  loadingIcon.style.display = "block";
+
+  console.log("Hello");
   // Display current playlistsongs on startup
-  refreshPlaylist(PLAYLISTID);
+  loadPlaylist(PLAYLISTID);
+  console.log("Allo");
 }
 
-function refreshPlaylist(playlistId) {
+function loadPlaylist(playlistId) {
   // Set up query url
   const endpoint = "/" + playlistId + "/songs";
   const url = new URL(backend + endpoint);
@@ -57,79 +66,92 @@ function refreshPlaylist(playlistId) {
     .then((json) => {
       // Children initialization and get list of added songs as json
       const newChildren = [];
-      const results = json.results;
-
-      // Check if there is at least one song
-      if (results === null || results === undefined || results.length === 0)
-        return;
-
-      // List of songs div
-      const playlistDiv = document.querySelector("div.list");
-
-      // Parse playlist songs json
-      results.forEach((r) => {
-        const song = r.song;
-        const songid = song.id.toString();
-        //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
-        //TODO middleware de décryptage du token
-
-        // Create new playlist song div
-        const resultDiv = document
-          .querySelector("div.model.song")
-          .cloneNode(true);
-        resultDiv.classList.toggle("model");
-        const img = resultDiv.querySelector("span.cover-container > img");
-
-        // Set attributes from json
-        img.src = song.thumbnail;
-        img.alt = song.album;
-        resultDiv
-          .querySelector("span.title")
-          .appendChild(document.createTextNode(song.name + ","));
-        resultDiv
-          .querySelector("span.artist")
-          .appendChild(document.createTextNode(song.artist));
-        resultDiv
-          .querySelector("span.votesnb")
-          .appendChild(
-            document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
-          );
-        const voteImg = resultDiv.querySelector("span.vote > img");
-        //TODO remove dataset attributes -> dedicated code structure
-        voteImg.dataset.id = songid;
-        resultDiv.dataset.id = songid;
-        resultDiv.dataset.preview = song.preview;
-        resultDiv.dataset.uri = song.uri;
-
-        //Add preview url
-        resultDiv.querySelector("audio").src = song.preview;
-        resultDiv.querySelector("audio").volume = 0.5;
-
-        // Add current song to new children
-        newChildren.push(resultDiv);
-      });
-
-      // Add to DOM and set up listeners
-      playlistDiv.replaceChildren(...newChildren);
-      [...playlistDiv.children].forEach((child) => {
-        const voteImg = child.querySelector("span.vote > img");
-        if (userid !== undefined) voteImg.addEventListener("click", toggleVote);
-        const title = child.querySelector("span.title");
-        const artist = child.querySelector("span.artist");
-        if (title.scrollWidth > title.offsetWidth) {
-          title.classList.add("scroll");
-        }
-        if (artist.scrollWidth > artist.offsetWidth) {
-          artist.classList.add("scroll");
-        }
-      });
-      if (userid !== undefined) highlightVotes();
+      playlistData = json.results;
+      console.log("Display PLAYLIST");
+      displayPlaylist();
+      document.getElementById("loadingIcon").style.display = "none";
+      console.log("Background PLAYLIST");
+      setTimeout(backgroundPlaylist, 100);
     })
     .catch((e) => console.log(e));
 }
 
+function displayPlaylist() {
+  console.log(currentIndex);
+  // Check if there is at least one song
+  if (playlistData.length === 0) return;
+
+  // List of songs div
+  const playlistDiv = document.querySelector("div.list");
+
+  // Batch display
+  let endIndex = currentIndex + initBatch;
+  for (let i = currentIndex; i < endIndex && i < playlistData.length; i++) {
+    const song = playlistData[i].song;
+    const songid = song.id.toString();
+
+    // Create new playlist song div
+    const resultDiv = document.querySelector("div.model.song").cloneNode(true);
+    resultDiv.classList.toggle("model");
+    const img = resultDiv.querySelector("span.cover-container > img");
+
+    // Set attributes from json
+    img.src = song.thumbnail;
+    img.alt = song.album;
+    resultDiv
+      .querySelector("span.title")
+      .appendChild(document.createTextNode(song.name + ","));
+    resultDiv
+      .querySelector("span.artist")
+      .appendChild(document.createTextNode(song.artist));
+    resultDiv
+      .querySelector("span.votesnb")
+      .appendChild(
+        document.createTextNode(
+          playlistData[i].votesNb == null ? 0 : playlistData[i].votesNb
+        )
+      );
+    const voteImg = resultDiv.querySelector("span.vote > img");
+    voteImg.dataset.id = songid;
+    resultDiv.dataset.id = songid;
+    resultDiv.dataset.preview = song.preview;
+    resultDiv.dataset.uri = song.uri;
+
+    //Add preview url
+    resultDiv.querySelector("audio").src = song.preview;
+    resultDiv.querySelector("audio").volume = 0.5;
+
+    // Add current song to new children
+    console.log("Avant Ajout à playlistDiv", playlistDiv);
+    playlistDiv.appendChild(resultDiv);
+    console.log("Après Ajout à playlistDiv", playlistDiv);
+
+    // Add to DOM and set up listeners
+    if (userid !== undefined) voteImg.addEventListener("click", toggleVote);
+    const title = resultDiv.querySelector("span.title");
+    const artist = resultDiv.querySelector("span.artist");
+    if (title.scrollWidth > title.offsetWidth) {
+      title.classList.add("scroll");
+    }
+    if (artist.scrollWidth > artist.offsetWidth) {
+      artist.classList.add("scroll");
+    }
+  }
+  currentIndex = endIndex;
+}
+
+function backgroundPlaylist() {
+  displayPlaylist();
+
+  if (userid !== undefined) highlightVotes();
+
+  if (currentIndex < playlistData.length) {
+    setTimeout(displayPlaylist, 100);
+  }
+}
+
 function highlightVotes() {
-  const songCollection = document.querySelectorAll("div.list > div.song");
+  const songCollection = document.querySelectorAll("divlist > div.song");
   songCollection.forEach(async (s) => {
     const voted = await userVoted(s.dataset.id);
     if (voted) {
@@ -223,14 +245,11 @@ async function updateVotesTotal(playlistId, songId) {
 }
 
 function submitSong() {
-  //TODO connection needed message
-  // Get user search input
   const searchInput = document.getElementById("search");
   if (!searchInput.value || currentResults.length === 0) return;
   const option = document.querySelector(
     "option[value=" + JSON.stringify(searchInput.value) + "]"
   );
-  //TODO searchInput.value validation XSS
   if (!option) return;
 
   // Try to add the searched song to the current playlist
@@ -275,7 +294,7 @@ async function findOrAddSong(
       const res = await added.json();
       addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
     }
-  } // If a song was found, check if in playlist
+  } // If a song was found, check if it's in playlist
   else {
     const res = await globalFound.json();
     const localFound = await searchInPlaylist(res, playlistId).catch((e) =>
@@ -329,7 +348,8 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   await fetchRequest(voteUrl, "PUT", JSON.stringify(voteData), token);
 
   // Display the added song
-  refreshPlaylist(PLAYLISTID);
+  currentIndex = 0;
+  loadPlaylist(PLAYLISTID);
 }
 
 async function searchInPlaylist(promiseResult, playlistId) {
