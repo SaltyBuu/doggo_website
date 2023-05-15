@@ -1,10 +1,10 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const has = require('has-keys');
-const CodeError = require('../CodeError');
-const { isInt } = require('../middlewares/validation');
+const has = require("has-keys");
+const CodeError = require("../CodeError");
+const { isInt } = require("../middlewares/validation");
 const { TOKENSECRET } = process.env;
 
 module.exports = {
@@ -13,14 +13,14 @@ module.exports = {
     #swagger.tags = ['User']
     #swagger.summary = 'Get information of a user.'
     #swagger.parameters['id'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a user',
         required: true,
         type: 'integer',
     }
     */
-    if (!has(req.params, 'id')) throw new CodeError('Id is missing', 400);
-    if (!isInt(req.params.id)) throw new CodeError('Id is not an int', 400);
+    if (!has(req.params, "id")) throw new CodeError("Id is missing", 400);
+    if (!isInt(req.params.id)) throw new CodeError("Id is not an int", 400);
     req.params.id = parseInt(req.params.id);
     const user = await prisma.user.findFirst({
       where: {
@@ -32,7 +32,7 @@ module.exports = {
         user,
       });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     }
     /*
     #swagger.responses[404] = {
@@ -59,16 +59,16 @@ module.exports = {
     }
     */
     //TODO Password validation
-    if (!has(req.body, ['login', 'password', 'mail']))
-      throw new CodeError('Missing parameters', 400);
-    console.log('passed params validation');
+    if (!has(req.body, ["login", "password", "mail"]))
+      throw new CodeError("Missing parameters", 400);
+    console.log("passed params validation");
     //TODO Email validation
     const user = await prisma.user.findFirst({
       where: {
         login: req.body.login,
       },
     });
-    console.log('found user:', user);
+    console.log("found user:", user);
     if (user == null) {
       const newUser = await prisma.user.create({
         data: {
@@ -77,14 +77,14 @@ module.exports = {
           password: req.body.password,
         },
       });
-      console.log('created user:', newUser);
+      console.log("created user:", newUser);
 
       res.status(201).json({
         newUser,
       });
     } else {
       res.status(400).json({
-        message: 'The user already exists',
+        message: "The user already exists",
       });
     }
     /*
@@ -107,12 +107,10 @@ module.exports = {
     #swagger.tags = ['User']
     #swagger.summary = 'Remove a user.'
     #swagger.parameters['id'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a user',
         required: true,
         type: 'integer',
-        schema: { $id: 5 }
-
     }
     */
     const user = await prisma.user.delete({
@@ -121,7 +119,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: 'User deleted',
+      message: "User deleted",
       user,
     });
     /*
@@ -140,7 +138,7 @@ module.exports = {
     #swagger.summary = 'Update a user.'
     #swagger.parameters['obj'] = {
         in: 'body',
-        description: 'Id of a user',
+        description: 'Infos of a user',
         required: true,
         schema: {
             id: 3,
@@ -161,7 +159,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: 'User updated',
+      message: "User updated",
       user,
     });
     /*
@@ -188,9 +186,9 @@ module.exports = {
         }
     }
     */
-    console.log('Le voilà ton body !', req.body);
-    if (!has(req.body, ['login', 'password'])) {
-      throw new CodeError('Missing login or password', 400);
+    console.log("Authentication trial:", req.body);
+    if (!has(req.body, ["login", "password"])) {
+      throw new CodeError("Missing login or password", 400);
     }
     const user = await prisma.user.findFirst({
       where: {
@@ -199,23 +197,22 @@ module.exports = {
       },
     });
     if (user) {
-      console.log('USER:', user);
-      //TODO handle admin verification
+      console.log("USER:", user);
       const payload = {
         userId: user.id,
         login: user.login,
         isAdmin: user.isAdmin,
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
       };
-      console.log('expiration:', payload.exp);
+
       // Generate token
-      const token = jwt.sign(payload, TOKENSECRET, { algorithm: 'HS256' });
+      const token = jwt.sign(payload, TOKENSECRET, { algorithm: "HS256" });
       res.status(200).json({
         token,
         userid: user.id,
       });
     } else {
-      res.status(403).json({ message: 'Unknown user.' });
+      res.status(403).json({ message: "Unknown user." });
     }
     /*
     #swagger.responses[200] = {
@@ -233,9 +230,9 @@ module.exports = {
     */
   },
   async getAdminToken(req, res) {
-    console.log('Admin connection!', req.body);
-    if (!has(req.body, ['login', 'password'])) {
-      throw new CodeError('Missing login or password', 400);
+    console.log("Admin connection!", req.body);
+    if (!has(req.body, ["login", "password"])) {
+      throw new CodeError("Missing login or password", 400);
     }
     const user = await prisma.user.findFirst({
       where: {
@@ -244,22 +241,22 @@ module.exports = {
       },
     });
     if (user && user.isAdmin) {
-      console.log('USER:', user);
+      console.log("USER:", user);
       const payload = {
         userId: user.id,
         login: user.login,
         isAdmin: user.isAdmin,
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
       };
-      console.log('expiration:', payload.exp);
+      console.log("expiration:", payload.exp);
       // Generate token
-      const token = jwt.sign(payload, TOKENSECRET, { algorithm: 'HS256' });
+      const token = jwt.sign(payload, TOKENSECRET, { algorithm: "HS256" });
       res.status(200).json({
         token,
         userid: user.id,
       });
     } else {
-      res.status(403).json({ message: 'Forbidden.' });
+      res.status(403).json({ message: "Forbidden." });
     }
   },
 };

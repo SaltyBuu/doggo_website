@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:undefined",
+  "host": "api-doggo.herokuapp.com",
   "basePath": "/",
   "schemes": [
     "http"
@@ -21,7 +21,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
+            "in": "query",
             "required": true,
             "type": "integer",
             "description": "Id of a user"
@@ -59,20 +59,14 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
             "type": "integer",
-            "description": "Id of a user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 5
-                }
-              },
-              "required": [
-                "id"
-              ]
-            }
+            "description": "Id of a user"
           },
           {
             "name": "body",
@@ -180,7 +174,7 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "Id of a user",
+            "description": "Infos of a user",
             "required": true,
             "schema": {
               "type": "object",
@@ -223,6 +217,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -289,6 +286,36 @@
         }
       }
     },
+    "/adminAuth": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
     "/songs": {
       "post": {
         "tags": [
@@ -297,6 +324,11 @@
         "summary": "Find a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -324,6 +356,9 @@
               "$ref": "#/definitions/song"
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Song not found.",
             "schema": {
@@ -349,6 +384,11 @@
         "description": "",
         "parameters": [
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Song information.",
@@ -371,6 +411,14 @@
                 "thumbnail": {
                   "type": "string",
                   "example": "http://toto.png"
+                },
+                "preview": {
+                  "type": "string",
+                  "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+                },
+                "uri": {
+                  "type": "string",
+                  "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
                 }
               }
             }
@@ -409,6 +457,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -419,6 +470,11 @@
         "summary": "Remove a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "id",
             "in": "body",
@@ -452,6 +508,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -462,6 +521,11 @@
         "summary": "Update a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -485,6 +549,14 @@
                 "artist": {
                   "type": "string",
                   "example": "Here come the mummies"
+                },
+                "preview": {
+                  "type": "string",
+                  "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+                },
+                "uri": {
+                  "type": "string",
+                  "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
                 }
               }
             }
@@ -508,6 +580,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -939,7 +1014,7 @@
         "parameters": [
           {
             "name": "playlistId",
-            "in": "path",
+            "in": "query",
             "required": true,
             "type": "integer",
             "description": "Id of a playlist"
@@ -977,13 +1052,19 @@
             "name": "playlistId",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "Id of a playlist"
+            "type": "string"
           },
           {
             "name": "x-access-token",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "playlistId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "description": "Id of a playlist"
           },
           {
             "name": "obj",
@@ -1045,6 +1126,61 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/{playlistid}/export": {
+      "post": {
+        "tags": [
+          "Export"
+        ],
+        "summary": "Export songs of the specified playlist to a default collaborative playlist.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "playlistid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "playlistid",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "description": "Id of the playlist"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Songs exported."
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Export failed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Songs could not be exported"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -1070,8 +1206,13 @@
             "type": "string"
           },
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
-            "in": "path",
+            "in": "query",
             "description": "Playlist information.",
             "required": true,
             "schema": {
@@ -1095,6 +1236,9 @@
             "schema": {
               "$ref": "#/definitions/playlistSong"
             }
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Song not found.",
@@ -1133,8 +1277,13 @@
             "type": "string"
           },
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
-            "in": "path",
+            "in": "query",
             "description": "Playlist information",
             "required": true,
             "schema": {
@@ -1170,6 +1319,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -1190,6 +1342,11 @@
             "name": "songId",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
             "type": "string"
           },
           {
@@ -1230,6 +1387,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -1284,6 +1444,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -1388,6 +1551,14 @@
           "type": "string",
           "example": "http://toto.png"
         },
+        "preview": {
+          "type": "string",
+          "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+        },
+        "uri": {
+          "type": "string",
+          "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
+        },
         "createdAt": {
           "type": "string",
           "example": "2023-03-25T13:20:24.579Z"
@@ -1435,6 +1606,14 @@
               "thumbnail": {
                 "type": "string",
                 "example": "https://i.scdn.co/image/ab67616d00004851ea6d794f7e1c9b2fb8b73890"
+              },
+              "preview": {
+                "type": "string",
+                "example": "https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86"
+              },
+              "uri": {
+                "type": "string",
+                "example": "spotify:track:6saOAnhIoLEdWbfSEwCV2l"
               },
               "createdAt": {
                 "type": "string",

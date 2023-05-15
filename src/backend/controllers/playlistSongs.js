@@ -1,6 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const status = require("http-status");
 const has = require("has-keys");
 const CodeError = require("../CodeError");
 
@@ -10,7 +9,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Find a song in a playlist.'
     #swagger.parameters['obj'] = {
-        in: 'path',
+        in: 'query',
         description: 'Playlist information.',
         required: true,
         schema: {
@@ -60,7 +59,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Add a song in a playlist.'
     #swagger.parameters['playlistId'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a playlist',
         required: true,
         type: 'integer',
@@ -137,7 +136,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Remove a song in a playlist.'
     #swagger.parameters['obj'] = {
-        in: 'path',
+        in: 'query',
         description: 'Playlist information',
         required: true,
         schema: {
@@ -180,7 +179,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Update a song in a playlist.'
     #swagger.parameters['obj'] = {
-        in: 'path',
+        in: 'query',
         description: 'Playlist information.',
         required: true,
         schema: {
@@ -230,7 +229,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Get all songs in a playlist.'
     #swagger.parameters['playlistId'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a playlist',
         required: true,
         type: 'integer',
@@ -246,9 +245,14 @@ module.exports = {
         song: true,
         submitter: true,
       },
-      orderBy: {
-        votesNb: "desc",
-      },
+      orderBy: [
+        {
+          votesNb: "desc",
+        },
+        {
+          createdAt: "asc",
+        },
+      ],
     });
     // console.log('Results:', results);
     res.status(200).json({
