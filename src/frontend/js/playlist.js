@@ -4,7 +4,7 @@ let token = undefined;
 let userid = undefined;
 let playlistData = [];
 let currentIndex = 0;
-let initBatch = 5;
+let batchSize = 5;
 
 function init() {
   // DOM queries
@@ -59,6 +59,7 @@ function loadPlaylist(playlistId) {
       // Display current playlistsongs on startup
       displayBatchPlaylist();
       // document.getElementById("loadingIcon").style.display = "none";
+      if (userid !== undefined) highlightVotes();
 
       // Display the rest of the playlist
       setTimeout(backgroundPlaylist, 100);
@@ -74,7 +75,7 @@ function displayBatchPlaylist() {
   const playlistDiv = document.querySelector("div#list");
 
   // Batch display
-  let endIndex = currentIndex + initBatch;
+  let endIndex = currentIndex + batchSize;
   for (let i = currentIndex; i < endIndex && i < playlistData.length; i++) {
     const song = playlistData[i].song;
     const songid = song.id.toString();
@@ -123,7 +124,6 @@ function displayBatchPlaylist() {
     if (artist.scrollWidth > artist.offsetWidth) {
       artist.classList.add("scroll");
     }
-    console.log("Index: ", i);
   }
   currentIndex = endIndex;
 }
@@ -140,7 +140,9 @@ function backgroundPlaylist() {
 
 function highlightVotes() {
   const songCollection = document.querySelectorAll("div#list > div.song");
-  songCollection.forEach(async (s) => {
+  const subArray = Array.from(songCollection);
+  const sliced = subArray.slice(currentIndex - batchSize, currentIndex);
+  sliced.forEach(async (s) => {
     const voted = await userVoted(s.dataset.id);
     if (voted) {
       toggleVoteClass(s.querySelector("img.vote"));

@@ -310,7 +310,7 @@ span.cover-container {
 
 span.vote {
   height: 50%;
-  width: 40%;
+  width: 50%;
   display: flex;
   align-items: center;
   margin-right: 10%;
@@ -320,12 +320,17 @@ span.vote {
 
 img.vote {
   cursor: pointer;
+  animation: pulse 2s infinite;
+  border-radius: 5px;
 }
 
 img.vote.voted {
-  box-shadow: 0 0 5px #fff;
-  border-radius: 4px;
+  box-shadow: 1px 1px 5px #fff;
   background-color: white;
+  animation: none;
+  /*background: linear-gradient(180deg, #000, rgb(235, 0, 106), #000);*/
+  /*background-size: 400% 400%;*/
+  /*animation: fire 2s ease infinite;*/
 }
 
 div.left-container,
