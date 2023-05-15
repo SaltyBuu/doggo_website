@@ -320,7 +320,7 @@ span.vote {
 
 img.vote {
   cursor: pointer;
-  animation: pulse 1s infinite;
+  animation: pulse 2s infinite;
   border-radius: 5px;
 }
 
