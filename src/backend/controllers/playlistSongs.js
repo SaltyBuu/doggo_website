@@ -246,9 +246,12 @@ module.exports = {
         song: true,
         submitter: true,
       },
-      orderBy: {
-        votesNb: "desc",
-      },
+      orderBy: [
+        {
+          votesNb: "desc",
+        },
+        { createdAt: "asc" },
+      ],
     });
     // console.log('Results:', results);
     res.status(200).json({
