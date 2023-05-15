@@ -1,23 +1,14 @@
 function startUp() {
-  const speakers = document.querySelectorAll('div.speaker-bg');
-  const menuIcon = document.querySelector('#menu-icon-bg');
-  const muteSpan = document.getElementById('mute');
-  const audio = new Audio('../music/bee-gees-stayin-alive.wav');
-  const voteBtn = document.getElementById('vote-btn');
+  loadMusic();
+  const menuIcon = document.querySelector("#menu-icon-bg");
+  const voteBtn = document.getElementById("vote-btn");
 
-  [...speakers].forEach((s) =>
-    s.addEventListener('click', () => toggleSpeakers(audio))
-  );
-  menuIcon.addEventListener('click', toggleSidebar);
-  muteSpan.addEventListener('click', () => toggleMute(audio));
-  audio.preload = 'auto';
-  audio.volume = 0.1;
-  audio.loop = true;
+  menuIcon.addEventListener("click", toggleSidebar);
   voteBtn.addEventListener(
-    'click',
-    () => (window.location.href = 'playlist.html')
+    "click",
+    () => (window.location.href = "playlist.html")
   );
   getConnectionStatus().catch((e) => console.log(e));
 }
 
-window.addEventListener('load', startUp);
+window.addEventListener("load", startUp);
