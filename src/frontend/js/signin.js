@@ -131,7 +131,7 @@ async function userRegister() {
         });
       } else if (res.status === 400) {
         res.json().then((json) => console.log(json.message));
-        alert('User' + login + ' already exists');
+        alert('User ' + login + ' already exists');
       }
     })
     .catch((error) => console.log(error));
