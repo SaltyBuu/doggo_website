@@ -12,16 +12,14 @@ function startUp() {
   signinBtn.addEventListener('click', userLogin);
   registerBtn.addEventListener('click', userRegister);
   preregisterBtn.addEventListener('click', enableRegister);
-  document
-    .querySelectorAll('div.sign > input:not([type="button"])')
-    .forEach((e) =>
-      e.addEventListener('keydown', async function (e) {
-        if (e.key === 'Enter') {
-          if (registerBtn.classList.contains('hidden')) userLogin();
-          else userRegister();
-        }
-      })
-    );
+  document.querySelectorAll('div.sign > input:not([type="button"])').forEach((e) =>
+    e.addEventListener('keydown', async function (e) {
+      if (e.key === 'Enter') {
+        if (registerBtn.classList.contains('hidden')) userLogin();
+        else userRegister();
+      }
+    })
+  );
 }
 
 function enableRegister() {
@@ -92,9 +90,7 @@ function sendCredentials(data) {
       }
       if (res.status === 403) {
         res.json().then(() => {
-          const passwordInput = document.querySelector(
-            'div.sign > input[name="password"]'
-          );
+          const passwordInput = document.querySelector('div.sign > input[name="password"]');
           passwordInput.setCustomValidity('');
           passwordInput.checkValidity();
           passwordInput.setCustomValidity('Invalid login or password.');
@@ -107,10 +103,7 @@ function sendCredentials(data) {
 
 async function hashPass(password) {
   //TODO salt+hash on server side and turn button type to submit type
-  const hashDigest = await crypto.subtle.digest(
-    'SHA-256',
-    new TextEncoder().encode(password)
-  );
+  const hashDigest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
   const hashArray = Array.from(new Uint8Array(hashDigest));
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
@@ -120,7 +113,7 @@ async function userRegister() {
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value.toLowerCase();
   const password = signDiv.getElementsByTagName('input')[1].value;
-  const mail = signDiv.getElementsByTagName('input')[2].value;
+  const mail = signDiv.getElementsByTagName('input')[3].value;
   const hashed = await hashPass(password);
 
   let url = new URL(backend + '/users');
