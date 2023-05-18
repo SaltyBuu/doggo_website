@@ -6,7 +6,7 @@ let appToken = undefined;
 let userToken = undefined;
 let refreshToken = undefined;
 let refreshExpiration = undefined;
-const { CLIENTID, CLIENTSECRET, DEFAULT_PLAYLIST_ID } = process.env;
+const { CLIENTID, CLIENTSECRET, DEFAULT_PLAYLIST_ID, FRONT, BACK } = process.env;
 const { getSpotifyToken, getRefreshedSpotifyToken } = require('../utils/spotify-token');
 
 module.exports = {
@@ -169,7 +169,7 @@ module.exports = {
   async spotifyLogin(req, res) {
     const client_id = CLIENTID;
     // const redirect_uri = "https://api-doggo.herokuapp.com/callback";
-    const redirect_uri = 'http://localhost:3000/callback';
+    const redirect_uri = BACK + '/callback';
     // const state = generateRandomString(16);
     const scope =
       'user-read-private user-read-email playlist-modify-public playlist-modify-private';
@@ -195,7 +195,7 @@ module.exports = {
     const url = 'https://accounts.spotify.com/api/token';
     const body = new URLSearchParams();
     body.append('code', code);
-    body.append('redirect_uri', 'http://localhost:3000/callback');
+    body.append('redirect_uri', FRONT + '/callback');
     body.append('grant_type', 'authorization_code');
     const authOptions = {
       method: 'POST',
@@ -215,7 +215,7 @@ module.exports = {
       refreshToken = data.refresh_token;
       refreshExpiration = Math.round(Date.now() / 1000) + data.expires_in;
     }
-    res.redirect('http://localhost:3000/cynthia.html');
+    res.redirect(FRONT + '/cynthia.html');
   },
   async exportPlaylist(req, res) {
     /*
