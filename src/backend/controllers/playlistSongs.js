@@ -1,8 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const status = require("http-status");
-const has = require("has-keys");
-const CodeError = require("../CodeError");
+const has = require('has-keys');
+const CodeError = require('../CodeError');
 
 module.exports = {
   async searchSong(req, res) {
@@ -10,7 +9,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Find a song in a playlist.'
     #swagger.parameters['obj'] = {
-        in: 'path',
+        in: 'query',
         description: 'Playlist information.',
         required: true,
         schema: {
@@ -19,9 +18,7 @@ module.exports = {
         }
     }
     */
-    //TODO id validation
-    if (!has(req.params, ["playlistId", "songId"]))
-      throw new CodeError("Missing parameters", 400);
+    if (!has(req.params, ['playlistId', 'songId'])) throw new CodeError('Missing parameters', 400);
     const playlistId = parseInt(req.params.playlistId);
     const songId = parseInt(req.params.songId);
     const playlistSong = await prisma.playlistSong.findFirst({
@@ -32,12 +29,12 @@ module.exports = {
     });
     if (playlistSong !== null) {
       res.status(200).json({
-        message: "The song was found !",
+        message: 'The song was found !',
         playlistSong,
       });
     } else {
       res.status(404).json({
-        message: "Song not found",
+        message: 'Song not found',
       });
     }
     /*
@@ -60,7 +57,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Add a song in a playlist.'
     #swagger.parameters['playlistId'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a playlist',
         required: true,
         type: 'integer',
@@ -76,10 +73,7 @@ module.exports = {
         }
     }
     */
-    //TODO id validation
-    if (!has(req.body, ["songId"]))
-      throw new CodeError("Missing parameter", 400);
-    //TODO Email validation
+    if (!has(req.body, ['songId'])) throw new CodeError('Missing parameter', 400);
     const playlistId = parseInt(req.params.playlistId);
     const songId = parseInt(req.body.songId);
     const searchedSong = await prisma.playlistSong.findFirst({
@@ -88,16 +82,7 @@ module.exports = {
         songId: songId,
       },
     });
-    // console.log(
-    //   'playlistid: ',
-    //   playlistId,
-    //   'songId:',
-    //   songId,
-    //   'votesNb: ',
-    //   req.body.votesNb,
-    //   'submitterID',
-    //   req.body.submitterId
-    // );
+
     if (searchedSong === null) {
       const song = await prisma.playlistSong.create({
         data: {
@@ -108,12 +93,12 @@ module.exports = {
         },
       });
       res.status(201).json({
-        message: "The song was added !",
+        message: 'The song was added !',
         song,
       });
     } else {
       res.status(400).json({
-        message: "The song already exists",
+        message: 'The song already exists',
       });
     }
     /*
@@ -137,7 +122,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Remove a song in a playlist.'
     #swagger.parameters['obj'] = {
-        in: 'path',
+        in: 'query',
         description: 'Playlist information',
         required: true,
         schema: {
@@ -147,12 +132,8 @@ module.exports = {
     }
     */
 
-    //TODO id validation
-    //TODO Email validation
     const playlistId = parseInt(req.params.playlistId);
     const songId = parseInt(req.params.songId);
-    // console.log('playlistId', playlistId);
-    // console.log('songId', songId);
     const song = await prisma.playlistSong.delete({
       where: {
         playlistId_songId: {
@@ -162,7 +143,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: "Song deleted",
+      message: 'Song deleted',
       song,
     });
     /*
@@ -180,7 +161,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Update a song in a playlist.'
     #swagger.parameters['obj'] = {
-        in: 'path',
+        in: 'query',
         description: 'Playlist information.',
         required: true,
         schema: {
@@ -212,7 +193,7 @@ module.exports = {
       },
     });
     res.status(200).json({
-      message: "Song updated",
+      message: 'Song updated',
       song,
     });
     /*
@@ -230,7 +211,7 @@ module.exports = {
     #swagger.tags = ['Playlist song']
     #swagger.summary = 'Get all songs in a playlist.'
     #swagger.parameters['playlistId'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a playlist',
         required: true,
         type: 'integer',
@@ -246,13 +227,17 @@ module.exports = {
         song: true,
         submitter: true,
       },
-      orderBy: {
-        votesNb: "desc",
-      },
+      orderBy: [
+        {
+          votesNb: 'desc',
+        },
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
-    // console.log('Results:', results);
     res.status(200).json({
-      message: "Song(s) found !",
+      message: 'Song(s) found !',
       results,
     });
     /*

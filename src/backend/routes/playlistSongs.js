@@ -9,7 +9,7 @@ router
   .put(checkRequest, playlistSongs.addSong)
   .get(playlistSongs.getSongs);
 
-router.post('/:playlistid/export', checkRequest, spotifyApi.exportPlaylist);
+router.get('/:playlistid/export/:playlisturi', checkRequest, spotifyApi.exportPlaylist);
 
 router
   .route('/:playlistId/:songId')

@@ -12,16 +12,14 @@ function startUp() {
   signinBtn.addEventListener('click', userLogin);
   registerBtn.addEventListener('click', userRegister);
   preregisterBtn.addEventListener('click', enableRegister);
-  document
-    .querySelectorAll('div.sign > input:not([type="button"])')
-    .forEach((e) =>
-      e.addEventListener('keydown', async function (e) {
-        if (e.key === 'Enter') {
-          if (registerBtn.classList.contains('hidden')) userLogin();
-          else userRegister();
-        }
-      })
-    );
+  document.querySelectorAll('div.sign > input:not([type="button"])').forEach((e) =>
+    e.addEventListener('keydown', async function (e) {
+      if (e.key === 'Enter') {
+        if (registerBtn.classList.contains('hidden')) userLogin();
+        else userRegister();
+      }
+    })
+  );
 }
 
 function enableRegister() {
@@ -36,7 +34,6 @@ function enableRegister() {
 }
 
 async function userLogin() {
-  //TODO mauvais login message ou compte inconnu
   if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
@@ -56,22 +53,22 @@ function checkSignForm() {
   );
   const nodes = [...inputs];
   let verified = true;
-  for (let i = 0; i < nodes.length; i++) {
-    nodes[i].required = true;
-    if (nodes[i].validity.valueMissing) {
-      nodes[i].setCustomValidity('Field should not be empty.');
-      nodes[i].reportValidity();
+  for (let n of nodes) {
+    n.required = true;
+    if (n.validity.valueMissing) {
+      n.setCustomValidity('Field should not be empty.');
+      n.reportValidity();
       verified = false;
       break;
     }
-    if (nodes[i].validity.typeMismatch) {
-      nodes[i].setCustomValidity('Email address expected.');
-      nodes[i].reportValidity();
+    if (n.validity.typeMismatch) {
+      n.setCustomValidity('Email address expected.');
+      n.reportValidity();
       verified = false;
       break;
     } else {
-      nodes[i].setCustomValidity('');
-      nodes[i].reportValidity();
+      n.setCustomValidity('');
+      n.reportValidity();
     }
   }
   return verified;
@@ -86,15 +83,12 @@ function sendCredentials(data) {
           localStorage.accessToken = json.token;
           localStorage.user = data.login;
           window.location.href = 'index.html';
-          localStorage.userid = json.userid; //TODO Temporaire
-          //TODO enlever listener index.js
+          localStorage.userid = json.userid;
         });
       }
       if (res.status === 403) {
         res.json().then(() => {
-          const passwordInput = document.querySelector(
-            'div.sign > input[name="password"]'
-          );
+          const passwordInput = document.querySelector('div.sign > input[name="password"]');
           passwordInput.setCustomValidity('');
           passwordInput.checkValidity();
           passwordInput.setCustomValidity('Invalid login or password.');
@@ -106,11 +100,7 @@ function sendCredentials(data) {
 }
 
 async function hashPass(password) {
-  //TODO salt+hash on server side and turn button type to submit type
-  const hashDigest = await crypto.subtle.digest(
-    'SHA-256',
-    new TextEncoder().encode(password)
-  );
+  const hashDigest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
   const hashArray = Array.from(new Uint8Array(hashDigest));
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
@@ -120,7 +110,7 @@ async function userRegister() {
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value.toLowerCase();
   const password = signDiv.getElementsByTagName('input')[1].value;
-  const mail = signDiv.getElementsByTagName('input')[2].value;
+  const mail = signDiv.getElementsByTagName('input')[3].value;
   const hashed = await hashPass(password);
 
   let url = new URL(backend + '/users');
@@ -137,12 +127,11 @@ async function userRegister() {
           sendCredentials(data);
         });
       } else if (res.status === 400) {
-        res.json().then((json) => console.log(json.message()));
+        res.json().then((json) => console.log(json.message));
+        alert('User ' + login + ' already exists');
       }
     })
     .catch((error) => console.log(error));
 }
-
-//TODO disclaimer valeur du mot de passe
 
 window.addEventListener('load', startUp);

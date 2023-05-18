@@ -13,7 +13,7 @@ module.exports = {
     #swagger.tags = ['User']
     #swagger.summary = 'Get information of a user.'
     #swagger.parameters['id'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a user',
         required: true,
         type: 'integer',
@@ -58,11 +58,8 @@ module.exports = {
         }
     }
     */
-    //TODO Password validation
     if (!has(req.body, ['login', 'password', 'mail']))
       throw new CodeError('Missing parameters', 400);
-    console.log('passed params validation');
-    //TODO Email validation
     const user = await prisma.user.findFirst({
       where: {
         login: req.body.login,
@@ -107,12 +104,10 @@ module.exports = {
     #swagger.tags = ['User']
     #swagger.summary = 'Remove a user.'
     #swagger.parameters['id'] = {
-        in: 'path',
+        in: 'query',
         description: 'Id of a user',
         required: true,
         type: 'integer',
-        schema: { $id: 5 }
-
     }
     */
     const user = await prisma.user.delete({
@@ -174,7 +169,7 @@ module.exports = {
     }
     */
   },
-  async getToken(req, res) {
+  async getAppToken(req, res) {
     /*
     #swagger.tags = ['Authentication']
     #swagger.summary = 'Authenticate user.'
@@ -200,7 +195,6 @@ module.exports = {
     });
     if (user) {
       console.log('USER:', user);
-      //TODO handle admin verification
       const payload = {
         userId: user.id,
         login: user.login,
