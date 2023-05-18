@@ -337,7 +337,7 @@ module.exports = {
     /*
    #swagger.responses[201] = {
      description: 'Songs exported.',
-     snaphost_id: 'd1e51se1s2'
+     snapshot_id: 'd1e51se1s2'
    }
    #swagger.responses[503] = {
      description: 'Export failed.',

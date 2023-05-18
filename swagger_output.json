@@ -1193,14 +1193,17 @@
             "name": "playlistid",
             "in": "query",
             "required": true,
-            "type": "int",
+            "type": "integer",
             "description": "Id of the playlist"
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "201": {
             "description": "Songs exported.",
-            "snaphost_id": "d1e51se1s2"
+            "snapshot_id": "d1e51se1s2"
           },
           "403": {
             "description": "Forbidden"
