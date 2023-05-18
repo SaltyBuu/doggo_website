@@ -14,7 +14,8 @@ app.use(
 );
 
 app.use(cors());
-if (environment === 'environment') {
+console.log(environment);
+if (environment === 'dev') {
   const staticOptions = {
     setHeaders: (res, path) => {
       if (path.endsWith('.js')) {
@@ -36,10 +37,7 @@ app.use((req, res, next) => {
     second: '2-digit',
   };
 
-  const parisTime = new Date(Date.now()).toLocaleString(
-    'fr-fr',
-    parisTimeOptions
-  );
+  const parisTime = new Date(Date.now()).toLocaleString('fr-fr', parisTimeOptions);
   console.log('Timestamp: ', parisTime);
   console.log('Request URL:', req.originalUrl);
   console.log('Request Type:', req.method);

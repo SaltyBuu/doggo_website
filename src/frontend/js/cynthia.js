@@ -5,11 +5,13 @@ let userid = undefined;
 
 function startUp() {
   const signinBtn = document.getElementById('signin-btn');
-  const exportBtn = document.getElementById('export');
+  const exportCsvBtn = document.getElementById('export-csv');
+  const exportSpotifyBtn = document.getElementById('export-spotify');
   const title = document.getElementsByTagName('h1')[0];
   const spotifyLoginbtn = document.querySelector('button.spotifyLogin');
   signinBtn.addEventListener('click', userLogin);
-  exportBtn.addEventListener('click', exportToFile);
+  exportCsvBtn.addEventListener('click', exportToFile);
+  exportSpotifyBtn.addEventListener('click', exportToSpotify);
   title.addEventListener('click', () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userid');
@@ -71,10 +73,7 @@ async function exportToFile() {
 }
 
 async function hashPass(password) {
-  const hashDigest = await crypto.subtle.digest(
-    'SHA-256',
-    new TextEncoder().encode(password)
-  );
+  const hashDigest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
   const hashArray = Array.from(new Uint8Array(hashDigest));
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
@@ -95,9 +94,7 @@ function sendCredentials(data) {
       }
       if (res.status === 403) {
         res.json().then(() => {
-          const passwordInput = document.querySelector(
-            '.inputs > input[name="password"]'
-          );
+          const passwordInput = document.querySelector('.inputs > input[name="password"]');
           passwordInput.setCustomValidity('');
           passwordInput.checkValidity();
           passwordInput.setCustomValidity('Invalid login or password.');
@@ -122,8 +119,7 @@ function refreshPlaylist(playlistId) {
       const results = json.results;
 
       // Check if there is at least one song
-      if (results === null || results === undefined || results.length === 0)
-        return;
+      if (results === null || results === undefined || results.length === 0) return;
 
       // List of songs div
       const playlistDiv = document.querySelector('div#list');
@@ -136,26 +132,18 @@ function refreshPlaylist(playlistId) {
         //TODO middleware de décryptage du token
 
         // Create new playlist song div
-        const resultDiv = document
-          .querySelector('div.model.song')
-          .cloneNode(true);
+        const resultDiv = document.querySelector('div.model.song').cloneNode(true);
         resultDiv.classList.toggle('model');
         const img = resultDiv.querySelector('span.cover-container > img');
 
         // Set attributes from json
         img.src = song.thumbnail;
         img.alt = song.album;
-        resultDiv
-          .querySelector('span.title')
-          .appendChild(document.createTextNode(song.name + ','));
-        resultDiv
-          .querySelector('span.artist')
-          .appendChild(document.createTextNode(song.artist));
+        resultDiv.querySelector('span.title').appendChild(document.createTextNode(song.name + ','));
+        resultDiv.querySelector('span.artist').appendChild(document.createTextNode(song.artist));
         resultDiv
           .querySelector('span.votesnb')
-          .appendChild(
-            document.createTextNode(r.votesNb == null ? 0 : r.votesNb)
-          );
+          .appendChild(document.createTextNode(r.votesNb == null ? 0 : r.votesNb));
         resultDiv.dataset.id = songid;
         resultDiv.dataset.uri = song.uri;
 
@@ -163,22 +151,20 @@ function refreshPlaylist(playlistId) {
         newChildren.push(resultDiv);
 
         // Remove effect to button
-        resultDiv
-          .querySelector('button.delete')
-          .addEventListener('click', () => {
-            fetchRequest(
-              new URL(backend + '/' + PLAYLISTID + '/' + songid),
-              'DELETE',
-              JSON.stringify({ playlistId: PLAYLISTID }),
-              token
-            )
-              .then((r) => {
-                if (r.status === 200) {
-                  refreshPlaylist(PLAYLISTID);
-                }
-              })
-              .catch((e) => console.log(e));
-          });
+        resultDiv.querySelector('button.delete').addEventListener('click', () => {
+          fetchRequest(
+            new URL(backend + '/' + PLAYLISTID + '/' + songid),
+            'DELETE',
+            JSON.stringify({ playlistId: PLAYLISTID }),
+            token
+          )
+            .then((r) => {
+              if (r.status === 200) {
+                refreshPlaylist(PLAYLISTID);
+              }
+            })
+            .catch((e) => console.log(e));
+        });
       });
 
       // Add to DOM and set up listeners
@@ -195,4 +181,9 @@ function refreshPlaylist(playlistId) {
       });
     })
     .catch((e) => console.log(e));
+}
+
+async function exportToSpotify() {
+  const exported = fetchRequest(backend + '/' + PLAYLISTID + '/export', 'GET', null, token);
+  console.log('export result', exported);
 }

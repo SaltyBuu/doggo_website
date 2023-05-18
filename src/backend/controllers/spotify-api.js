@@ -191,25 +191,34 @@ module.exports = {
       // res.redirect('https;//doggo.wf/cynthia.html');
       return;
     }
+    console.log('Authentication url request');
     const url = 'https://accounts.spotify.com/api/token';
+    const body = new URLSearchParams();
+    body.append('code', code);
+    body.append('redirect_uri', 'http://localhost:3000/cynthia.html');
+    body.append('grant_type', 'authorization_code');
     const authOptions = {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: 'Basic ' + new Buffer.from(CLIENTID + ':' + CLIENTSECRET).toString('base64'),
       },
-      body: JSON.stringify({
-        code: code,
-        redirect_uri: 'doggo.wf/cynthia.html',
-        grant_type: 'authorization_code',
-      }),
+      body: body,
     };
+    console.log('Fetch', authOptions);
     const response = await fetch(url, authOptions);
+    console.log('Status:', response.status);
+    const temp = await response.json();
+    console.log('Response', temp);
     if (response.status === 200) {
       const data = await response.json();
+      console.log(data);
       userToken = data.access_token;
       refreshToken = data.refresh_token;
       refreshExpiration = Math.round(Date.now() / 1000) + data.expires_in;
     }
+    console.log('Redirect');
+    // res.redirect('http://localhost:63342/playlist_project/src/frontend/cynthia.html');
   },
   async exportPlaylist(req, res) {
     /*
@@ -228,14 +237,18 @@ module.exports = {
 
     // Retrieve spotify token if undefined
     if (userToken === undefined || refreshExpiration < Math.round(Date.now() / 1000)) {
+      console.log('Undefined userToken, getrefreshed');
       const data = await getRefreshedSpotifyToken(refreshToken, CLIENTID, CLIENTSECRET).catch(
         (error) => console.error(error)
       );
       if (data === null) {
+        console.log('refresh token returned null');
         return;
       } else {
         userToken = data[0];
         refreshExpiration = Math.round(Date.now() / 1000) + data[1];
+        console.log('userToken:', userToken);
+        console.log('Expiration date:', refreshExpiration);
       }
     }
 

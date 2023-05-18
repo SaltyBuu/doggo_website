@@ -1,13 +1,13 @@
 module.exports = {
   getSpotifyToken(clientID, clientSecret) {
     const url = 'https://accounts.spotify.com/api/token';
-    const basicAuth =
-      'Basic ' + Buffer.from(clientID + ':' + clientSecret).toString('base64');
+    const basicAuth = 'Basic ' + Buffer.from(clientID + ':' + clientSecret).toString('base64');
     const formData = new URLSearchParams();
     formData.append('grant_type', 'client_credentials');
     const requestOptions = {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: basicAuth,
       },
       body: formData,
@@ -30,24 +30,27 @@ module.exports = {
   },
   async getRefreshedSpotifyToken(refreshtoken, clientid, clientsecret) {
     const url = new URL('https://accounts.spotify.com/api/token');
+    const formData = new URLSearchParams();
+    formData.append('grant_type', 'refresh_token');
+    formData.append('refresh_token', refreshtoken);
     const res = await fetch(url, {
       method: 'POST',
       headers: {
         headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
           Authorization:
-            'Basic ' +
-            new Buffer.from(clientid + ':' + clientsecret).toString('base64'),
+            'Basic ' + new Buffer.from(clientid + ':' + clientsecret).toString('base64'),
         },
-        body: JSON.stringify({
-          grant_type: 'refresh_token',
-          refresh_token: refreshtoken,
-        }),
+        body: formData,
       },
     });
     if (res.status === 200) {
-      const data = res.json();
+      console.log('OK ');
+      const data = await res.json();
       return [data.access_token, data.expires_in];
     } else {
+      const error = await res.json();
+      console.log('Refresh error:', error);
       return null;
     }
   },

@@ -21,7 +21,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
+            "in": "query",
             "required": true,
             "type": "integer",
             "description": "Id of a user"
@@ -59,20 +59,14 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
             "type": "integer",
-            "description": "Id of a user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 5
-                }
-              },
-              "required": [
-                "id"
-              ]
-            }
+            "description": "Id of a user"
           },
           {
             "name": "body",
@@ -292,6 +286,65 @@
         }
       }
     },
+    "/adminAuth": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/spotifyLogin": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/callback": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "error",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
     "/songs": {
       "post": {
         "tags": [
@@ -300,6 +353,11 @@
         "summary": "Find a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -327,6 +385,9 @@
               "$ref": "#/definitions/song"
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Song not found.",
             "schema": {
@@ -351,6 +412,11 @@
         "summary": "Add a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -420,6 +486,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -430,6 +499,11 @@
         "summary": "Remove a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "id",
             "in": "body",
@@ -463,6 +537,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -473,6 +550,11 @@
         "summary": "Update a song.",
         "description": "",
         "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -527,6 +609,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -683,6 +768,9 @@
             "schema": {
               "$ref": "#/definitions/vote"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -958,7 +1046,7 @@
         "parameters": [
           {
             "name": "playlistId",
-            "in": "path",
+            "in": "query",
             "required": true,
             "type": "integer",
             "description": "Id of a playlist"
@@ -996,13 +1084,19 @@
             "name": "playlistId",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "Id of a playlist"
+            "type": "string"
           },
           {
             "name": "x-access-token",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "playlistId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "description": "Id of a playlist"
           },
           {
             "name": "obj",
@@ -1076,31 +1170,54 @@
         "tags": [
           "Export"
         ],
-        "summary": "Export songs of the specified playlist to a default collaborative playlist.",
+        "summary": "Export songs of the specified playlist to a spotify playlist.",
         "description": "",
         "parameters": [
           {
             "name": "playlistid",
             "in": "path",
             "required": true,
-            "type": "int",
-            "description": "Id of the playlist"
+            "type": "string"
           },
           {
             "name": "x-access-token",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "playlistid",
+            "in": "query",
+            "required": true,
+            "type": "int",
+            "description": "Id of the playlist"
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Songs exported.",
+            "snaphost_id": "d1e51se1s2"
           },
           "403": {
             "description": "Forbidden"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "503": {
+            "description": "Export failed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Songs could not be exported"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -1126,8 +1243,13 @@
             "type": "string"
           },
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
-            "in": "path",
+            "in": "query",
             "description": "Playlist information.",
             "required": true,
             "schema": {
@@ -1151,6 +1273,9 @@
             "schema": {
               "$ref": "#/definitions/playlistSong"
             }
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Song not found.",
@@ -1189,8 +1314,13 @@
             "type": "string"
           },
           {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
-            "in": "path",
+            "in": "query",
             "description": "Playlist information",
             "required": true,
             "schema": {
@@ -1226,6 +1356,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       },
@@ -1246,6 +1379,11 @@
             "name": "songId",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
             "type": "string"
           },
           {
@@ -1286,6 +1424,9 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
