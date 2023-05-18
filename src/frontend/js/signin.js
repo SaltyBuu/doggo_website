@@ -130,7 +130,8 @@ async function userRegister() {
           sendCredentials(data);
         });
       } else if (res.status === 400) {
-        res.json().then((json) => console.log(json.message()));
+        res.json().then((json) => console.log(json.message));
+        alert('User' + login + ' already exists');
       }
     })
     .catch((error) => console.log(error));
