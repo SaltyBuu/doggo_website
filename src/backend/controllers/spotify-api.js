@@ -247,21 +247,7 @@ module.exports = {
       }
     }
 
-    // const collaborativePlaylistId = '32Tm8u9fIrkUoJRX0q7ttu';
     const collaborativePlaylistId = req.params.playlisturi;
-    // const userId = await fetch('https://api.spotify.com/v1/me', {
-    //   method: 'GET',
-    //   headers: {
-    //     Authorization: `Bearer ${userToken}`,
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log(res.status);
-    //     return res.json();
-    //   })
-    //   .then((user) => user.id);
-
     const uris = [];
     const songs = await prisma.playlistSong.findMany({
       where: {

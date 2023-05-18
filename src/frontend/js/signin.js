@@ -34,7 +34,6 @@ function enableRegister() {
 }
 
 async function userLogin() {
-  //TODO mauvais login message ou compte inconnu
   if (!checkSignForm()) return;
   const signDiv = document.querySelector('div.sign');
   const login = signDiv.getElementsByTagName('input')[0].value;
@@ -54,22 +53,22 @@ function checkSignForm() {
   );
   const nodes = [...inputs];
   let verified = true;
-  for (let i = 0; i < nodes.length; i++) {
-    nodes[i].required = true;
-    if (nodes[i].validity.valueMissing) {
-      nodes[i].setCustomValidity('Field should not be empty.');
-      nodes[i].reportValidity();
+  for (let n of nodes) {
+    n.required = true;
+    if (n.validity.valueMissing) {
+      n.setCustomValidity('Field should not be empty.');
+      n.reportValidity();
       verified = false;
       break;
     }
-    if (nodes[i].validity.typeMismatch) {
-      nodes[i].setCustomValidity('Email address expected.');
-      nodes[i].reportValidity();
+    if (n.validity.typeMismatch) {
+      n.setCustomValidity('Email address expected.');
+      n.reportValidity();
       verified = false;
       break;
     } else {
-      nodes[i].setCustomValidity('');
-      nodes[i].reportValidity();
+      n.setCustomValidity('');
+      n.reportValidity();
     }
   }
   return verified;
@@ -84,8 +83,7 @@ function sendCredentials(data) {
           localStorage.accessToken = json.token;
           localStorage.user = data.login;
           window.location.href = 'index.html';
-          localStorage.userid = json.userid; //TODO Temporaire
-          //TODO enlever listener index.js
+          localStorage.userid = json.userid;
         });
       }
       if (res.status === 403) {
@@ -102,7 +100,6 @@ function sendCredentials(data) {
 }
 
 async function hashPass(password) {
-  //TODO salt+hash on server side and turn button type to submit type
   const hashDigest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
   const hashArray = Array.from(new Uint8Array(hashDigest));
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -136,7 +133,5 @@ async function userRegister() {
     })
     .catch((error) => console.log(error));
 }
-
-//TODO disclaimer valeur du mot de passe
 
 window.addEventListener('load', startUp);

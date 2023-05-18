@@ -15,14 +15,10 @@ module.exports = {
   checkRequest(req, res, next) {
     if (has(req.headers, ['x-access-token'])) {
       const token = req.headers['x-access-token'];
-      // console.log('Token reçu:', token);
       jwt.verify(token, TOKENSECRET, { algorithm: 'HS256' }, function (err, decoded) {
         if (err) {
-          // console.log('JsonWebToken error:', err);
           res.status(403).json({ message: 'Expired token.' });
         } else {
-          // console.log('exp:', decoded.exp);
-          // console.log('exp*1000:', decoded.exp);
           if (Date.now() >= decoded.exp) {
             console.log('valid token', decoded.login, decoded.userId);
             next();
@@ -39,14 +35,10 @@ module.exports = {
   checkAdmin(req, res, next) {
     if (has(req.headers, ['x-access-token'])) {
       const token = req.headers['x-access-token'];
-      // console.log('Token reçu:', token);
       jwt.verify(token, TOKENSECRET, { algorithm: 'HS256' }, function (err, decoded) {
         if (err) {
-          // console.log('JsonWebToken error:', err);
           res.status(403).json({ message: 'Expired token.' });
         } else {
-          // console.log('exp:', decoded.exp);
-          // console.log('exp*1000:', decoded.exp);
           if (decoded.isAdmin) {
             console.log('Admin user', decoded.login);
             next();

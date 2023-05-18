@@ -9,23 +9,20 @@ const results = apiResults.tracks.items.map((s) => ({
   preview: s.preview_url,
   uri: s.uri,
 }));
-//TODO setup CI
 async function main() {
   await prisma.user.deleteMany({});
   await prisma.$queryRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
   const user = await prisma.user.create({
     data: {
       login: 'Testiseasy',
-      password:
-        '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', // 'test'
+      password: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', // 'test'
       mail: 'henri@hihan.io',
     },
   });
   await prisma.user.create({
     data: {
       login: 'saltybuu',
-      password:
-        '6b000be1ff75fa2ea03bded1d92c60f06d76e9304612089cd04b29986f09d03a', // 'azerty'
+      password: '6b000be1ff75fa2ea03bded1d92c60f06d76e9304612089cd04b29986f09d03a', // 'azerty'
       mail: 'sal@ty.buu',
       isAdmin: true,
     },

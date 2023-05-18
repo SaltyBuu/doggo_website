@@ -22,7 +22,6 @@ function startUp() {
     'click',
     () => (window.location.href = backend + '/spotifyLogin')
   );
-  // document.getElementById('manager').classList.toggle('hidden');
   (async () => {
     if (await validToken(localStorage.accessToken)) {
       token = localStorage.accessToken;
@@ -129,8 +128,6 @@ function refreshPlaylist(playlistId) {
       results.forEach((r) => {
         const song = r.song;
         const songid = song.id.toString();
-        //TODO Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
-        //TODO middleware de décryptage du token
 
         // Create new playlist song div
         const resultDiv = document.querySelector('div.model.song').cloneNode(true);

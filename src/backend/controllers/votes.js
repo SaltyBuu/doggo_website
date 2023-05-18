@@ -21,7 +21,6 @@ module.exports = {
     */
     if (!has(req.body, ['userId', 'playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
-    //TODO Email validation
     const userId = req.body.userId;
     const playlistId = req.body.playlistId;
     const songId = req.body.songId;
@@ -80,7 +79,6 @@ module.exports = {
             */
     if (!has(req.body, ['userId', 'playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
-    //TODO Email validation
     const userId = req.body.userId;
     const playlistId = req.body.playlistId;
     const songId = req.body.songId;

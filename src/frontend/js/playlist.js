@@ -88,18 +88,12 @@ function displayBatchPlaylist() {
     // Set attributes from json
     img.src = song.thumbnail;
     img.alt = song.album;
-    resultDiv
-      .querySelector('span.title')
-      .appendChild(document.createTextNode(song.name + ','));
-    resultDiv
-      .querySelector('span.artist')
-      .appendChild(document.createTextNode(song.artist));
+    resultDiv.querySelector('span.title').appendChild(document.createTextNode(song.name + ','));
+    resultDiv.querySelector('span.artist').appendChild(document.createTextNode(song.artist));
     resultDiv
       .querySelector('span.votesnb')
       .appendChild(
-        document.createTextNode(
-          playlistData[i].votesNb == null ? 0 : playlistData[i].votesNb
-        )
+        document.createTextNode(playlistData[i].votesNb == null ? 0 : playlistData[i].votesNb)
       );
     const voteImg = resultDiv.querySelector('span.vote > img');
     voteImg.dataset.id = songid;
@@ -175,8 +169,7 @@ async function toggleVote() {
   const url = new URL(backend + endpoint);
 
   // Retrieve displayed vote element
-  const voteSpan =
-    this.parentElement.parentElement.querySelector('span.votesnb');
+  const voteSpan = this.parentElement.parentElement.querySelector('span.votesnb');
 
   // Vote if user has not voted yet
   if (!this.classList.contains('voted')) {
@@ -191,12 +184,7 @@ async function toggleVote() {
   // Unvote if user has already voted
   else {
     // Add vote of the current user to the desired song
-    const unvoted = await fetchRequest(
-      url,
-      'DELETE',
-      JSON.stringify(data),
-      token
-    );
+    const unvoted = await fetchRequest(url, 'DELETE', JSON.stringify(data), token);
 
     // Update vote value
     if (unvoted.status === 200) {
@@ -217,7 +205,6 @@ async function deletePlaylistSong(playlistId, songId) {
 }
 
 async function updateVotesTotal(playlistId, songId) {
-  //TODO merge this function in backend
   // Set up body
   const data = {
     playlistId: playlistId,
@@ -234,61 +221,40 @@ async function updateVotesTotal(playlistId, songId) {
 function submitSong() {
   const searchInput = document.getElementById('search');
   if (!searchInput.value || searchResults.length === 0) return;
-  const option = document.querySelector(
-    'option[value=' + JSON.stringify(searchInput.value) + ']'
-  );
+  const option = document.querySelector('option[value=' + JSON.stringify(searchInput.value) + ']');
   if (!option) return;
 
   // Try to add the searched song to the current playlist
-  findOrAddSong(
-    PLAYLISTID,
-    userid,
-    option.dataset.name,
-    option.dataset.artist,
-    option.dataset.album,
-    option.dataset.thumbnail,
-    option.dataset.preview,
-    option.dataset.uri
-  );
+  findOrAddSong({
+    playlistId: PLAYLISTID,
+    userId: userid,
+    name: option.dataset.name,
+    artist: option.dataset.artist,
+    album: option.dataset.album,
+    thumbnail: option.dataset.thumbnail,
+    preview: option.dataset.preview,
+    uri: option.dataset.uri,
+  });
 }
 
-async function findOrAddSong(
-  playlistId,
-  userId,
-  name,
-  artist,
-  album,
-  thumbnail,
-  preview,
-  uri
-) {
+async function findOrAddSong(song) {
   // Set up query url and body
   const songEndpoint = '/songs';
   const url = new URL(backend + songEndpoint);
-  const data = {
-    name: name,
-    album: album,
-    artist: artist,
-    thumbnail: thumbnail,
-    preview: preview,
-    uri: uri,
-  };
-  const globalFound = await searchInSongs(data, url);
+  const globalFound = await searchInSongs(song, url);
   //If the song isn't in any playlist, add to songs and playlist
   if (globalFound.status === 404) {
-    const added = await addToSongs(data, url);
+    const added = await addToSongs(song, url);
     if (added.status === 201) {
       const res = await added.json();
-      addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
+      addToPlaylist(res, song.playlistId, song.userId).catch((e) => console.log(e));
     }
   } // If a song was found, check if it's in playlist
   else {
     const res = await globalFound.json();
-    const localFound = await searchInPlaylist(res, playlistId).catch((e) =>
-      console.log(e)
-    );
+    const localFound = await searchInPlaylist(res, playlistId).catch((e) => console.log(e));
     if (localFound.status === 404) {
-      addToPlaylist(res, playlistId, userId).catch((e) => console.log(e));
+      addToPlaylist(res, song.playlistId, song.userId).catch((e) => console.log(e));
     } else {
       const res = await localFound.json();
       const foundSong = document.querySelector(
@@ -311,7 +277,6 @@ async function addToPlaylist(promiseResult, playlistId, userId) {
   const playlistEndPoint = '/' + playlistId;
   const songEndpoint = '/songs';
   const songId = promiseResult.song.id;
-  // if (isInt(song.id)) songId = parseInt(id);
   const data = {
     songId: songId,
     votesNb: 1,
@@ -405,10 +370,7 @@ async function runSearch(e) {
       .catch((e) => console.log(e));
 
     // Process search results
-    if (
-      extractedResults !== undefined &&
-      extractedResults.results !== undefined
-    ) {
+    if (extractedResults !== undefined && extractedResults.results !== undefined) {
       const results = extractedResults.results.tracks.items.map((s) => ({
         artist: s.album.artists[0].name,
         album: s.album.name,
@@ -430,9 +392,7 @@ function toggleVoteClass(element) {
 }
 
 function toggleSearchTooltip() {
-  document
-    .querySelector('div.search-input > span.tooltip')
-    .classList.toggle('shown');
+  document.querySelector('div.search-input > span.tooltip').classList.toggle('shown');
 }
 
 window.addEventListener('load', startUp);

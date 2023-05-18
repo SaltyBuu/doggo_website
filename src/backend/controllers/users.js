@@ -58,11 +58,8 @@ module.exports = {
         }
     }
     */
-    //TODO Password validation
     if (!has(req.body, ['login', 'password', 'mail']))
       throw new CodeError('Missing parameters', 400);
-    console.log('passed params validation');
-    //TODO Email validation
     const user = await prisma.user.findFirst({
       where: {
         login: req.body.login,
@@ -198,7 +195,6 @@ module.exports = {
     });
     if (user) {
       console.log('USER:', user);
-      //TODO handle admin verification
       const payload = {
         userId: user.id,
         login: user.login,

@@ -17,6 +17,7 @@ function toggleSpeakers(audio) {
     audio.pause();
   }
   speakersArr.forEach((s) => (s.style.animationPlayState = pausedAttr));
+  // Trigger reload
   void speakersArr[0].offsetWidth;
 }
 
@@ -64,7 +65,6 @@ async function getConnectionStatus() {
   const signinBtn = document.getElementById('signin-btn');
 
   if (await validToken(localStorage.accessToken)) {
-    //TODO valid token route + loading request
     signinBtn.classList.toggle('connected');
     signinBtn.value = localStorage.user;
     signinBtn.addEventListener('click', userLogOut);

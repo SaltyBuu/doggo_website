@@ -102,6 +102,11 @@ comment lier
 - restreindre api pour utilisateur courant
 - spotify export : implement state security
 - handle same email address
+- Remplacer par requêtes sur les votes pour ne pas stocker l'id comme ça
+- enlever listener index.js sur sendCredentials dans signin.js
+- isclaimer valeur du mot de passe
+- validation des champs en général
+- update votes in backend
 
 ## Performance
 [OK] set NODE_ENV to production
@@ -115,3 +120,4 @@ au lieu de la requête patch
 - Entrée sur le formulaire de connexion renvoie vers localhost:3000 avec POST -> 404
 - problème d'update du nombre de votes d'une chanson déjà submit
 - Faire gestion des rôles, restreindre requetes utilisateurs à leurs votes
+- améliorer messages d'erreur utilisateur en général
