@@ -2,11 +2,12 @@ const has = require('has-keys');
 const CodeError = require('../CodeError');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const batchExportSize = 2;
 let appToken = undefined;
 let userToken = undefined;
 let refreshToken = undefined;
 let refreshExpiration = undefined;
-const { CLIENTID, CLIENTSECRET, DEFAULT_PLAYLIST_ID, FRONT, BACK } = process.env;
+const { CLIENTID, CLIENTSECRET, FRONT, BACK } = process.env;
 const { getSpotifyToken, getRefreshedSpotifyToken } = require('../utils/spotify-token');
 
 module.exports = {
@@ -103,7 +104,7 @@ module.exports = {
   //     in: 'query',
   //     description: 'Id of the playlist',
   //     required: true,
-  //     type: 'int'
+  //     type: 'integer'
   //   }
   //   */
   //   if (!has(req.params, ['playlistid'])) throw new CodeError('The playlistid is missing', 400);
@@ -168,9 +169,7 @@ module.exports = {
   // },
   async spotifyLogin(req, res) {
     const client_id = CLIENTID;
-    // const redirect_uri = "https://api-doggo.herokuapp.com/callback";
     const redirect_uri = BACK + '/callback';
-    // const state = generateRandomString(16);
     const scope =
       'user-read-private user-read-email playlist-modify-public playlist-modify-private';
     const params = new URLSearchParams({
@@ -178,7 +177,7 @@ module.exports = {
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
-      // state: state,
+      // state: state
     });
     console.log('Spotify Params', params.toString());
 
@@ -188,7 +187,6 @@ module.exports = {
     const code = req.query.code || null;
     if (code === null) {
       res.status(403).json({ message: 'Authorization failed' + req.query.error });
-      // res.redirect('https;//doggo.wf/cynthia.html');
       return;
     }
     console.log('Authentication url request');
@@ -225,7 +223,7 @@ module.exports = {
       in: 'query',
       description: 'Id of the playlist',
       required: true,
-      type: 'int'
+      type: 'integer'
     }
     */
     if (!has(req.params, ['playlistid'])) throw new CodeError('The playlistid is missing', 400);
@@ -249,7 +247,8 @@ module.exports = {
       }
     }
 
-    const collaborativePlaylistId = '32Tm8u9fIrkUoJRX0q7ttu';
+    // const collaborativePlaylistId = '32Tm8u9fIrkUoJRX0q7ttu';
+    const collaborativePlaylistId = req.params.playlisturi;
     // const userId = await fetch('https://api.spotify.com/v1/me', {
     //   method: 'GET',
     //   headers: {
@@ -262,11 +261,6 @@ module.exports = {
     //     return res.json();
     //   })
     //   .then((user) => user.id);
-
-    // Build playlist export request
-    const url = `https://api.spotify.com/v1/playlists/${encodeURIComponent(
-      collaborativePlaylistId
-    )}/tracks`;
 
     const uris = [];
     const songs = await prisma.playlistSong.findMany({
@@ -282,29 +276,64 @@ module.exports = {
         },
       },
     });
+
     songs.forEach((s) => uris.push(s.song.uri));
     console.log('All songs from playlist', songs);
     console.log('All uris from playlist', uris);
 
-    const requestOptions = {
-      method: 'POST',
+    // Build playlist export request
+    const url = `https://api.spotify.com/v1/playlists/${encodeURIComponent(
+      collaborativePlaylistId
+    )}/tracks`;
+    console.log('Url', url);
+
+    // Empty the distant playlist
+    const emptied = await fetch(url, {
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(uris),
-    };
-    console.log('Spotify request:', requestOptions);
-    const exported = await fetch(url, requestOptions);
-    console.log('Result:', exported);
-    if (exported.status === 201) {
-      const jsonres = exported.json();
-      res.status(201).json({ message: 'Songs exported', snapshot: jsonres.snapshot_id });
-    } else {
-      const jsonres = exported.json();
-      res.status(503).json({ message: 'Songs could not be exported', error: jsonres.error });
-      console.log(await exported.json());
+      body: 'uris=[]',
+    }).then((res) => res.json());
+    console.log('Empty playlist', emptied);
+
+    if (!emptied) {
+      res.status(503).json({ message: 'could not empty playlist' });
+      return;
     }
+
+    let i = 0;
+    let snapshotid = undefined;
+    while (i < uris.length - 1) {
+      let tempIndex = Math.min(uris.length - 1, i + batchExportSize);
+      // Update or replace using PUT to the spotify api
+      let currentBatch = JSON.stringify({ uris: uris.slice(i, tempIndex) });
+      console.log(currentBatch);
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: currentBatch,
+      };
+      console.log('Spotify request:', requestOptions);
+      const exported = await fetch(url, requestOptions);
+      console.log('Status', exported.status);
+      if (exported.status === 201) {
+        const jsonres = await exported.json();
+        snapshotid = jsonres.snapshot_id;
+        i = tempIndex;
+      } else {
+        const jsonres = await exported.json();
+        console.log('Error from api :', jsonres);
+        res.status(503).json({ message: 'Songs could not be exported', error: jsonres.error });
+        return;
+      }
+    }
+    res.status(201).json({ message: 'Songs exported', snapshot: snapshotid });
+
     /*
    #swagger.responses[201] = {
      description: 'Songs exported.',

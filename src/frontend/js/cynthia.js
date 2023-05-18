@@ -1,5 +1,6 @@
 window.addEventListener('load', startUp);
 const PLAYLISTID = 1;
+const OUT_PLAYLIST_URI = '32Tm8u9fIrkUoJRX0q7ttu';
 let token = undefined;
 let userid = undefined;
 
@@ -184,6 +185,11 @@ function refreshPlaylist(playlistId) {
 }
 
 async function exportToSpotify() {
-  const exported = fetchRequest(backend + '/' + PLAYLISTID + '/export', 'GET', null, token);
+  const exported = fetchRequest(
+    backend + '/' + PLAYLISTID + '/export/' + OUT_PLAYLIST_URI,
+    'GET',
+    null,
+    token
+  );
   console.log('export result', exported);
 }

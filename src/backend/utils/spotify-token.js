@@ -44,6 +44,7 @@ module.exports = {
         body: formData,
       },
     });
+    console.log('Refreshed status', res.status);
     if (res.status === 200) {
       console.log('OK ');
       const data = await res.json();

@@ -27,20 +27,22 @@ if (environment === 'dev') {
 }
 
 app.use((req, res, next) => {
-  const parisTimeOptions = {
-    timeZone: 'Europe/Paris',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  };
+  if (req.originalUrl !== '/votes') {
+    const parisTimeOptions = {
+      timeZone: 'Europe/Paris',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
 
-  const parisTime = new Date(Date.now()).toLocaleString('fr-fr', parisTimeOptions);
-  console.log('Timestamp: ', parisTime);
-  console.log('Request URL:', req.originalUrl);
-  console.log('Request Type:', req.method);
+    const parisTime = new Date(Date.now()).toLocaleString('fr-fr', parisTimeOptions);
+    console.log('Timestamp: ', parisTime);
+    console.log('Request URL:', req.originalUrl);
+    console.log('Request Type:', req.method);
+  }
   next();
 });
 

@@ -1,12 +1,13 @@
 const swaggerAutogen = require('swagger-autogen')();
 const { PORT } = process.env.PORT || 3000;
+const { BACK } = process.env.BACK || 'localhost' + PORT;
 const doc = {
   info: {
     version: '1.0.0',
     title: 'REST API',
     description: '',
   },
-  host: 'localhost:' + PORT,
+  host: BACK,
   schemes: ['http'],
   definitions: {
     playlistSong: {
@@ -53,8 +54,7 @@ const doc = {
           name: 'A Blessing And A Curse',
           album: 'Future Worlds',
           artist: 'Atomica Music',
-          thumbnail:
-            'https://i.scdn.co/image/ab67616d00004851ea6d794f7e1c9b2fb8b73890',
+          thumbnail: 'https://i.scdn.co/image/ab67616d00004851ea6d794f7e1c9b2fb8b73890',
           preview:
             'https://p.scdn.co/mp3-preview/9a31543dfedda4f1109a7c6c69ca62914bf987ff?cid=774b29d4f13844c495f206cafdad9c86',
           uri: 'spotify:track:6saOAnhIoLEdWbfSEwCV2l',

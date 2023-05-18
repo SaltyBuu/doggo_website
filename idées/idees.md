@@ -100,6 +100,8 @@ comment lier
 - Logs pertinents
 - icône de chargement avant d'arriver sur la page
 - restreindre api pour utilisateur courant
+- spotify export : implement state security
+- handle same email address
 
 ## Performance
 [OK] set NODE_ENV to production

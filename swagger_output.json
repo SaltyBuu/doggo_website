@@ -5,7 +5,6 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:undefined",
   "basePath": "/",
   "schemes": [
     "http"
@@ -1165,8 +1164,8 @@
         }
       }
     },
-    "/{playlistid}/export": {
-      "post": {
+    "/{playlistid}/export/{playlisturi}": {
+      "get": {
         "tags": [
           "Export"
         ],
@@ -1175,6 +1174,12 @@
         "parameters": [
           {
             "name": "playlistid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "playlisturi",
             "in": "path",
             "required": true,
             "type": "string"
