@@ -26,9 +26,23 @@ if (environment === 'environment') {
 }
 
 app.use((req, res, next) => {
-  console.log('Time:', Date.now());
+  const parisTimeOptions = {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  };
+
+  const parisTime = new Date(Date.now()).toLocaleString(
+    'fr-fr',
+    parisTimeOptions
+  );
+  console.log('Timestamp: ', parisTime);
   console.log('Request URL:', req.originalUrl);
-  console.log('Req@uest Type:', req.method);
+  console.log('Request Type:', req.method);
   next();
 });
 

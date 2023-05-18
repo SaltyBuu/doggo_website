@@ -2,9 +2,12 @@ const has = require('has-keys');
 const CodeError = require('../CodeError');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-let token = undefined;
+let appToken = undefined;
+let userToken = undefined;
+let refreshToken = undefined;
+let refreshExpiration = undefined;
 const { CLIENTID, CLIENTSECRET, DEFAULT_PLAYLIST_ID } = process.env;
-const { getSpotifyToken } = require('../utils/spotify-token');
+const { getSpotifyToken, getRefreshedSpotifyToken } = require('../utils/spotify-token');
 
 module.exports = {
   async searchApi(req, res) {
@@ -20,13 +23,12 @@ module.exports = {
     }
     */
     console.log('res0', res.headersSent);
-    if (!has(req.body, ['name']))
-      throw new CodeError('The song name is missing', 400);
+    if (!has(req.body, ['name'])) throw new CodeError('The song name is missing', 400);
     const songName = req.body.name;
 
     // Retrieve spotify token if undefined
-    if (token === undefined)
-      token = await getSpotifyToken(CLIENTID, CLIENTSECRET).catch((error) =>
+    if (appToken === undefined)
+      appToken = await getSpotifyToken(CLIENTID, CLIENTSECRET).catch((error) =>
         console.error(error)
       );
 
@@ -37,7 +39,7 @@ module.exports = {
     const requestOptions = {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${appToken}`,
         'Content-Type': 'application/json',
       },
     };
@@ -66,7 +68,7 @@ module.exports = {
         if (newResponse.ok) {
           const accepted = newResponse.json();
           console.log('Accepted:', accepted);
-          token = accepted.access_token;
+          appToken = accepted.access_token;
         } else {
           res.status(400).json({
             message: `Erreur ${newResponse.status} : Could not look for "${songName}"`,
@@ -93,29 +95,167 @@ module.exports = {
       }
       */
   },
+  // async exportPlaylistCsv(req, res) {
+  //   /*
+  //   #swagger.tags = ['Export']
+  //   #swagger.summary = 'Export songs of the specified playlist as a csv file.'
+  //   #swagger.parameters['playlistid'] = {
+  //     in: 'query',
+  //     description: 'Id of the playlist',
+  //     required: true,
+  //     type: 'int'
+  //   }
+  //   */
+  //   if (!has(req.params, ['playlistid'])) throw new CodeError('The playlistid is missing', 400);
+  //   console.log('Csv export');
+  //   const playlistid = parseInt(req.params.playlistid);
+  //   // Retrieve spotify token if undefined
+  //   if (appToken === undefined)
+  //     appToken = await getSpotifyToken(CLIENTID, CLIENTSECRET).catch((error) =>
+  //       console.error(error)
+  //     );
+  //   // Build playlist export request
+  //   const url = `https://api.spotify.com/v1/playlists/${encodeURIComponent(
+  //     DEFAULT_PLAYLIST_ID
+  //   )}/tracks`;
+  //
+  //   const uris = [];
+  //   const songs = await prisma.playlistSong.findMany({
+  //     where: {
+  //       playlistId: playlistid,
+  //     },
+  //     select: {
+  //       song: {
+  //         select: {
+  //           uri: true,
+  //           name: true,
+  //         },
+  //       },
+  //     },
+  //   });
+  //   songs.forEach((s) => uris.push(s.song.uri));
+  //   console.log('All songs from playlist', songs);
+  //   console.log('All uris from playlist', uris);
+  //
+  //   const requestOptions = {
+  //     method: 'POST',
+  //     headers: {
+  //       Authorization: `Bearer ${appToken}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(uris),
+  //   };
+  //   console.log('Spotify request:', requestOptions);
+  //   const created = await fetch(url, requestOptions);
+  //   console.log('Result:', created);
+  //   if (created.status === 201) {
+  //     res.status(201).json({ message: 'Songs exported' });
+  //   } else {
+  //     res.status(500).json({ message: 'Songs could not be exported' });
+  //     console.log(await created.json());
+  //   }
+  //   /*
+  //  #swagger.responses[201] = {
+  //    description: 'Songs exported.',
+  //  }
+  //  #swagger.responses[500] = {
+  //    description: 'Export failed.',
+  //    schema: {
+  //      message: 'Songs could not be exported',
+  //    }
+  //  }
+  //  */
+  // },
+  async spotifyLogin(req, res) {
+    const client_id = CLIENTID;
+    // const redirect_uri = "https://api-doggo.herokuapp.com/callback";
+    const redirect_uri = 'http://localhost:3000/callback';
+    // const state = generateRandomString(16);
+    const scope =
+      'user-read-private user-read-email playlist-modify-public playlist-modify-private';
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      // state: state,
+    });
+    console.log('Spotify Params', params.toString());
+
+    res.redirect('https://accounts.spotify.com/authorize?' + params.toString());
+  },
+  async getUserToken(req, res) {
+    const code = req.query.code || null;
+    if (code === null) {
+      res.status(403).json({ message: 'Authorization failed' + req.query.error });
+      // res.redirect('https;//doggo.wf/cynthia.html');
+      return;
+    }
+    const url = 'https://accounts.spotify.com/api/token';
+    const authOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: 'Basic ' + new Buffer.from(CLIENTID + ':' + CLIENTSECRET).toString('base64'),
+      },
+      body: JSON.stringify({
+        code: code,
+        redirect_uri: 'doggo.wf/cynthia.html',
+        grant_type: 'authorization_code',
+      }),
+    };
+    const response = await fetch(url, authOptions);
+    if (response.status === 200) {
+      const data = await response.json();
+      userToken = data.access_token;
+      refreshToken = data.refresh_token;
+      refreshExpiration = Math.round(Date.now() / 1000) + data.expires_in;
+    }
+  },
   async exportPlaylist(req, res) {
     /*
     #swagger.tags = ['Export']
-    #swagger.summary = 'Export songs of the specified playlist to a default collaborative playlist.'
+    #swagger.summary = 'Export songs of the specified playlist to a spotify playlist.'
     #swagger.parameters['playlistid'] = {
-      in: 'path',
+      in: 'query',
       description: 'Id of the playlist',
       required: true,
       type: 'int'
     }
     */
-    if (!has(req.params, ['playlistid']))
-      throw new CodeError('The playlistid is missing', 400);
-    console.log('PLAYLIST EXPORT');
+    if (!has(req.params, ['playlistid'])) throw new CodeError('The playlistid is missing', 400);
+    console.log('Exporting to spotify');
     const playlistid = parseInt(req.params.playlistid);
+
     // Retrieve spotify token if undefined
-    if (token === undefined)
-      token = await getSpotifyToken(CLIENTID, CLIENTSECRET).catch((error) =>
-        console.error(error)
+    if (userToken === undefined || refreshExpiration < Math.round(Date.now() / 1000)) {
+      const data = await getRefreshedSpotifyToken(refreshToken, CLIENTID, CLIENTSECRET).catch(
+        (error) => console.error(error)
       );
+      if (data === null) {
+        return;
+      } else {
+        userToken = data[0];
+        refreshExpiration = Math.round(Date.now() / 1000) + data[1];
+      }
+    }
+
+    const collaborativePlaylistId = '32Tm8u9fIrkUoJRX0q7ttu';
+    // const userId = await fetch('https://api.spotify.com/v1/me', {
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: `Bearer ${userToken}`,
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res.status);
+    //     return res.json();
+    //   })
+    //   .then((user) => user.id);
+
     // Build playlist export request
     const url = `https://api.spotify.com/v1/playlists/${encodeURIComponent(
-      DEFAULT_PLAYLIST_ID
+      collaborativePlaylistId
     )}/tracks`;
 
     const uris = [];
@@ -139,19 +279,34 @@ module.exports = {
     const requestOptions = {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(uris),
     };
     console.log('Spotify request:', requestOptions);
-    const created = await fetch(url, requestOptions);
-    console.log('Result:', created);
-    if (created.status === 201) {
-      res.status(201).json({ message: 'Songs exported' });
+    const exported = await fetch(url, requestOptions);
+    console.log('Result:', exported);
+    if (exported.status === 201) {
+      const jsonres = exported.json();
+      res.status(201).json({ message: 'Songs exported', snapshot: jsonres.snapshot_id });
     } else {
-      res.status(500).json({ message: 'Songs could not be exported' });
-      console.log(await created.json());
+      const jsonres = exported.json();
+      res.status(503).json({ message: 'Songs could not be exported', error: jsonres.error });
+      console.log(await exported.json());
     }
+    /*
+   #swagger.responses[201] = {
+     description: 'Songs exported.',
+     snaphost_id: 'd1e51se1s2'
+   }
+   #swagger.responses[503] = {
+     description: 'Export failed.',
+     schema: {
+       message: 'Songs could not be exported',
+       error: 'Error message'
+     }
+   }
+   */
   },
 };

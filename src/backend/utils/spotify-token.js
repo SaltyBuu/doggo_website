@@ -28,4 +28,27 @@ module.exports = {
         console.error(error);
       });
   },
+  async getRefreshedSpotifyToken(refreshtoken, clientid, clientsecret) {
+    const url = new URL('https://accounts.spotify.com/api/token');
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        headers: {
+          Authorization:
+            'Basic ' +
+            new Buffer.from(clientid + ':' + clientsecret).toString('base64'),
+        },
+        body: JSON.stringify({
+          grant_type: 'refresh_token',
+          refresh_token: refreshtoken,
+        }),
+      },
+    });
+    if (res.status === 200) {
+      const data = res.json();
+      return [data.access_token, data.expires_in];
+    } else {
+      return null;
+    }
+  },
 };
