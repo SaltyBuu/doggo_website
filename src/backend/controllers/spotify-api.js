@@ -195,7 +195,7 @@ module.exports = {
     const url = 'https://accounts.spotify.com/api/token';
     const body = new URLSearchParams();
     body.append('code', code);
-    body.append('redirect_uri', 'http://localhost:3000/cynthia.html');
+    body.append('redirect_uri', 'http://localhost:3000/callback');
     body.append('grant_type', 'authorization_code');
     const authOptions = {
       method: 'POST',
@@ -208,8 +208,6 @@ module.exports = {
     console.log('Fetch', authOptions);
     const response = await fetch(url, authOptions);
     console.log('Status:', response.status);
-    const temp = await response.json();
-    console.log('Response', temp);
     if (response.status === 200) {
       const data = await response.json();
       console.log(data);
@@ -217,8 +215,7 @@ module.exports = {
       refreshToken = data.refresh_token;
       refreshExpiration = Math.round(Date.now() / 1000) + data.expires_in;
     }
-    console.log('Redirect');
-    // res.redirect('http://localhost:63342/playlist_project/src/frontend/cynthia.html');
+    res.redirect('http://localhost:3000/cynthia.html');
   },
   async exportPlaylist(req, res) {
     /*
