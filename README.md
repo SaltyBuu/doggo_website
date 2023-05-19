@@ -9,4 +9,7 @@ Users can :
 - add the song to a public playlist on the website
 - vote for songs added by other users
 
-Admins can currently export the playlist as a csv file only.
+Admins can:
+- delete songs
+- login to spotify and export the playlist to spotify
+- export the playlist as a csv file
