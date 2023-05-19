@@ -2,7 +2,7 @@ const has = require('has-keys');
 const CodeError = require('../CodeError');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const batchExportSize = 2;
+const batchExportSize = 50; // Spotify max is 100
 let appToken = undefined;
 let userToken = undefined;
 let refreshToken = undefined;
@@ -193,7 +193,7 @@ module.exports = {
     const url = 'https://accounts.spotify.com/api/token';
     const body = new URLSearchParams();
     body.append('code', code);
-    body.append('redirect_uri', FRONT + '/callback');
+    body.append('redirect_uri', BACK + '/callback');
     body.append('grant_type', 'authorization_code');
     const authOptions = {
       method: 'POST',
@@ -236,7 +236,7 @@ module.exports = {
       const data = await getRefreshedSpotifyToken(refreshToken, CLIENTID, CLIENTSECRET).catch(
         (error) => console.error(error)
       );
-      if (data === null) {
+      if (data === undefined) {
         console.log('refresh token returned null');
         return;
       } else {
@@ -261,6 +261,14 @@ module.exports = {
           },
         },
       },
+      orderBy: [
+        {
+          votesNb: 'desc',
+        },
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     songs.forEach((s) => uris.push(s.song.uri));
@@ -280,7 +288,7 @@ module.exports = {
         Authorization: `Bearer ${userToken}`,
         'Content-Type': 'application/json',
       },
-      body: 'uris=[]',
+      body: JSON.stringify({ uris: [] }),
     }).then((res) => res.json());
     console.log('Empty playlist', emptied);
 
@@ -314,7 +322,10 @@ module.exports = {
       } else {
         const jsonres = await exported.json();
         console.log('Error from api :', jsonres);
-        res.status(503).json({ message: 'Songs could not be exported', error: jsonres.error });
+        res.status(503).json({
+          message: 'Songs could not be exported',
+          error: jsonres.error,
+        });
         return;
       }
     }
