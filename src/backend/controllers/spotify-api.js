@@ -1,6 +1,6 @@
-const has = require('has-keys');
-const CodeError = require('../CodeError');
-const { PrismaClient } = require('@prisma/client');
+const has = require("has-keys");
+const CodeError = require("../CodeError");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const batchExportSize = 50; // Spotify max is 100
 let appToken = undefined;
@@ -8,7 +8,10 @@ let userToken = undefined;
 let refreshToken = undefined;
 let refreshExpiration = undefined;
 const { CLIENTID, CLIENTSECRET, FRONT, BACK } = process.env;
-const { getSpotifyToken, getRefreshedSpotifyToken } = require('../utils/spotify-token');
+const {
+  getSpotifyToken,
+  getRefreshedSpotifyToken,
+} = require("../utils/spotify-token");
 
 module.exports = {
   async searchApi(req, res) {
@@ -23,8 +26,9 @@ module.exports = {
       schema: { $name: 'A blessing' }
     }
     */
-    console.log('res0', res.headersSent);
-    if (!has(req.body, ['name'])) throw new CodeError('The song name is missing', 400);
+    console.log("res0", res.headersSent);
+    if (!has(req.body, ["name"]))
+      throw new CodeError("The song name is missing", 400);
     const songName = req.body.name;
 
     // Retrieve spotify token if undefined
@@ -38,10 +42,10 @@ module.exports = {
       songName
     )}&type=track&market=FR&limit=10`;
     const requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
         Authorization: `Bearer ${appToken}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
 
@@ -52,23 +56,23 @@ module.exports = {
       // If access_token is invalid, renw it
       if (resultPromise.status === 401) {
         const newToken = await getSpotifyToken(CLIENTID, CLIENTSECRET);
-        console.log('INFO Spotify access token renewal:', newToken);
+        console.log("INFO Spotify access token renewal:", newToken);
 
         const newRequestOptions = {
-          method: 'GET',
+          method: "GET",
           headers: {
             Authorization: `Bearer ${newToken}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         };
 
         // Issue song request with new token
         const newResponse = await fetch(url, newRequestOptions);
-        console.log('DEBUG Spotify track request:', newResponse);
+        console.log("DEBUG Spotify track request:", newResponse);
 
         if (newResponse.ok) {
           const accepted = newResponse.json();
-          console.log('Accepted:', accepted);
+          console.log("Accepted:", accepted);
           appToken = accepted.access_token;
         } else {
           res.status(400).json({
@@ -169,43 +173,47 @@ module.exports = {
   // },
   async spotifyLogin(req, res) {
     const client_id = CLIENTID;
-    const redirect_uri = BACK + '/callback';
+    const redirect_uri = BACK + "/callback";
     const scope =
-      'user-read-private user-read-email playlist-modify-public playlist-modify-private';
+      "user-read-private user-read-email playlist-modify-public playlist-modify-private";
     const params = new URLSearchParams({
-      response_type: 'code',
+      response_type: "code",
       client_id: client_id,
       scope: scope,
       redirect_uri: redirect_uri,
       // state: state
     });
-    console.log('Spotify Params', params.toString());
+    console.log("Spotify Params", params.toString());
 
-    res.redirect('https://accounts.spotify.com/authorize?' + params.toString());
+    res.redirect("https://accounts.spotify.com/authorize?" + params.toString());
   },
   async getUserToken(req, res) {
     const code = req.query.code || null;
     if (code === null) {
-      res.status(403).json({ message: 'Authorization failed' + req.query.error });
+      res
+        .status(403)
+        .json({ message: "Authorization failed" + req.query.error });
       return;
     }
-    console.log('Authentication url request');
-    const url = 'https://accounts.spotify.com/api/token';
+    console.log("Authentication url request");
+    const url = "https://accounts.spotify.com/api/token";
     const body = new URLSearchParams();
-    body.append('code', code);
-    body.append('redirect_uri', FRONT + '/callback');
-    body.append('grant_type', 'authorization_code');
+    body.append("code", code);
+    body.append("redirect_uri", BACK + "/callback");
+    body.append("grant_type", "authorization_code");
     const authOptions = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + new Buffer.from(CLIENTID + ':' + CLIENTSECRET).toString('base64'),
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization:
+          "Basic " +
+          new Buffer.from(CLIENTID + ":" + CLIENTSECRET).toString("base64"),
       },
       body: body,
     };
-    console.log('Fetch', authOptions);
+    console.log("Fetch", authOptions);
     const response = await fetch(url, authOptions);
-    console.log('Status:', response.status);
+    console.log("Status:", response.status);
     if (response.status === 200) {
       const data = await response.json();
       console.log(data);
@@ -213,7 +221,7 @@ module.exports = {
       refreshToken = data.refresh_token;
       refreshExpiration = Math.round(Date.now() / 1000) + data.expires_in;
     }
-    res.redirect(FRONT + '/cynthia.html');
+    res.redirect(FRONT + "/cynthia.html");
   },
   async exportPlaylist(req, res) {
     /*
@@ -226,24 +234,30 @@ module.exports = {
       type: 'integer'
     }
     */
-    if (!has(req.params, ['playlistid'])) throw new CodeError('The playlistid is missing', 400);
-    console.log('Exporting to spotify');
+    if (!has(req.params, ["playlistid"]))
+      throw new CodeError("The playlistid is missing", 400);
+    console.log("Exporting to spotify");
     const playlistid = parseInt(req.params.playlistid);
 
     // Retrieve spotify token if undefined
-    if (userToken === undefined || refreshExpiration < Math.round(Date.now() / 1000)) {
-      console.log('Undefined userToken, getrefreshed');
-      const data = await getRefreshedSpotifyToken(refreshToken, CLIENTID, CLIENTSECRET).catch(
-        (error) => console.error(error)
-      );
+    if (
+      userToken === undefined ||
+      refreshExpiration < Math.round(Date.now() / 1000)
+    ) {
+      console.log("Undefined userToken, getrefreshed");
+      const data = await getRefreshedSpotifyToken(
+        refreshToken,
+        CLIENTID,
+        CLIENTSECRET
+      ).catch((error) => console.error(error));
       if (data === undefined) {
-        console.log('refresh token returned null');
+        console.log("refresh token returned null");
         return;
       } else {
         userToken = data[0];
         refreshExpiration = Math.round(Date.now() / 1000) + data[1];
-        console.log('userToken:', userToken);
-        console.log('Expiration date:', refreshExpiration);
+        console.log("userToken:", userToken);
+        console.log("Expiration date:", refreshExpiration);
       }
     }
 
@@ -264,28 +278,28 @@ module.exports = {
     });
 
     songs.forEach((s) => uris.push(s.song.uri));
-    console.log('All songs from playlist', songs);
-    console.log('All uris from playlist', uris);
+    console.log("All songs from playlist", songs);
+    console.log("All uris from playlist", uris);
 
     // Build playlist export request
     const url = `https://api.spotify.com/v1/playlists/${encodeURIComponent(
       collaborativePlaylistId
     )}/tracks`;
-    console.log('Url', url);
+    console.log("Url", url);
 
     // Empty the distant playlist
     const emptied = await fetch(url, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ uris: [] }),
     }).then((res) => res.json());
-    console.log('Empty playlist', emptied);
+    console.log("Empty playlist", emptied);
 
     if (!emptied) {
-      res.status(503).json({ message: 'could not empty playlist' });
+      res.status(503).json({ message: "could not empty playlist" });
       return;
     }
 
@@ -297,31 +311,31 @@ module.exports = {
       let currentBatch = JSON.stringify({ uris: uris.slice(i, tempIndex) });
       console.log(currentBatch);
       const requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: currentBatch,
       };
-      console.log('Spotify request:', requestOptions);
+      console.log("Spotify request:", requestOptions);
       const exported = await fetch(url, requestOptions);
-      console.log('Status', exported.status);
+      console.log("Status", exported.status);
       if (exported.status === 201) {
         const jsonres = await exported.json();
         snapshotid = jsonres.snapshot_id;
         i = tempIndex;
       } else {
         const jsonres = await exported.json();
-        console.log('Error from api :', jsonres);
+        console.log("Error from api :", jsonres);
         res.status(503).json({
-          message: 'Songs could not be exported',
+          message: "Songs could not be exported",
           error: jsonres.error,
         });
         return;
       }
     }
-    res.status(201).json({ message: 'Songs exported', snapshot: snapshotid });
+    res.status(201).json({ message: "Songs exported", snapshot: snapshotid });
 
     /*
    #swagger.responses[201] = {
