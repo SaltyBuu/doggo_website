@@ -193,7 +193,7 @@ module.exports = {
     const url = 'https://accounts.spotify.com/api/token';
     const body = new URLSearchParams();
     body.append('code', code);
-    body.append('redirect_uri', FRONT + '/callback');
+    body.append('redirect_uri', BACK + '/callback');
     body.append('grant_type', 'authorization_code');
     const authOptions = {
       method: 'POST',
