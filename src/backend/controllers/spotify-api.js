@@ -261,6 +261,14 @@ module.exports = {
           },
         },
       },
+      orderBy: [
+        {
+          votesNb: 'desc',
+        },
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     songs.forEach((s) => uris.push(s.song.uri));
