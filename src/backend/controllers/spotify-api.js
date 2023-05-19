@@ -2,7 +2,7 @@ const has = require("has-keys");
 const CodeError = require("../CodeError");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const batchExportSize = 2;
+const batchExportSize = 50; // Spotify max is 100
 let appToken = undefined;
 let userToken = undefined;
 let refreshToken = undefined;
@@ -328,12 +328,10 @@ module.exports = {
       } else {
         const jsonres = await exported.json();
         console.log("Error from api :", jsonres);
-        res
-          .status(503)
-          .json({
-            message: "Songs could not be exported",
-            error: jsonres.error,
-          });
+        res.status(503).json({
+          message: "Songs could not be exported",
+          error: jsonres.error,
+        });
         return;
       }
     }
