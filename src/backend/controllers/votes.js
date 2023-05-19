@@ -21,7 +21,6 @@ module.exports = {
     */
     if (!has(req.body, ['userId', 'playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
-    //TODO Email validation
     const userId = req.body.userId;
     const playlistId = req.body.playlistId;
     const songId = req.body.songId;
@@ -80,23 +79,35 @@ module.exports = {
             */
     if (!has(req.body, ['userId', 'playlistId', 'songId']))
       throw new CodeError('Missing parameters', 400);
-    //TODO Email validation
     const userId = req.body.userId;
     const playlistId = req.body.playlistId;
     const songId = req.body.songId;
-    const vote = await prisma.vote.delete({
+    const found = await prisma.vote.findFirst({
       where: {
-        songId_playlistId_userId: {
-          songId: songId,
-          playlistId: playlistId,
-          userId: userId,
-        },
+        songId: songId,
+        playlistId: playlistId,
+        userId: userId,
       },
     });
-    res.status(200).json({
-      message: 'Vote deleted',
-      vote,
-    });
+    if (found !== null) {
+      const vote = await prisma.vote.delete({
+        where: {
+          songId_playlistId_userId: {
+            songId: songId,
+            playlistId: playlistId,
+            userId: userId,
+          },
+        },
+      });
+      res.status(200).json({
+        message: 'Vote deleted',
+        vote,
+      });
+    } else {
+      res.status(404).json({
+        message: 'Vote not found',
+      });
+    }
     /*
     #swagger.responses[200] = {
         description: 'Vote deleted.',
@@ -120,26 +131,17 @@ module.exports = {
         }
     }
     */
-    if (!has(req.body, ['playlistId', 'songId']))
-      throw new CodeError('Missing parameters', 400);
+    if (!has(req.body, ['playlistId', 'songId'])) throw new CodeError('Missing parameters', 400);
     console.log('playlistid:', req.body.playlistId);
-    console.log('songid:', req.body.songId);
+    console.log('Update votes of songid:', req.body.songId);
     const total = await prisma.vote.count({
       where: {
         playlistId: parseInt(req.body.playlistId),
         songId: parseInt(req.body.songId),
       },
     });
-    console.log('total:', total);
-    const totaltest = await prisma.vote.count({
-      where: {
-        songId: parseInt(req.body.songId),
-        playlistId: parseInt(req.body.playlistId),
-      },
-    });
-    console.log('totaltest:', totaltest);
     if (total != null) {
-      console.log('total', total, typeof total);
+      console.log('New calculated votes', total);
       const song = await prisma.playlistSong.update({
         where: {
           playlistId_songId: {
@@ -157,9 +159,7 @@ module.exports = {
           song,
         });
       } else {
-        res
-          .status(400)
-          .json({ message: 'Could not update the number of votes' });
+        res.status(400).json({ message: 'Could not update the number of votes' });
       }
     } else {
       res.status(400).json({ message: 'Could not count votes' });
